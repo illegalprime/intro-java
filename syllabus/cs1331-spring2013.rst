@@ -1,0 +1,230 @@
+.. |date| date::
+.. |time| date:: %H:%M
+
+===================================================
+CS 1331 Introduction to Object Oriented Programming
+===================================================
+-------------------------------------------------------
+Spring 2013 Syllabus for Sections A1, A2, A3, A4 and GR
+-------------------------------------------------------
+
+Last updated on |date| at |time|.
+
+Instructor
+==========
+
+Chris Simpkins
+
+chris.simpkins@gatech.edu
+
+http://www.cc.gatech.edu/~simpkins/
+
+Schedule and Office Hours
+=========================
+
+- Lectures: Monday, Wednesday and Friday at 14:05 - 14:55 in Howey Physics L4
+
+- Recitations:
+
+  - Section A1: Tuesday at 15:05 - 16:25 in Van Leer C240
+  - Section A2: Tuesday at 16:35 - 17:55 in Van Leer C240
+  - Section A3: Tuesday at 16:35 - 17:55 in Van Leer C340
+  - Sections A4 and GR: Tuesday at 15:05 - 16:25 in Van Leer C340
+
+- Office Hours: Mondays and Wednesdays after class, other times by
+  appointment, always available by email.
+
+Please see the common CS1331 syllabus on T-Square for grading, course policies and procedures.
+
+
+Textbook
+========
+
+Walter Savitch and Kenrick Mock, Absolute Java, 5th edition, Addison-Wesley, March 9, 2012
+      
+- ISBN-10: 0-13-283031-0
+- ISBN-13: 978-0-13-283031-7
+
+
+Resources
+=========
+
+Class resources and schedule will be maintained on this
+open-access web site.  Evertyhing else is on T-Square.
+
+Java Resources
+--------------
+
+- `Download Java`_ 
+- `Java 7 API docs`_
+- `Java Code Conventions`_ - You will be required to follow these conventions.
+
+General Resources
+-----------------
+
+- `Text Editors`_ - an intro to text editors for beginning programmers
+
+Unix Resources
+--------------
+
+- Ubuntu_ - the best place to start if you don't already use a Unix
+  such as Linux, FreeBSD or Mac OS X
+- `Basic Unix and Emacs`_ - a tutorial introduction to Unix and Emacs
+  that will give you the basic skills you need for this class
+- `Basic Unix and Vim`_ - same as `Basic Unix and Emacs`_ but using
+  Vim instead of Emacs
+
+Lecture Schedule
+================
+
+This schedule is subject ot change.  The further in the future, the less certain the schedule.  AJ means Absolute Java.
+
++------------+------------------------------+----------------------------------+
+| Date       |  Topics                      | Readings and Example Code        |
++============+==============================+==================================+
+| 2013-01-07 | Introduction_                | Syllabus                         |
++------------+------------------------------+----------------------------------+
+| 2013-01-09 | `Java Overview`_             | AJ 1.1-1.2                       |
++------------+------------------------------+----------------------------------+
+| 2013-01-11 | `Values and Variables`_      | AJ 1.3-1.4                       |
++------------+------------------------------+----------------------------------+
+| 2013-01-14 | Strings_                     | Strings.java_, NameParser.java_  |
++------------+------------------------------+----------------------------------+
+| 2013-01-16 | `Console IO`_                | AJ 2, ConsoleOutput.java_,       |
+|            |                              | CurrencyFormatting.java_,        |
+|            |                              | ConsoleInput.java_,              |
+|            |                              | CourseAverage.java_,             |
+|            |                              | grades.txt_                      |
++------------+------------------------------+----------------------------------+
+| 2013-01-18 | `Conditional Execution`_     | AJ 3.1-3.2, Conditionals.java_   |
+|            |                              | Switch.java_                     |
++------------+------------------------------+----------------------------------+
+| 2013-01-21 |  No Class - MLK Day          |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-01-23 | Loops_                       | AJ 3.3                           |
++------------+------------------------------+----------------------------------+
+| 2013-01-25 | Debugging_                   | AJ 3.4-3.5                       |
++------------+------------------------------+----------------------------------+
+| 2013-01-28 | Classes_                     | AJ 4.1-4.2                       |
++------------+------------------------------+----------------------------------+
+| 2013-01-30 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-02-01 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-02-04 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-02-06 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-02-08 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-02-11 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-02-13 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-02-15 |                              |                                  |
+|            |                              |                                  |
+|            |                              | Progress reports due by noon     |
++------------+------------------------------+----------------------------------+
+| 2013-02-18 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-02-20 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-02-22 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-02-25 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-02-27 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-03-01 |                              |                                  |
+|            |                              |                                  |
+|            |                              | Drop deadline                    |
++------------+------------------------------+----------------------------------+
+| 2013-03-04 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-03-06 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-03-08 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-03-11 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-03-13 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-03-15 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-03-18 | No Class - Spring Break      |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-03-20 | No Class - Spring Break      |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-03-22 | No Class - Spring Break      |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-03-25 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-03-27 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-03-29 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-04-01 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-04-03 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-04-05 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-04-08 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-04-10 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-04-12 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-04-15 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-04-17 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-04-19 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-04-22 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-04-24 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-04-26 |                              |                                  |
++------------+------------------------------+----------------------------------+
+| 2013-05-03 | Final Exam                   |                                  |
+|            |                              |                                  |
+| 11:30-14:20|                              |                                  |
++------------+------------------------------+----------------------------------+
+
+
+.. Slides
+
+.. _Introduction: ../slides/introduction.pdf
+.. _`Java Overview`: ../slides/java-overview.pdf
+.. _`Values and Variables`: ../slides/values-variables.pdf
+.. _Strings: ../slides/strings.pdf
+.. _`Console IO`: ../slides/console-io.pdf
+.. _`Conditional Execution`: ../slides/conditional-execution.pdf
+.. _Loops: ../slides/loops.pdf
+.. _Debugging: ../slides/debugging.pdf
+.. _Classes: ../slides/classes.pdf
+
+.. Example code
+
+.. _Strings.java: ../code/Strings.java
+.. _NameParser.java: ../code/NameParser.java
+.. _ConsoleInput.java: ../code/ConsoleInput.java
+.. _ConsoleOutput.java: ../code/ConsoleOutput.java
+.. _CurrencyFormatting.java: ../code/CurrencyFormatting.java
+.. _CourseAverage.java: ../code/CourseAverage.java
+.. _grades.txt: ../code/grades.txt
+.. _Conditionals.java: ../code/Conditionals.java
+.. _Switch.java: ../code/Switch.java
+
+.. Resources
+
+.. _`Download Java`: http://www.java.com/
+.. _`Java Code Conventions`: http://www.oracle.com/technetwork/java/codeconv-138413.html
+.. _`Java 7 API docs`: http://docs.oracle.com/javase/7/docs/api/
+.. _`Learn UNIX in 10 Minutes`: http://freeengineer.org/learnUNIXin10minutes.html
+.. _`A Beginner's Guide to the UNIX Command Line`: https://www.osc.edu/supercomputing/unix-cmds
+.. _Ubuntu: http://www.ubuntu.com
+.. _`Text Editors`: ../resources/text-editors.html
+.. _`Basic Unix and Emacs`: ../resources/unix-emacs.html
+.. _`Basic Unix and Vim`: ../resources/unix-vi.html

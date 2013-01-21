@@ -1,0 +1,295 @@
+\documentclass{beamer}
+
+\newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
+\newcommand{\lesson}{Conditional Execution}
+\newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
+\mode<presentation>
+{
+  \usetheme{Berlin}
+  \useoutertheme{infolines}
+
+  % or ...
+
+ \setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+
+\usepackage{hyperref}
+\usepackage{fancybox}
+\usepackage{listings}
+\usepackage[abbr]{harvard}
+
+\usepackage[english]{babel}
+% or whatever
+
+\usepackage[latin1]{inputenc}
+% or whatever
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+
+
+\usepackage{listings}
+ 
+% "define" Scala
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]""",
+}
+
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+% Default settings for code listings
+\lstset{frame=tb,
+  language=scala,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\scriptsize\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  keepspaces=true
+  %tabsize=3
+}
+
+
+\title[\course] % (optional, use only with long
+                                      % paper titles)
+{\lesson}
+
+\subtitle{}
+%% {Include Only If Paper Has a Subtitle}
+
+\author[Chris Simpkins] % (optional, use only with lots of authors)
+{Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
+% - Give the names in the same order as the appear in the paper.
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+
+\institute[Georgia Tech] % (optional, but mostly needed)
+
+\date[] % (optional, should be abbreviation of
+                           % conference name)
+{}
+% - Either use conference name or its abbreviation.
+% - Not really informative to the audience, more for people (including
+%   yourself) who are reading the slides online
+
+\subject{\lesson}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+%% \pgfdeclareimage[width=0.6in]{gtri_logo}{gtri_logo}
+%% \logo{\pgfuseimage{gtri_logo}}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%% \AtBeginSection[]
+%% {
+%%   \begin{frame}<beamer>{Outline}
+
+%%  \tableofcontents[currentsection]
+%%   \end{frame}
+%% }
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+% \beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+%------------------------------------------------------------------------
+\begin{frame}{Structured Programming}
+
+
+Control flow issues:
+\begin{itemize}
+\item Multiple vs. single entry
+\item Multiple vs. single exit
+\item {\tt goto} considered harmful
+\end{itemize}
+
+Structured programming: block structure, single entry, single exit, no {\tt goto}.  All algorithms expressed by:
+\begin{itemize}
+\item Sequence - one statement after another
+\item Selection - conditional execution (not conditional jumping)
+\item Iteration - loops
+\end{itemize}
+
+Today we'll learn Java's support for conditoinal execution\footnote{I
+  don't like the book's term ``branching.''  Branching is not
+  structured programming.  Branching is how you write ``spaghetti code.''}.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{The {\tt if-else} Statement}
+
+
+Conditional execution:
+\begin{lstlisting}[language=Scala]
+if (booleanExpression)
+    // a single statement executed when {\tt true}
+else
+    // a single statement executed when {\tt false}
+\end{lstlisting}
+
+\begin{itemize}
+\item {\tt booleanExpression} must by enclosed in parentheses
+\item {\tt else} not required
+\end{itemize}
+
+Example:
+\begin{lstlisting}[language=Scala]
+if ((num % 2) == 0)
+    System.out.printf("%d is even.%n", num);
+else
+    System.out.printf("%d is odd.%n", num);
+\end{lstlisting}
+
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Blocks}
+
+
+Java is block-structured.  You can enclose any number
+of statements in curly braces (\{ ... \}) to create a block.  Blocks
+are like single statements (not expressions - they don't have values).
+\begin{lstlisting}[language=Java]
+if ((num % 2) == 0) {
+    System.out.printf("%d is even.%n", num);
+    System.out.println("I like even numbers.");
+} else {
+    System.out.printf("%d is odd.%n", num);
+    System.out.println("I'm ambivalent about odd numbers.");
+}
+\end{lstlisting}
+The Java conventions recommend using braces always, even for single
+statements.  A very common error is adding statements to an if-branch
+and forgetting to add braces.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Multiway {\tt if-else} Statements}
+
+
+This is hard to folllow:
+\begin{lstlisting}[language=Java]
+if (color.toUpperCase().equals("RED")) {
+    System.out.println("Redrum!");
+} else {
+    if (color.toLowerCase().equals("yellow")) {
+        System.out.println("Submarine");
+    } else {
+        System.out.println("I got nuthin.");
+    }
+}
+\end{lstlisting}
+\vspace{-.1in}
+This multiway {\tt if-else} is equivalent, and clearer:
+\vspace{-.1in}
+\begin{lstlisting}[language=Java]
+if (color.toUpperCase().equals("RED")) {
+    System.out.println("Redrum!");
+} else if (color.toLowerCase().equals("yellow")) {
+    System.out.println("Submarine");
+} else {
+    System.out.println("I got nuthin.");
+}
+\end{lstlisting}
+
+Play with \href{\code/Conditionals.java}{Conditionals.java}.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{The {\tt switch} Statement}
+
+
+Java provides {\tt switch} statement for multi-way branching.
+\vspace{-.1in}
+\begin{lstlisting}[language=Java]
+switch (expr) {
+    case 1:
+        // executed only when case 1 holds
+        break;
+    case 2:
+        // executed only when case 2 holds
+    case 3:
+        // executed whenever case 2 and 3 hold
+        break;
+    default:
+        // executed only when other cases don't hold        
+}
+\end{lstlisting}
+\vspace{-.15in}
+\begin{itemize}
+\item Type of {\tt expr} can be {\tt char}, {\tt int}, {\tt short}, {\tt byte}, or {\tt String}
+\item In example above, what is type of {\tt expr}?
+\item {\tt switch} considered harmful.  97\% of fall-throughs unwanted
+\item Anachronism from ``structured assembly language'', a.k.a. C (a {\tt switch} is just a jump table)
+\end{itemize}
+
+Play with \href{\code/Switch.java}{Switch.java}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+
+% %------------------------------------------------------------------------
+% \begin{frame}[fragile]{}
+
+
+% \begin{lstlisting}[language=Java]
+
+% \end{lstlisting}
+
+
+% \end{frame}
+% %------------------------------------------------------------------------
+
+
+\end{document}

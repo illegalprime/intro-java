@@ -1,0 +1,326 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{eurosym}
+
+\mode<presentation>
+{
+  \usetheme{Berlin}
+  \useoutertheme{infolines}
+
+  % or ...
+
+ \setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+\usepackage{hyperref}
+\usepackage{fancybox}
+\usepackage{framed}
+\usepackage{listings}
+\usepackage[abbr]{harvard}
+
+\usepackage{times}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+
+
+\usepackage{listings}
+ 
+% "define" Scala
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]""",
+}
+
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+% Default settings for code listings
+\lstset{frame=tb,
+  language=scala,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\scriptsize\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  keepspaces=true
+  %tabsize=3
+}
+
+
+
+\title[CS 1331 Introduction to Object-Oriented Programming] % (optional, use only with long
+                                      % paper titles)
+{Console IO}
+
+\subtitle{}
+%% {Include Only If Paper Has a Subtitle}
+
+\author[Chris Simpkins] % (optional, use only with lots of authors)
+{Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
+% - Give the names in the same order as the appear in the paper.
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+
+\institute[Georgia Tech] % (optional, but mostly needed)
+
+\date[] % (optional, should be abbreviation of
+                           % conference name)
+{}
+% - Either use conference name or its abbreviation.
+% - Not really informative to the audience, more for people (including
+%   yourself) who are reading the slides online
+
+\subject{Console IO}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+%% \pgfdeclareimage[width=0.6in]{gtri_logo}{gtri_logo}
+%% \logo{\pgfuseimage{gtri_logo}}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%% \AtBeginSection[]
+%% {
+%%   \begin{frame}<beamer>{Outline}
+
+%%  \tableofcontents[currentsection]
+%%   \end{frame}
+%% }
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+% \beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Screen Output}
+
+
+The Java standard library provides three primary methods in the {\tt System.out} object for sending text output to the screen.
+
+\begin{itemize}
+\item {\tt System.out.print} 
+\item {\tt System.out.println} 
+\item {\tt System.out.printf} (which just calls {\tt System.out.format})
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt System.out.print}}
+
+
+{\tt System.out.print} takes a {\tt String} parameter and sends the string to the screen.  The statements
+\begin{lstlisting}[language=Java]
+System.out.print("Me");
+System.out.print("ow!");
+\end{lstlisting}
+will produce the output
+\begin{lstlisting}[language=Java]
+Meow!
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt System.out.println}}
+
+
+{\tt System.out.println} does the same as {\tt System.out.print} but adds a newline character.  The statements
+\begin{lstlisting}[language=Java]
+System.out.println("Johnny");
+System.out.println("Chimpo");
+\end{lstlisting}
+will produce the output
+\begin{lstlisting}[language=Java]
+Johnny
+Chimpo
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt System.out.printf}}
+
+
+{\tt System.out.printf} takes a {\it format string} and any number of additional arguments, and prints the result of inserting the additional arguments into the format string according to the format specifiers in the format string
+\begin{itemize}
+\item The format string can contain other text in addition to format specifiers
+\item Each format specifier begins with {\tt \%} and ends with a {\it conversion character}
+\item You can think of each format specifier as defining a field into which a value is inserted
+\item Like {\tt print}, {\tt printf} does not print a newline character at the end.  End your format string with {\tt \\n} if you want to end your output with a newline
+\end{itemize}
+ {\tt printf} is a convenience method for {\tt format}
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt System.out.printf} Examples}
+
+
+For full details, see \url{http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax}.  Here are a few examples
+\begin{itemize}
+
+\item ``Decimals'' (integers) - {\tt d}, Strings - {\tt s}
+\begin{lstlisting}[language=Java]
+System.out.printf("%d %s.\n", 7, "Samurai");
+\end{lstlisting}
+prints
+\begin{lstlisting}[language=Java]
+7 Samurai
+\end{lstlisting}
+
+\item Floating point numbers - {\tt f}
+\begin{lstlisting}[language=Java]
+ System.out.printf("I like %3.2f.%n", Math.PI);
+\end{lstlisting}
+prints
+\begin{lstlisting}[language=Java]
+I like 3.14
+\end{lstlisting}
+
+\end{itemize}
+
+Play around with \url{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code/ConsoleOutput.java} to get a feel for printf.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Number Formatting}
+
+
+{\tt printf} is useful for general formatting, but if you need to print currency amounts and you want to ``internationalize'' your code, use a CurrencyFormatter {\tt NumberFormat}.
+
+\begin{lstlisting}[language=Java]
+NumberFormat us = NumberFormat.getCurrencyInstance();
+System.out.println(us.format(3.14));
+
+NumberFormat de = NumberFormat.getCurrencyInstance(Locale.GERMANY);
+System.out.println(de.format(3.14));     
+\end{lstlisting}
+prints\\
+\begin{framed}
+\$3.14\\
+3,14 \euro
+\end{framed}
+ 
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Packages and Imports}
+\vspace{-.1in}
+\begin{itemize}
+\item All Java classes are organized in packages
+\item We've been using the default package (by not specifying a package)
+\item To use a class from a different package, you must either fully qualify it every time you use it, or import it
+\end{itemize}
+{\tt NumberFormat} is in the {\tt java.text} package.  The top of the {\tt NumberFormat} class contains the line:
+\begin{lstlisting}[language=Java]
+package java.text;
+\end{lstlisting}
+ And {\tt Locale} is in the {\tt java.util} package.  So for our example from the previous slide to work we must include the following import statements at the top of our source file:
+\begin{lstlisting}[language=Java]
+import java.text.NumberFormat;
+import java.util.Locale;
+\end{lstlisting}
+\vspace{-.1in}
+See \url{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code/CurrencyFormatting.java}
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Console Input}
+
+
+You can read input from the console using the {\tt Scanner} class
+\begin{itemize}
+\item First import it from the {\tt java.util} package
+\begin{lstlisting}[language=Java]
+import java.util.Scanner;
+\end{lstlisting}
+\item Then you can use a {\tt Scanner} object to read, for example, three integers like this:
+\begin{lstlisting}[language=Java]
+Scanner keyboard = new Scanner(System.in);
+System.out.println("Enter your 3 test scores, separated by spaces.");
+exam1 = keyboard.nextInt();
+exam2 = keyboard.nextInt();
+exam3 = keyboard.nextInt();
+examAvg = (exam1 + exam2 + exam3) / 3.0; // Why 3.0 instead of 3?
+System.out.printf("Your exam average is %.1f%n", examAvg);\end{lstlisting}
+\end{itemize}
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Basic File Input using {\tt Scanner}}
+
+
+You can read form a file the same way you read form a keyboard by simply initializing with a {\tt FileInputStream} instead of {\tt System.in}
+\begin{lstlisting}[language=Java]
+Scanner gradeFile = new Scanner(new FileInputStream("grades.txt"));
+\end{lstlisting}
+ 
+See \url{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code/CourseAverage.java} for an example.
+\end{frame}
+%------------------------------------------------------------------------
+
+% %------------------------------------------------------------------------
+% \begin{frame}[fragile]{}
+
+% \begin{itemize}
+
+% \item 
+% \begin{lstlisting}[language=Java]
+
+% \end{lstlisting}
+ 
+% \end{itemize}
+
+% \end{frame}
+% %------------------------------------------------------------------------
+
+\end{document}
