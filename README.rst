@@ -55,7 +55,7 @@ upload-info.txt
 
 To use the upload task, create a file named ``upload-info.txt`` in the project root directory.  The file should contain exacly three lines:
 
-..code-block::
+.. code-block::
   
   username
   host
