@@ -75,6 +75,24 @@ object CourseMaterials extends Build {
     val user = fileLines.next().trim()
     val host = fileLines.next().trim()
     val dir = fileLines.next().trim()
-    // Still figuring this one out
+    val scpDest = user + "@" + host + ":" + dir
+
+    upload("slides/", ".pdf", scpDest)
+    upload("guides/", ".html", scpDest)
+    upload("code/", ".java", scpDest)
+    upload("syllabus/", ".html", scpDest)
+  }
+
+  def upload(srcDir: String, fileEnding: String, scpDest: String) {
+    val filter = new FileFilter() {
+      def accept(f: File) = f.getName().endsWith(fileEnding)
+    }
+    val files = new File(srcDir).listFiles(filter).map(_.getName())
+    println("Uploading: " + files.mkString(","))
+    for (f <- files) {
+      val p = sys.process.Process("scp " + f + " " + scpDest + srcDir,
+        new File(srcDir))
+      p !
+    }
   }
 }
