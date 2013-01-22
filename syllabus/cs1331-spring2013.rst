@@ -10,6 +10,8 @@ Spring 2013 Syllabus for Sections A1, A2, A3, A4 and GR
 
 Last updated on |date| at |time|.
 
+This open-access part of the syllabus contains schedule and general information for my sections.  The official CS 1331 for all sections, additional resources and all grade-related information are on T-Square.
+
 Instructor
 ==========
 
@@ -45,32 +47,22 @@ Walter Savitch and Kenrick Mock, Absolute Java, 5th edition, Addison-Wesley, Mar
 - ISBN-10: 0-13-283031-0
 - ISBN-13: 978-0-13-283031-7
 
-
 Resources
 =========
 
-Class resources and schedule will be maintained on this
-open-access web site.  Evertyhing else is on T-Square.
-
-Java Resources
---------------
+Java
+----
 
 - `Download Java`_ 
 - `Java 7 API docs`_
-- `Java Code Conventions`_ - You will be required to follow these conventions.
+- `Java Code Conventions`_ - Sun/Oracle's official code conventions for Java.  They're not perfect, and parts are dated (like the advice on make files), but most professional Java teams use these conventions.
 
-General Resources
------------------
+Guides
+------
 
 - `Text Editors`_ - an intro to text editors for beginning programmers
-
-Unix Resources
---------------
-
-- Ubuntu_ - the best place to start if you don't already use a Unix
-  such as Linux, FreeBSD or Mac OS X
 - `Basic Unix and Emacs`_ - a tutorial introduction to Unix and Emacs
-  that will give you the basic skills you need for this class
+  that will give you the basic skills you need for this class should you choose to use a unix-like operating system like Ubuntu Linux or Mac OS X
 - `Basic Unix and Vim`_ - same as `Basic Unix and Emacs`_ but using
   Vim instead of Emacs
 
