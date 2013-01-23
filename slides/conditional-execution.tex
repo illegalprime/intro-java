@@ -3,6 +3,23 @@
 \newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
 \newcommand{\lesson}{Conditional Execution}
 \newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
+
+\author[Chris Simpkins] 
+{Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
+\institute[Georgia Tech] % (optional, but mostly needed)
+
+\date[CS 1331]{}
+\subject{\lesson}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% \pgfdeclareimage[width=0.6in]{coc-logo}{cc_2012_logo}
+% \logo{\pgfuseimage{coc-logo}}
+
 \mode<presentation>
 {
   \usetheme{Berlin}
@@ -84,31 +101,6 @@
 \subtitle{}
 %% {Include Only If Paper Has a Subtitle}
 
-\author[Chris Simpkins] % (optional, use only with lots of authors)
-{Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
-% - Give the names in the same order as the appear in the paper.
-% - Use the \inst{?} command only if the authors have different
-%   affiliation.
-
-\institute[Georgia Tech] % (optional, but mostly needed)
-
-\date[] % (optional, should be abbreviation of
-                           % conference name)
-{}
-% - Either use conference name or its abbreviation.
-% - Not really informative to the audience, more for people (including
-%   yourself) who are reading the slides online
-
-\subject{\lesson}
-% This is only inserted into the PDF information catalog. Can be left
-% out. 
-
-% If you have a file called "university-logo-filename.xxx", where xxx
-% is a graphic format that can be processed by latex or pdflatex,
-% resp., then you can add a logo as follows:
-
-%% \pgfdeclareimage[width=0.6in]{gtri_logo}{gtri_logo}
-%% \logo{\pgfuseimage{gtri_logo}}
 
 % Delete this, if you do not want the table of contents to pop up at
 % the beginning of each subsection:
@@ -162,30 +154,54 @@ Today we'll learn Java's support for conditoinal execution\footnote{I
 
 
 Conditional execution:
-\begin{lstlisting}[language=Scala]
+\begin{lstlisting}[language=Java]
 if (booleanExpression)
     // a single statement executed when {\tt true}
 else
     // a single statement executed when {\tt false}
 \end{lstlisting}
-
+\vspace{-.1in}
 \begin{itemize}
-\item {\tt booleanExpression} must by enclosed in parentheses
+\item {\tt booleanExpression} must be enclosed in parentheses
 \item {\tt else} not required
 \end{itemize}
-
+\vspace{-.1in}
 Example:
-\begin{lstlisting}[language=Scala]
+\begin{lstlisting}[language=Java]
 if ((num % 2) == 0)
     System.out.printf("%d is even.%n", num);
 else
     System.out.printf("%d is odd.%n", num);
 \end{lstlisting}
 
+\end{frame}
+%------------------------------------------------------------------------
 
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Ternary If-Else Expression}
+
+
+The ordinary {\tt if-else} control structure is a statement, leading
+to conditional assignment code like this: 
+\begin{lstlisting}[language=Java]
+String dinner = null;
+if (temp > 60) {
+    dinner = "grilled";
+} else {
+    dinner = "baked";
+}
+\end{lstlisting}
+
+The ternary operator combines the above into one expression (recall
+that expressions have values):
+
+\begin{lstlisting}[language=Java]
+String dinner = (temp > 60) ? "grilled" : "baked" 
+\end{lstlisting}
 
 \end{frame}
 %------------------------------------------------------------------------
+
 
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{Blocks}
@@ -268,7 +284,8 @@ switch (expr) {
 \begin{itemize}
 \item Type of {\tt expr} can be {\tt char}, {\tt int}, {\tt short}, {\tt byte}, or {\tt String}
 \item In example above, what is type of {\tt expr}?
-\item {\tt switch} considered harmful.  97\% of fall-throughs unwanted
+\item {\tt switch} considered harmful.  97\% of fall-throughs
+  unwanted\footnote{Peter van der Linden, {\it Deep C Secrets}}
 \item Anachronism from ``structured assembly language'', a.k.a. C (a {\tt switch} is just a jump table)
 \end{itemize}
 
@@ -277,6 +294,95 @@ Play with \href{\code/Switch.java}{Switch.java}
 \end{frame}
 %------------------------------------------------------------------------
 
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Boolean Expressions}
+
+
+Simple boolean expressions formed with comparison operators:
+\begin{itemize}
+\item Equal to: {\tt ==}, like $=$ in math
+  \begin{itemize}
+    \item Remember, {\tt =} is assignment operator, {\tt ==} is comparison operator!
+  \end{itemize}
+\item Not equal to: {\tt !=}, like $\ne$ in math
+\item Greater than: {\tt >}, like $>$ in math
+\item Greater than or equal to: {\tt >=}, like $\ge$ in math
+\item ...
+\end{itemize}
+Examples:
+\begin{lstlisting}[language=Java]
+1 == 1 // true
+1 != 1 // false
+1 >= 1 // true
+1 > 1  // false
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Combining Boolean Expressions}
+
+
+Simple boolean expressions can be combined to form larger expressions using:
+\begin{itemize}
+\item And: {\tt \&\&}, like $\land$ in math
+\item Or: {\tt ||}, like $\lor$ in math
+\end{itemize}
+Examples:
+\begin{lstlisting}[language=Java]
+if ((kids !=0) && ((pieces / kids) >= 2))
+    System.out.println("Each kid may have two pieces.");
+\end{lstlisting}
+In this example, note that Java uses short-circuit evaluation.  If
+{\tt kids !=0} evaluates to {\tt false}, then the second sub-expression is not evaluated, thus avoiding a divide-by-zero error.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Precedence and Associativity}
+
+
+If an expression contains no parentheses, Java evaluates using precedence and associativity rules (Page 126 in your textbook) in a three-step process:
+\begin{enumerate}
+\item Associated operands with operators, starting with highest-precedence operators.  This step effectively parenthesizes expression (book calls this ``binding'')
+\item Evaluate subexpressions in left to right order (possibly in multiple sweeps if deeply nested)
+\item Evaluate outer ``top-level'' operation once all subexpressions have been evaluated
+\end{enumerate}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Evaluation Examples}
+
+
+The expression {\tt 6 + 7 * n - 12} is evaluated in the following steps, assuming n = 2:
+\begin{lstlisting}[language=Java]
+((6 + (7 * n)) - 12)
+((6 + (7 * 2)) - 12)
+((6 + 14) - 12)
+(20 - 12)
+8
+\end{lstlisting}
+\vspace{-.1in}
+Beware of side-effects.  The expression {\tt ((result = (++n)) + (other = (2*(++n))))} is evaluated as follows:
+\begin{lstlisting}[language=Java]
+((result = (++n)) + (other = (2*(++n))))
+((result = 3) + (other = (2*(++n))))
+(3 + (other = (2*(++n))))
+(3 + (other = (2*4))) // Note that n was 3 from the first pre-increment
+(3 + (other = 8))
+(3 + 8)
+11
+\end{lstlisting}
+\vspace{-.1in}
+Three side-effects: result = 3, other = 8, and n = 4
+
+\end{frame}
+%------------------------------------------------------------------------
 
 
 % %------------------------------------------------------------------------
