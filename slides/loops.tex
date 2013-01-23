@@ -1,0 +1,359 @@
+\documentclass{beamer}
+
+\newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
+\newcommand{\lesson}{Loops}
+\newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
+
+\author[Chris Simpkins] 
+{Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
+\institute[Georgia Tech] % (optional, but mostly needed)
+
+\date[CS 1331]{}
+\subject{\lesson}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% \pgfdeclareimage[width=0.6in]{coc-logo}{cc_2012_logo}
+% \logo{\pgfuseimage{coc-logo}}
+
+\mode<presentation>
+{
+  \usetheme{Berlin}
+  \useoutertheme{infolines}
+
+  % or ...
+
+ \setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+
+\usepackage{hyperref}
+\usepackage{fancybox}
+\usepackage{listings}
+\usepackage[abbr]{harvard}
+
+\usepackage[english]{babel}
+% or whatever
+
+\usepackage[latin1]{inputenc}
+% or whatever
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+
+
+\usepackage{listings}
+ 
+% "define" Scala
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]""",
+}
+
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+% Default settings for code listings
+\lstset{frame=tb,
+  language=scala,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\scriptsize\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  keepspaces=true
+  %tabsize=3
+}
+
+
+\title[\course] % (optional, use only with long
+                                      % paper titles)
+{\lesson}
+
+\subtitle{}
+%% {Include Only If Paper Has a Subtitle}
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%% \AtBeginSection[]
+%% {
+%%   \begin{frame}<beamer>{Outline}
+
+%%  \tableofcontents[currentsection]
+%%   \end{frame}
+%% }
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+% \beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Loops and Iteration}
+
+
+Algorithms often call for repeated action or iteration, e.g. :
+\begin{itemize}
+\item ``repeat ... while (or until) some condition is true'' (looping) or 
+\item ``for each element of this array/list/etc. ...'' (iteration)
+\end{itemize}
+
+Java provides three iteration structures:
+\begin{itemize}
+\item {\tt while} loop
+\item {\tt do-while} loop
+\item {\tt for} iteration statement
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt while} and {\tt do-while}}
+
+{\tt while} loops are pre-test loops: the loop condition is tested before the loop body is executed
+\begin{lstlisting}[language=Java]
+while (condition) { // condition is any boolean expression
+      // loop body executes as long as condition is true
+}
+\end{lstlisting}
+
+{\tt do-while} loops are post-test loops: the loop condition is tested after the loop body is executed
+\begin{lstlisting}[language=Java]
+do {
+      // loop body executes as long as condition is true
+} while (condition)
+\end{lstlisting}
+The body of a {\tt do-while} loop will always execute at least once.
+
+See \href{\code/Loops.java}{Loops.java} for examples.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt for} Statements}
+
+
+The general {\tt for} statement syntax is:
+\begin{lstlisting}[language=Java]
+for(initializer; condition; update) {
+     // body executed as long as condition is true
+}
+\end{lstlisting}
+\begin{itemize}
+\item {\tt intializer} is an assignment statement that sets the initial value of the loop variables also called the loop index
+\item {\tt condition} is tested at the beginning of the loop body to determine whether the loop body should be executed.  When false, the loop exits just like a while loop
+\item {\tt update} is an expression that updates the loop variables
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt for} Statement vs. {\tt while} Statement}
+
+
+The {\tt for} statement:
+\begin{lstlisting}[language=Java]
+for(initializer; condition; update) {
+     // body executed as long as condition is true
+}
+\end{lstlisting}
+
+is equivalent to:
+\begin{lstlisting}[language=Java]
+initializer;
+while (condition) {
+  // body
+  update;
+}
+\end{lstlisting}
+
+
+{\tt for} is Java's primary iteration structure.  In the future we'll see generalized versions, but for now {\tt for} statements are used primarily to iterate through the indexes of data structures and to repeat code a particular number of times.
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt for} Statement Examples}
+
+
+Here's an example adapted from  \href{\code/Switch.java}{Switch.java}.  We use the {\tt for} loops index variable to visit each character in a {\tt String} and count the digits and letters:
+\begin{lstlisting}[language=Java]
+int digitCount = 0, letterCount = 0;
+for (int i = 0; i < input.length(); ++i) {
+    char c = input.charAt(i);
+    if (Character.isDigit(c)) digitCount++;
+    if (Character.isAlphabetic(c)) letterCount++;
+}
+\end{lstlisting}
+
+And here's a simple example of repeating an action a fixed number of times:
+\begin{lstlisting}[language=Java]
+for (int i = 0; i < 10; ++i)
+        System.out.println("Meow!");
+\end{lstlisting}
+
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt for} Statement Subtleties}
+
+
+Better to declare loop index in {\tt for} to limit it's scope.  Prefer:
+\begin{lstlisting}[language=Java]
+for (int i = 0; i < 10; ++i)
+\end{lstlisting}
+to:
+\begin{lstlisting}[language=Java]
+int i;
+for (i = 0; i < 10; ++i)
+\end{lstlisting}
+
+You can have multiple loop indexes separated by commas:
+\begin{lstlisting}[language=Java]
+for (int i = 0, j = s.length() - 1; i < s.length(); ++i, --j) {
+
+}
+\end{lstlisting}
+Beware common syntax error:
+\begin{lstlisting}[language=Java]
+for (int i = 0; i < 10; ++i); // oops!  semicolon ends the statement
+    print(meow);  // this will only execute once, not 10 times
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+% %------------------------------------------------------------------------
+% \begin{frame}[fragile]{}
+
+
+% \begin{lstlisting}[language=Java]
+
+% \end{lstlisting}
+
+
+% \end{frame}
+% %------------------------------------------------------------------------
+
+
+\end{document}
