@@ -17,19 +17,19 @@ Contents
 --------
 
 slides/
-  The latex sources for lecture slides
+  The LaTeX sources for lecture slides
 
 guides/
-  reStructuredTex sources for HTML guides
+  reStructuredText_ sources for HTML guides
 
 code/
   Source code used in lectures
 
 syllabus/
-  reStructuredTex sources for course syllabi
+  reStructuredText_ sources for course syllabi
 
 project/
-  The SBT project directory
+  The SBT_ project directory
 
 Using SBT
 ---------
@@ -59,10 +59,10 @@ To use the upload task, create a file named ``upload-info.txt`` in the project r
 .. code-block::
   
   username
-  host
-  directory
+  host.cs.myschool.edu
+  ~username/my/course/dir/
 
-``username`` is your username on the ``host`` server, and ``directory`` is the directory to which you want to upload your course materials.
+``username`` is your username on the ``host`` server, and the last line is the directory to which you want to upload your course materials.
 
 Note: the uplaod task uses scp for each file.  I highly recommend
 adding your public key to the ~/.ssh/authorized_keys file on your
