@@ -246,22 +246,31 @@ for (int i = 0; i < 10; ++i)
 
 
 Better to declare loop index in {\tt for} to limit it's scope.  Prefer:
+\vspace{-.05in}
 \begin{lstlisting}[language=Java]
 for (int i = 0; i < 10; ++i)
 \end{lstlisting}
+\vspace{-.1in}
 to:
+\vspace{-.05in}
 \begin{lstlisting}[language=Java]
-int i;
+int i; // Bad.  Looop index variable visible outside loop.
 for (i = 0; i < 10; ++i)
 \end{lstlisting}
-
+\vspace{-.1in}
 You can have multiple loop indexes separated by commas:
+\vspace{-.05in}
 \begin{lstlisting}[language=Java]
-for (int i = 0, j = s.length() - 1; i < s.length(); ++i, --j) {
-
+String mystery = "mnerigpaba", solved = ""; int len = mystery.length();
+for (int i = 0, j = len - 1; i < len/2; ++i, --j) {
+    solved = solved + mystery.charAt(i) + mystery.charAt(j);
 }
 \end{lstlisting}
-Beware common syntax error:
+\vspace{-.1in}
+Note that the loop above is one loop, not nested loops.\\
+\vspace{.025in}
+Beware of common ``extra semicolon'' syntax error:
+\vspace{-.1in}
 \begin{lstlisting}[language=Java]
 for (int i = 0; i < 10; ++i); // oops!  semicolon ends the statement
     print(meow);  // this will only execute once, not 10 times
@@ -272,76 +281,66 @@ for (int i = 0; i < 10; ++i); // oops!  semicolon ends the statement
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{}
+\begin{frame}[fragile]{{\tt break} and {\tt continue}}
 
 
+Java provides two non-structured-programming ways to alter loop control flow:
+\begin{itemize}
+\item {\tt break} exits the loop, possibly to a labeled location in the program
+\item {\tt continue} skips the remainder of a loop body and continues with the next iteration
+\end{itemize}
+
+Consider the following while loop:
 \begin{lstlisting}[language=Java]
+boolean shouldContinue = true;
+while (shouldContinue) {
+    System.out.println("Enter some input (exit to quit):");
+    String input = kbd.next();
+    doSomethingWithInput(input); // We do something with "exit" too.
+    keepGoing = (input.equalsIgnoreCase("exit")) ? false : true;
+}
+\end{lstlisting}
+We don't test for the termination sentinal, ``exit,'' until after we do something with it.  Situations like these often tempt us to use {\tt break} ...
 
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt break}ing out of a {\tt while} Loop}
+
+
+We could test the sentinal before processing and {\tt break}:
+\vspace{-.05in}
+\begin{lstlisting}[language=Java]
+boolean shouldContinue = true;
+while (shouldContinue) {
+    System.out.println("Enter some input (exit to quit):");
+    String input = kbd.next();
+    if (input.equalsIgnoreCase("exit")) break;
+    doSomethingWithInput(input);
+}
+\end{lstlisting}
+\vspace{-.1in}
+But it's better to use structured programming:
+\vspace{-.05in}
+\begin{lstlisting}[language=Java]
+boolean shouldContinue = true;
+while (shouldContinue) {
+    System.out.println("Enter some input (exit to quit):");
+    String input = kbd.next();
+    if (input.equalsIgnoreCase("exit")) {
+        shouldContinue = false;
+    } else {
+        doSomethingWithInput(input);
+    }
+}
 \end{lstlisting}
 
 
 \end{frame}
 %------------------------------------------------------------------------
 
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{}
 
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{}
-
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{}
-
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{}
-
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{}
-
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-
-\end{frame}
-%------------------------------------------------------------------------
 
 % %------------------------------------------------------------------------
 % \begin{frame}[fragile]{}
