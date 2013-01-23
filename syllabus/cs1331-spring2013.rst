@@ -93,7 +93,7 @@ This schedule is subject ot change.  The further in the future, the less certain
 +------------+------------------------------+----------------------------------+
 | 2013-01-21 |  No Class - MLK Day          |                                  |
 +------------+------------------------------+----------------------------------+
-| 2013-01-23 | Loops_                       | AJ 3.3                           |
+| 2013-01-23 | Loops_                       | AJ 3.3, Loops.java_              |
 +------------+------------------------------+----------------------------------+
 | 2013-01-25 | Debugging_                   | AJ 3.4-3.5                       |
 +------------+------------------------------+----------------------------------+
@@ -208,6 +208,7 @@ This schedule is subject ot change.  The further in the future, the less certain
 .. _grades.txt: ../code/grades.txt
 .. _Conditionals.java: ../code/Conditionals.java
 .. _Switch.java: ../code/Switch.java
+.. _Loops.java: ../code/Loops.java
 
 .. Resources
 
