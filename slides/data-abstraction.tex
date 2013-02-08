@@ -1,0 +1,252 @@
+\documentclass{beamer}
+
+\newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
+\newcommand{\lesson}{Data Abstraction}
+\newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
+
+\author[Chris Simpkins] 
+{Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
+\institute[Georgia Tech] % (optional, but mostly needed)
+
+\date[CS 1331]{}
+\subject{\lesson}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% \pgfdeclareimage[width=0.6in]{coc-logo}{cc_2012_logo}
+% \logo{\pgfuseimage{coc-logo}}
+
+\mode<presentation>
+{
+  \usetheme{Berlin}
+  \useoutertheme{infolines}
+
+  % or ...
+
+ \setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+
+\usepackage{hyperref}
+\usepackage{fancybox}
+\usepackage{listings}
+\usepackage[abbr]{harvard}
+
+\usepackage[english]{babel}
+% or whatever
+
+\usepackage[latin1]{inputenc}
+% or whatever
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+
+
+\usepackage{listings}
+ 
+% "define" Scala
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]""",
+}
+
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+% Default settings for code listings
+\lstset{frame=tb,
+  language=scala,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\scriptsize\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  keepspaces=true
+  %tabsize=3
+}
+
+
+\title[\course] % (optional, use only with long
+                                      % paper titles)
+{\lesson}
+
+\subtitle{}
+%% {Include Only If Paper Has a Subtitle}
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%% \AtBeginSection[]
+%% {
+%%   \begin{frame}<beamer>{Outline}
+
+%%  \tableofcontents[currentsection]
+%%   \end{frame}
+%% }
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+% \beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+%------------------------------------------------------------------------
+\begin{frame}{Data Abstraction}
+
+
+An abstraction of a concept attempts to capture the essence of the concept, that is, its essential properties and behaviors.
+\begin{itemize}
+\item Process abstraction - group the operations of a process in a subprogram and expose only the essential elements of the process to clients through the subprogram signature (e.g., function name and parameters)
+\item Data abstraction - encapsulation of data with the operations defined on the data
+\item A particular data abstraction is called an {\em abstract data type}.  Note that ADT's include process abstractions as well
+\end{itemize}
+
+In each case, an abstraction hides details --- details of a process or details of a data structure.
+
+\begin{quote}
+``Abstraction is selective ignorance.''\\
+-- Andrew Koenig (C++ Guru) 
+\end{quote}
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{A Complex Number ADT}
+
+
+{\bf ADT: Complex}\\
+Data:
+\begin{itemize}
+\item {\bf real: double} the real part of a complex number
+\item {\bf imaginary: double} the imaginary part of a complex number
+\end{itemize}
+Operations:
+\begin{itemize}
+\item {\bf new} - construct a new complex number
+\item {\bf plus} - add one complex number to another, yielding a new complex number
+\end{itemize}
+An ADT is {\it abstract} becuase the data and operations of the ADT are defined independently of how they are implemented.  We say that an ADT {\it encapsulates} the data and the operations on the data.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}{Data Abstractions with Classes}
+
+Java provides langauge suppport for defining ADTs in the form of classes.\\
+
+A class is a blueprint for objects.  A class definition contains
+\begin{itemize}
+\item instance variables, a.k.a. member variables or properties -- the state, or data of an object
+\item methods, a.k.a. member functions or messages -- the operations defined on objects of the class
+\end{itemize}
+We {\em instantiate} or {\em construct} an object from a class.
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Java Implementation of Complex Number ADT}
+
+
+Here's a Java implementation of our complex number ADT \footnote{\url{http://introcs.cs.princeton.edu/java/33design/}}:
+\vspace{-.1in}
+\begin{lstlisting}[language=Java]
+public class Complex {
+    // These are the data of the ADT
+
+    private final double real;
+    private final double imaginary;
+
+    // These are the operations of the ADT
+
+    public Complex(double aReal, double anImaginary) {
+        real = aReal;
+        imaginary = anImaginary;
+    }
+
+    public Complex plus(Complex other) {
+        double resultReal = this.real + other.real;
+        double resultImaginary = this.imaginary + other.imaginary;
+        return new Complex(resultReal, resultImaginary);
+    }
+}
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Using the {\tt Complex} Class}
+
+
+Users, or {\it clients} of the {\tt Complex} class can then write code like this:
+\begin{lstlisting}[language=Java]
+Complex a = new Complex(1.0, 2.0);
+Complex b = new Complex(3.0, 4.0);
+Complex c = a.plus(b);
+\end{lstlisting}
+
+Note that the user of a class need not be concerned with its implementation, only with its interface, or {\it API} (application programmer interface).\\
+\vspace{.1in}
+Classes give us powerful tools to define well-structured software using ADTs (and later, inheritance).  In the next lecture we begin studying classes in detail.
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+% %------------------------------------------------------------------------
+% \begin{frame}[fragile]{}
+
+
+% \begin{lstlisting}[language=Java]
+
+% \end{lstlisting}
+
+% \begin{itemize}
+% \item
+% \end{itemize}
+
+
+% \end{frame}
+% %------------------------------------------------------------------------
+
+
+\end{document}

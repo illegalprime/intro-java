@@ -156,7 +156,7 @@ Java catches many kinds of errors at compile-time, including:
 \end{itemize}
 
 \vspace{.2in}
-See \href{\code/CompileErrors.java}{CompileErrors.java}
+See \href{\code/Bugs.java}{Bugs.java}
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -168,26 +168,12 @@ See \href{\code/CompileErrors.java}{CompileErrors.java}
 A program can compile successfully and fail at runtime.
 \begin{itemize}
 \item Invalid casts - casting a value to an incompatible type
-\item Array index out of bounds - referencing 
-\item {\tt NullPointerException}
+\item Array index out of bounds - referencing an array element with a negative index or an index $\ge$ the array length
+\item {\tt NullPointerException} - calling a method or accessing an instance member on an object reference that is {\tt null}
 \end{itemize}
 
 \vspace{.2in}
-See \href{\code/RuntimeErrors.java}{RuntimeErrors.java}
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Semantic Errors}
-
-
-A semantic error, or logic bug,  is an unexpected program behavior. A few that we'll discuss today:
-
-\begin{itemize}
-\item Infinite loops
-\item Off-by-one errors
-\end{itemize}
+See \href{\code/Bugs.java}{Bugs.java}
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -231,6 +217,7 @@ Finding semantic errors comprises the majority of debugging activity.
 \begin{frame}[fragile]{Debugging Techniques}
 
 
+Eliminating compile errors is usually called ``getting the code to compile.''  When we talk about debugging we usually mean finding semantic errors.  Some techniques:
 \begin{itemize}
 \item Tracing and watching - the biggest hammer in the debugging tool bag
 \item Assertions
@@ -250,7 +237,7 @@ Tracing the flow of execution of code can help to locate a bug.
 \item Debugger: Breakpoints in a debugger allow you to step through a running program one statement at a time
 \end{itemize}
 
-Tracing is almost usually combined with watching the values of variables as the program runs
+Tracing is usually combined with watching the values of variables as the program runs
 \begin{itemize}
 \item Manual: Print statements and logging include values of variables of interest
 \item Debugger: variables can be designated as ``watch'' variables and be displayed separately while the program runs
@@ -264,9 +251,22 @@ Tracing is almost usually combined with watching the values of variables as the 
 \begin{frame}[fragile]{Assertions}
 
 
+Assertions are statements about program conditions that should be true at a given point of program execution.
+\begin{lstlisting}[language=Java]
+assert condition;
+\end{lstlisting}
+\vspace{-.1in}
 \begin{itemize}
-\item
+\item {\tt condition} is any boolean expression
+\item Normally, assertions are not checked
+\item To hava {\tt java} check assertions, run program with {\tt enableassertions} switch
+\item A more robust versoin of {\tt \#IFDEF DEBUG} from the old C days
 \end{itemize}
+With {\tt enableassertions} switch, when some {\tt condition} in an assertion is {\tt false}, the program terminates with a {\tt java.lang.AssertionError}.
+
+\vspace{.1in}
+Assertions are useful for checking semantic errors in your programs, but require some effort.
+
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -279,6 +279,107 @@ Tracing is almost usually combined with watching the values of variables as the 
 \item Incremental development - develop program in small pieces, test peices individually before combining
 \item Code review/pair programming - have another set of eyes on your code
 \end{itemize}
+
+\vspace{.2in}
+Let's add some defensive code to \href{\code/Bugs.java}{Bugs.java}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Insertion Sort}
+
+
+The insertion sort algorithm in pseudocode (from CLRS Chapter 2):
+\vspace{-.05in}
+\begin{lstlisting}[]
+1 for j = 2 to A.length // A[1 .. A.length] is an array
+2     key = A[j]
+3     // Insert A[j] into the sorted sequence A[i .. j - 1].
+4     i = j - 1
+5     while i > 0 and A[i] > key
+6         A[i + 1] = A[i]
+7         i = i + 1
+8    A[i + 1] = key
+\end{lstlisting}
+
+Insertion sort implemented in Java:
+\vspace{-.05in}
+\begin{lstlisting}[language=Java]
+for (int j = 1; j < a.length; ++j) {
+    int key = a[j];
+    int i = j - 1;
+    while(i >= 0 \&\& a[i] > key) {
+        a[i + 1] = a[i];
+        i = i - 1;
+    }
+    a[i + 1] = key;
+}
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Loop Invariants}
+
+
+A loop invariant expresses a formal property of an algorithm that:
+\begin{itemize}
+\item is true prior to the first iteration of the loop,
+\item if it is true before an iteration of the loop remains true before the next iteration, and
+\item upon loop termination gives a useful property that helps show that the algorithm is correct.
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{A Loop Invariant for Insertion Sort}
+
+\begin{lstlisting}[]
+1 for j = 2 to A.length
+2     key = A[j]
+3     // Insert A[j] into the sorted sequence A[i .. j - 1].
+4     i = j - 1
+5     while i > 0 and A[i] > key
+6         A[i + 1] = A[i]
+7         i = i + 1
+8    A[i + 1] = key
+\end{lstlisting}
+
+\begin{quote}
+At the start of each iteration of the for loop of lines 1-8, the subarray A[1 .. j - 1] consists of the elements originally in A[i .. j - 1], but in sorted order.
+\end{quote}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Expresing Loop Invariants as {\tt assert}ions}
+
+
+Translating the assertion condition is easy.  The trick is figuring out where to put it.
+
+\begin{lstlisting}[language=Java]
+for (int j = 1; j < a.length; ++j) {
+    assert isSorted(a, 0, j - 1);
+    int key = a[j];
+    int i = j - 1;
+    while(i >= 0 \&\& a[i] > key) {
+        a[i + 1] = a[i];
+        i = i - 1;
+    }
+    a[i + 1] = key;
+}
+\end{lstlisting}
+Note that we didn't express the entire invariant in Java.  We could, but you must trade off implementation effort and benefit.
+
+\vspace{.1in}
+See \href{\code/InsertionSort.java}{InsertionSort.java}.
+
 
 \end{frame}
 %------------------------------------------------------------------------
