@@ -90,8 +90,9 @@ object CourseMaterials extends Build {
     val files = new File(srcDir).listFiles(filter).map(_.getName())
     println("Uploading: " + files.mkString(","))
     for (f <- files) {
-      val p = sys.process.Process("scp " + f + " " + scpDest + srcDir,
-        new File(srcDir))
+      val scpString = "scp " + f + " " + scpDest + srcDir
+      println("Executing: " + scpString)
+      val p = sys.process.Process(scpString, new File(srcDir))
       p !
     }
   }
