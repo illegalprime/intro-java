@@ -117,9 +117,13 @@ This schedule is subject ot change.  The further in the future, the less certain
 |            |                              | Card6.java_, Dealer6.java_,     |
 |            |                              | Card.java_                      |
 +------------+------------------------------+---------------------------------+
-| 2013-02-11 | Arrays_                      | AJ 6.1-6.2                      |
+| 2013-02-11 | Arrays1_                     | AJ 6.1-6.2                      |
+|            |                              | ArrayBasics.java_,              |
+|            |                              | Shout.java_,                    |
 +------------+------------------------------+---------------------------------+
-| 2013-02-13 | Arrays_                      | AJ 6.3-6.4                      |
+| 2013-02-13 | Arrays2_                     | AJ 6.3-6.4                      |
+|            |                              | CourseAverage.java_,            |
+|            |                              | ArrayParameters.java_,          |
 +------------+------------------------------+---------------------------------+
 | 2013-02-15 | Inheritance_                 | AJ 7.1                          |
 |            |                              |                                 |
@@ -206,7 +210,8 @@ This schedule is subject ot change.  The further in the future, the less certain
 .. _`Data Abstraction`: ../slides/data-abstraction.pdf
 .. _Classes: ../slides/classes.pdf
 .. _Review1: ../slides/review1.pdf
-.. _Arrays: ../slides/arrays.pdf
+.. _Arrays1: ../slides/arrays1.pdf
+.. _Arrays2: ../slides/arrays2.pdf
 .. _Inheritance: ../slides/inheritance.pdf
 .. _Polymorphism: ../slides/polymorphism.pdf
 .. _`Abstract Classes`: ../slides/abstract-classes.pdf
@@ -258,6 +263,9 @@ This schedule is subject ot change.  The further in the future, the less certain
 .. _Dealer5.java: ../code/Dealer5.java
 .. _Dealer6.java: ../code/Dealer6.java
 .. _Card.java: ../code/Card.java
+.. _ArrayBasics.java: ../code/ArrayBasics.java
+.. _Shout.java: ../code/Shout.java
+.. _ArrayParameters.java: ../code/ArrayParameters.java
 
 .. Resources
 

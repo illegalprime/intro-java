@@ -1,0 +1,448 @@
+\documentclass{beamer}
+
+\newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
+\newcommand{\lesson}{Arrays, Part 2 of 2}
+\newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
+
+\author[Chris Simpkins] 
+{Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
+\institute[Georgia Tech] % (optional, but mostly needed)
+
+\date[CS 1331]{}
+\subject{\lesson}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% \pgfdeclareimage[width=0.6in]{coc-logo}{cc_2012_logo}
+% \logo{\pgfuseimage{coc-logo}}
+
+\mode<presentation>
+{
+  \usetheme{Berlin}
+  \useoutertheme{infolines}
+
+  % or ...
+
+ \setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+
+\usepackage{hyperref}
+\usepackage{fancybox}
+\usepackage{listings}
+\usepackage[abbr]{harvard}
+
+\usepackage[english]{babel}
+% or whatever
+
+\usepackage[latin1]{inputenc}
+% or whatever
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+
+
+\usepackage{listings}
+ 
+% "define" Scala
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]""",
+}
+
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+% Default settings for code listings
+\lstset{frame=tb,
+  language=scala,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\scriptsize\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  keepspaces=true
+  %tabsize=3
+}
+
+
+\title[\course] % (optional, use only with long
+                                      % paper titles)
+{\lesson}
+
+\subtitle{}
+%% {Include Only If Paper Has a Subtitle}
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%% \AtBeginSection[]
+%% {
+%%   \begin{frame}<beamer>{Outline}
+
+%%  \tableofcontents[currentsection]
+%%   \end{frame}
+%% }
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+% \beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Arrays are First-Class Objects}
+
+
+We've seen that
+\begin{itemize}
+\item arrays are objects, so array variables are references,
+\item arrays can be stored in variables, passed as arguments, and returned from methods.
+\end{itemize}
+
+This means that we must take the same precautions when dealing with array references as when dealing with references of Class types.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Array References}
+
+
+Look at  \href{\code/MyYears.java}{MyYears.java}. Note that the getter method returns the private instance variable {\tt years}:
+\begin{lstlisting}[language=Java]
+public int[] getYears() {
+    return years;
+}
+\end{lstlisting}
+
+Client code cannot change the object that {\tt year} points to, but can change elements of {\tt year}.  Consider:
+\begin{lstlisting}[language=Java]
+private void modifyElement(int[] array, int index, int newValue) {
+    array[index] = newValue;
+}
+\end{lstlisting}
+This method will change the element value at {\tt index} in any array you pass to it, including the private {\tt years} reference returned from {\tt getYears}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Privacy Leaks with Array Instance Variables}
+
+
+A getter method that returns a reference to a private array instance variable can ``leak'' private data just like an accessor that returns a reference to a private instance variable of Class type.\\
+\vspace{.1in}
+Given the accessor {\tt getYears} and the utility helper function {\tt modifyElement}, we can violate encapsulation in the {\tt MyYears}:
+\begin{lstlisting}[language=Java]
+MyYears my = new MyYears();
+int[] a = my.getYears();
+my.modifyElement(a, 2, 2013);
+\end{lstlisting}
+
+The code above modifies the {\tt my} object's {\tt years} instance variable!  How to fix?
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Fixing Privacy Leaks}
+
+
+The way to fix privacy leaks like this is to return deep copies of instance variables in getter methods.  {\tt MyYears} already has the helper method to provide this functionality.  A safer {\tt getYears} method would be:
+\begin{lstlisting}[language=Java]
+public int[] getYears() {
+    return copyOf(years);
+}
+\end{lstlisting}
+
+With this definition of {\tt getYears} client code can't modify the private data held in the {\tt years} instance variable of {\tt MyYears} objects becuase clients don't get a reference to the instance variable, they get a reference to a (snapshot) copy of it.
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Partially Filled Arrays}
+
+
+Say we want the speedy acces of an array, with the flixiblity of a dynamically-allocated data structure.
+
+\begin{lstlisting}[language=Java]
+public class PartialIntArray {
+
+    private int[] elementData;
+    private int size;
+
+    public PartialIntArray(int initialCapacity) {
+        if (initialCapacity < 0)
+            throw new IllegalArgumentException("Illegal Capacity: "+
+                                               initialCapacity);
+        this.elementData = new int[initialCapacity];
+    }
+
+    public ArrayList() {
+        this(10);
+    }
+
+    // ...
+}
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Adding Elements to PartialIntArray}
+
+
+Assuming we don't need to automatically ``grow'' our array-backed data structure when needed (like {\tt java.util.ArrayList} does), we can add elements like this:
+
+\begin{lstlisting}[language=Java]
+public class PartialIntArray {
+
+  // ...
+
+    public void add(int e) {
+        elementData[size++] = e;
+    }
+
+}
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Accessing Elements of PartialIntArray}
+
+
+We can provide access to elements of our PartialIntArray with:
+
+\begin{lstlisting}[language=Java]
+public class PartialIntArray {
+    // ...
+    
+    public int get(int index) {
+        return elementData(index);
+    }
+}
+\end{lstlisting}
+
+Note that we're providing access to individual elements, not the entire underlying array.  The underlying array is an implementation detail.
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Traversing a PartialIntArray}
+
+
+To allow clients of {\tt PartialIntArray} to traverse its elements, we need one more method in our API - size:
+\begin{lstlisting}[language=Java]
+public class PartialIntArray {
+    // ...
+
+    public int size() {
+        return this.size;
+    }
+}
+\end{lstlisting}
+Now we can add elements to a {\tt PartialIntArray} and traverse it in a similar manner to regular arrays:
+
+\begin{lstlisting}[language=Java]
+PartialIntArray pia = new PartialIntArray();
+pia.add(1);
+// add more ...
+for (int i = 0; i < pia.size(); ++i) {
+    System.out.println(pia.get(i));
+}
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Encapsulation and Information Hiding}
+
+
+Our {\tt PartialIntArray} class demonstrated two important concepts in software engineering: encapsulation and information hiding.
+
+\begin{itemize}
+\item The {\tt elementData} instance variable was private and never exposed in its entirety to clients.
+\item All access to {\tt elementData} was provided through instance mthods.
+\item We could have called our class {\tt RandomAccessIntList}, because the fact that an array was used is an implementation detail.  Client code need not be aware of implementation details (to an extent ...).
+\end{itemize}
+
+To try at home: add a {\tt remove(int index)} method that removes the element at {\tt index}.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Var-args}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+\begin{itemize}
+\item
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Enumerated Types}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+\begin{itemize}
+\item
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Multi-Dimensional Arrays}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+\begin{itemize}
+\item
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Ragged Arrays}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+\begin{itemize}
+\item
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+\begin{itemize}
+\item
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+\begin{itemize}
+\item
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+\begin{itemize}
+\item
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+% %------------------------------------------------------------------------
+% \begin{frame}[fragile]{}
+
+
+% \begin{lstlisting}[language=Java]
+
+% \end{lstlisting}
+
+% \begin{itemize}
+% \item
+% \end{itemize}
+
+
+% \end{frame}
+% %------------------------------------------------------------------------
+
+
+\end{document}
