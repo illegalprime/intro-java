@@ -1,7 +1,7 @@
 \documentclass{beamer}
 
 \newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
-\newcommand{\lesson}{Arrays, Part 2 of 2}
+\newcommand{\lesson}{Arrays, Part 2 of 3}
 \newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
 
 \author[Chris Simpkins] 
@@ -164,7 +164,6 @@ This method will change the element value at {\tt index} in any array you pass t
 \end{frame}
 %------------------------------------------------------------------------
 
-
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{Privacy Leaks with Array Instance Variables}
 
@@ -176,6 +175,9 @@ Given the accessor {\tt getYears} and the utility helper function {\tt modifyEle
 MyYears my = new MyYears();
 int[] a = my.getYears();
 my.modifyElement(a, 2, 2013);
+// The modifyElement method demonstrates array parameters,
+// but the following line does the same thing and is clearer.
+a[2] = 2013; 
 \end{lstlisting}
 
 The code above modifies the {\tt my} object's {\tt years} instance variable!  How to fix?
@@ -219,7 +221,7 @@ public class PartialIntArray {
         this.elementData = new int[initialCapacity];
     }
 
-    public ArrayList() {
+    public PartialIntArray() {
         this(10);
     }
 
@@ -303,127 +305,81 @@ for (int i = 0; i < pia.size(); ++i) {
 \begin{frame}[fragile]{Encapsulation and Information Hiding}
 
 
-Our {\tt PartialIntArray} class demonstrated two important concepts in software engineering: encapsulation and information hiding.
+Our {\tt PartialIntArray} class demonstrates two important concepts in software engineering: encapsulation and information hiding.
 
 \begin{itemize}
 \item The {\tt elementData} instance variable was private and never exposed in its entirety to clients.
-\item All access to {\tt elementData} was provided through instance mthods.
+\item All access to {\tt elementData} was provided through instance methods, so we can ensure data consistency by enforcing invariants, validating input, etc.
 \item We could have called our class {\tt RandomAccessIntList}, because the fact that an array was used is an implementation detail.  Client code need not be aware of implementation details (to an extent ...).
 \end{itemize}
 
-To try at home: add a {\tt remove(int index)} method that removes the element at {\tt index}.
 
 \end{frame}
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{Var-args}
+\begin{frame}[fragile]{{\tt PartialIntArray} and {\tt java.util.ArrayList}}
 
 
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
+Our {\tt PartialIntArray} example was inspired by Java's standard ArrayList class.  Try these exercises at home:
 \begin{itemize}
-\item
+\item Consider what happens if a user of {\tt PartialIntArray} supplies an out of bounds index to {\tt get}, i.e., $< 0$ or $\ge$ {\tt size}.  Is this desirable?  If not, how would you improve it?
+\item Add a {\tt remove(int index)} method that removes the element at {\tt index}.
+\item Look at the source for {\tt java.util.ArrayList}.
+\begin{itemize}
+\item Oracle has made it a bit less straightforward to get the std lib source, so I put up a copy here: \url{http://simpkins.org/java-lib-src/}
+\item Note that the directory layout for a Java library matches the package structure.  So you'll find {\tt ArrayList.java} in {\tt java/util/}.
+\end{itemize}
 \end{itemize}
 
+As in any craft, study the work of masters to improve your own skillz.
 
 \end{frame}
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{Enumerated Types}
+\begin{frame}[fragile]{Variable Arity Parameters}
 
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
 
 \begin{itemize}
-\item
+\item The {\it arity} of a method is its number of formal parameters.
+\item So far, all the methods we've written have fixed arity.
+\item The last parameter to a method may be a {\it variable arity parameter}, a.k.a. {\it var args} parameter (\href{http://docs.oracle.com/javase/specs/jls/se7/html/jls-8.html#jls-8.4.1}{JLS \S 8.4.1}), whose syntax is simply to add an ellipse ({\tt ...}) after the type name.
+\item The var args parameter is accessed as an arry in the method.
 \end{itemize}
-
+For example:
+\begin{lstlisting}[language=Java]
+public static int max(int ... numbers) {
+    int max = numbers[0];
+    for (int i = 1; i < numbers.length; ++i) {
+        if (numbers[i] > max) max = number;
+    }
+    return max;
+}
+\end{lstlisting}
 
 \end{frame}
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{Multi-Dimensional Arrays}
+\begin{frame}[fragile]{Enum Types}
 
 
+Enums are data types that have a predefined set of constant values (\href{http://docs.oracle.com/javase/specs/jls/se7/html/jls-8.html#jls-8.9}{JLS \S 8.9}, \href{http://docs.oracle.com/javase/tutorial/java/javaOO/enum.html}{Java Enum Tutorial})
+
+For example:
 \begin{lstlisting}[language=Java]
-
+  public enum Suit {DIAMONDS, CLUBS, HEARTS, SPADES};
 \end{lstlisting}
+defines an enum type called {\tt Suit} that can take on only one of the predefined constants {\tt Suit.DIAMONDS, Suit.CLUBS, Suit.HEARTS}, or{\tt Suit.SPADES}
 
 \begin{itemize}
-\item
+\item Enum types are a class.
+\item Java automatically defines convenience methods for enum types, like {\tt valueOf} and {\tt values}.
+\item Because they define a class, enum types can include programmer-defined additional constructors and methods.
 \end{itemize}
 
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Ragged Arrays}
-
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-\begin{itemize}
-\item
-\end{itemize}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{}
-
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-\begin{itemize}
-\item
-\end{itemize}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{}
-
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-\begin{itemize}
-\item
-\end{itemize}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{}
-
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-\begin{itemize}
-\item
-\end{itemize}
-
+Take a look at \href{\code/PlayingCard.java}{PlayingCard.java} for an example.
 
 \end{frame}
 %------------------------------------------------------------------------

@@ -1,0 +1,394 @@
+\documentclass{beamer}
+
+\newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
+\newcommand{\lesson}{Inheritance, Part 2 of 2}
+\newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
+
+\author[Chris Simpkins] 
+{Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
+\institute[Georgia Tech] % (optional, but mostly needed)
+
+\date[CS 1331]{}
+\subject{\lesson}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% \pgfdeclareimage[width=0.6in]{coc-logo}{cc_2012_logo}
+% \logo{\pgfuseimage{coc-logo}}
+
+\mode<presentation>
+{
+  \usetheme{Berlin}
+  \useoutertheme{infolines}
+
+  % or ...
+
+ \setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+
+\usepackage{hyperref}
+\usepackage{fancybox}
+\usepackage{listings}
+\usepackage[abbr]{harvard}
+
+\usepackage[english]{babel}
+% or whatever
+
+\usepackage[latin1]{inputenc}
+% or whatever
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+
+
+\usepackage{listings}
+ 
+% "define" Scala
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]""",
+}
+
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+% Default settings for code listings
+\lstset{frame=tb,
+  language=scala,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\scriptsize\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  keepspaces=true
+  %tabsize=3
+}
+
+
+\title[\course] % (optional, use only with long
+                                      % paper titles)
+{\lesson}
+
+\subtitle{}
+%% {Include Only If Paper Has a Subtitle}
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%% \AtBeginSection[]
+%% {
+%%   \begin{frame}<beamer>{Outline}
+
+%%  \tableofcontents[currentsection]
+%%   \end{frame}
+%% }
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+% \beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Dealing with Change}
+
+
+Recall our deifinition of {\tt HourlyEmployee}:
+\begin{lstlisting}[language=Java]
+public class HourlyEmployee extends Employee {
+    private double hourlyWage;
+    private double monthlyHours;
+
+    public HourlyEmployee(String aName, Date aHireDate,
+                          double anHourlyWage, double aMonthlyHours) {
+        super(aName, aHireDate);
+        disallowZeroesAndNegatives(anHourlyWage, aMonthlyHours);
+        hourlyWage = anHourlyWage;
+        monthlyHours = aMonthlyHours;
+    }
+    public double getHourlyWage() { return hourlyWage;}
+    public double getMonthlyHours() { return monthlyHours;}
+    public double getMonthlyPay() { return hourlyWage * monthlyHours; }
+    // ...
+}
+\end{lstlisting}
+
+\begin{itemize}
+\item What if we wanted to give an employee a raise?  More or fewer hours?
+\end{itemize}
+
+There are two ways to deal with changes: mutating existing objects, or creating new objects.
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Mutating Objects}
+
+
+Allowing for mutation of existing objects is easy: just add mutator methods (``setters''):
+\begin{lstlisting}[language=Java]
+public class MutableHourlyEmployee extends Employee {
+    // ...
+    public double getHourlyWage() { return hourlyWage; }
+
+    public void setHourlyWage(double newHourlyWage) {
+        hourlyWage = newHourlyWage;
+    }
+    public double getMonthlyHours() { return monthlyHours;}
+
+    public void  setMonthlyHours(double newMonthlyHours) {
+        monthlyHours = newMonthlyHours;
+    }
+    // ...
+}
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Using Mutable Objects}
+
+
+With the previous definition of {\tt MutableHourlyEmployee} we can make changes by calling the setters:
+\begin{lstlisting}[language=Java]
+DateFormat df = DateFormat.getDateInstance();
+MutableHourlyEmployee eva = 
+    new MutableHourlyEmployee("Eva L. Uator",
+                              df.parse("February 18, 2013"),
+                              20.00, 160);
+// Let's give Eva a raise
+eva.setHourlyWage(24.00);
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Copy Constructors}
+
+
+A copy constructor simplifies new object construction.  Here are the copy constructors for {\tt Emplyoyee}
+\begin{lstlisting}[language=Java]
+public class Employee {
+    public Employee(Employee other) {
+        this.name = other.name;
+        this.hireDate = other.hireDate;
+    }
+    // ...
+}
+\end{lstlisting}
+and {\tt MutableHourlyEmployee}
+\begin{lstlisting}[language=Java]
+public class MutableHourlyEmployee extends Employee {
+   public MutableHourlyEmployee(MutableHourlyEmployee other) {
+        super(other);
+        this.hourlyWage = other.hourlyWage;
+        this.monthlyHours = other.monthlyHours;
+    }
+    // ...
+}
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Using Copy Constructors}
+
+
+With the previously defined copy constructors we can write code like this:
+\begin{lstlisting}[language=Java]
+HourlyEmployee alyssa = new HourlyEmployee(eva);
+alyssa.setName("Alyssa P. Hacker");
+\end{lstlisting}
+
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Immutable Classes}
+
+
+An immutable class is a class whose instances cannot be modified.  To make a class immutable:
+
+\begin{itemize}
+\item Don't provide mutator methods (``setters'')
+\item Make the class {\tt final} so it can't be extended (there's another way to accomplish this, but making the class {\tt final} is good enough for now)
+\item Make all fields {\tt final}
+\item Make all fields {\tt private}
+\item For fields of mutable class types, return defensive copies in accessor methods (as we discussed in the lectures on arrays)
+\end{itemize}
+
+The \href{\code/HourlyEmployee.java}{HourlyEmployee} class we defined in the last lecture is immutable.  Review it's source code and identify the five implementation techniques listed above.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Making Changes with Immutable Objects}
+
+
+To make changes with instances of immutable classes, we can simply create new {\tt HourlyEmployee} objects by copying fields:
+\begin{lstlisting}[language=Java]
+DateFormat df = DateFormat.getDateInstance();
+HourlyEmployee eva = new HourlyEmployee("Eva L. Uator",
+                                         df.parse("February 18, 2013"),
+                                         20.00, 160);
+// Let's give Eva a raise
+eva = new HourlyEmployee(eva.getName(), eva.getHireDate(),
+                         24.00, eva.getMonthlyHours());
+\end{lstlisting}
+
+Note that this works because all accessors in {\tt HourlyEmployee} return immutable fields or defensive copies of mutable fields.  What if they returned references to mutable fields?
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Prefer Immutable Classes}
+
+
+In general, make your classes immutable unless you have a good reason to make them mutable.  Why?  Because immutable objects
+\begin{itemize}
+\item are simpler to design becuase you don't have to worry about enforcing class invariants in multiple places,
+\item are easier to reason about because the state of an object never changes after instantiation,
+\item are inherently thread-safe becuase access to mutable data need not be syncronized, and
+\item enable safe instance sharing, so redundant copies need not be created.
+\end{itemize}
+
+Can you think of a good reason not to make a class immutable?
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Constructor Chaining with {\tt this}}
+
+
+What if we wanted to have default default values for hourly wages and monthly hours?  We can provide an alternate constructor that chains to our main constructor with {\tt this}:
+\begin{lstlisting}[language=Java]
+public final class HourlyEmployee extends Employee {
+    /**
+     * Constructs an HourlyEmployee with hourly wage of 20 and 
+     * monthly hours of 160.
+     */
+    public HourlyEmployee(String aName, Date aHireDate) {
+        this(aName, aHireDate, 20.00, 160.0);
+    }
+    public HourlyEmployee(String aName, Date aHireDate,
+                          double anHourlyWage, double aMonthlyHours) {
+        super(aName, aHireDate);
+        disallowZeroesAndNegatives(anHourlyWage, aMonthlyHours);
+        hourlyWage = anHourlyWage;
+        monthlyHours = aMonthlyHours;
+    }
+    // ...
+}
+\end{lstlisting}
+
+\begin{itemize}
+\item
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Class Hierarchies}
+
+\vspace{-.05in}
+Class hierarchies depict the superclass-sublclass relationships between families of related classes.  Consider:
+\vspace{-.05in}
+\begin{center}
+\includegraphics[height=1.4in]{employee-class-hierarchy.pdf}
+\end{center}
+\vspace{-.2in}
+\begin{itemize}
+\item {\tt Employee} is the superclass of {\tt HourlyEmployee} and {\tt SalariedEmployee}
+\item {\tt Employee} is more general than {\tt HourlyEmployee} and {\tt SalariedEmployee}, e.g., there at least as many {\tt Employee}s as either {\tt HourlyEmployee}s or {\tt SalariedEmployee}s
+\item {\tt HourlyEmployee} and {\tt SalariedEmployee} are richer than {\tt Employee} becuse they extend {\tt Employee} with additional features
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Designing Class Hierarchies}
+
+
+We've seen how a {\tt SalariedEmployee} would fit into a class hierarchy.  Next time we'll
+\begin{itemize}
+\item define {\tt SalariedEmployee},
+\item explore some subtleties of overriding methods,
+\item define a {\tt equals} methods for {\tt Employee} classes,
+\item write code that exploits {\it polymorphism} in class hierarchies.
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+
+% %------------------------------------------------------------------------
+% \begin{frame}[fragile]{}
+
+
+% \begin{lstlisting}[language=Java]
+
+% \end{lstlisting}
+
+% \begin{itemize}
+% \item
+% \end{itemize}
+
+
+% \end{frame}
+% %------------------------------------------------------------------------
+
+
+\end{document}

@@ -1,7 +1,7 @@
 \documentclass{beamer}
 
 \newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
-\newcommand{\lesson}{Arrays, Part 1 of 2}
+\newcommand{\lesson}{Arrays, Part 1 of 3}
 \newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
 
 \author[Chris Simpkins] 
@@ -198,7 +198,7 @@ double scores[], average;
 creates
 \begin{itemize}
 \item an uninitialzed array of {\tt double} named {\tt scores}, and
-\item a {\tt double} variable named {\tt average} (auto-initialized to the default value for {\tt double}, namely, {\tt 0.0}).
+\item a {\tt double} variable named {\tt average} (auto-initialized to the default value for {\tt double}, namely, {\tt 0.0} if it's an instance variable).
 \end{itemize}
 
 What is the value of {\tt scores} after the statement above?
@@ -319,7 +319,7 @@ Read the enhanced for loop as ``for each element of the array ...''.
 In cases where you don't need the index, use the enhanced for loop.  Consider:
 \vspace{-.05in}
 \begin{lstlisting}[language=Java]
-double sum;
+double sum = 0.0;
 for (int i = 0; i < scores.length; ++i) {
     sum += scores[i];
 } 
@@ -328,7 +328,7 @@ for (int i = 0; i < scores.length; ++i) {
 In the code above, {\tt scores.length} is used only for bounding the array traversal, and the index {\tt i} is only used for sequential array access.  Those are two things we can mess up.  The enhanced for loop is cleaner:
 
 \begin{lstlisting}[language=Java]
-double sum;
+double sum = 0.0;
 for (double score: scores) {
     sum += score;
 } 

@@ -1,0 +1,482 @@
+\documentclass{beamer}
+
+\newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
+\newcommand{\lesson}{Object-Oriented Programming, Part 1 of 2}
+\newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
+
+\author[Chris Simpkins] 
+{Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
+\institute[Georgia Tech] % (optional, but mostly needed)
+
+\date[CS 1331]{}
+\subject{\lesson}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% \pgfdeclareimage[width=0.6in]{coc-logo}{cc_2012_logo}
+% \logo{\pgfuseimage{coc-logo}}
+
+\mode<presentation>
+{
+  \usetheme{Berlin}
+  \useoutertheme{infolines}
+
+  % or ...
+
+ \setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+
+\usepackage{hyperref}
+\usepackage{fancybox}
+\usepackage{listings}
+\usepackage[abbr]{harvard}
+
+\usepackage[english]{babel}
+% or whatever
+
+\usepackage[latin1]{inputenc}
+% or whatever
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+
+
+\usepackage{listings}
+ 
+% "define" Scala
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]""",
+}
+
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+% Default settings for code listings
+\lstset{frame=tb,
+  language=scala,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\scriptsize\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  keepspaces=true
+  %tabsize=3
+}
+
+
+\title[\course] % (optional, use only with long
+                                      % paper titles)
+{\lesson}
+
+\subtitle{}
+%% {Include Only If Paper Has a Subtitle}
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%% \AtBeginSection[]
+%% {
+%%   \begin{frame}<beamer>{Outline}
+
+%%  \tableofcontents[currentsection]
+%%   \end{frame}
+%% }
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+% \beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Introduction to Object-Oriented Programming}
+
+
+Today we'll learn how to combine all the elements of object-oriented programming in the design of a program that handles a company payroll.  Object-oriented programming requires three features:
+\begin{itemize}
+\item Data abstraction with classes (encapsulation)
+\item Inheritance
+\item Dynamic method binding
+\end{itemize}
+
+That last part, dynamic method binding, provides for {\it polymorphism}, which we'll begin to learn today.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{A {\tt SalariedEmployee} Class}
+
+
+Let's add {\tt SalariedEmployee} to our class hierarchy.  Here are the important pieces:
+\begin{lstlisting}[language=Java]
+public final class SalariedEmployee extends Employee {
+
+    private static final int MONTHS_PER_YEAR = 12;
+    private final double annualSalary;
+
+    public SalariedEmployee(String aName, Date aHireDate,
+                            double anAnnualSalary) {
+        super(aName, aHireDate);
+        disallowZeroesAndNegatives(anAnnualSalary);
+        annualSalary = anAnnualSalary;
+    }
+    public double getAnnualSalary() {
+        return annualSalary;
+    }
+    public double monthlyPay() {
+        return annualSalary / MONTHS_PER_YEAR;
+    }
+    // ...
+}
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Our {\tt Employee} Class Hierarchy}
+
+
+We now have all the classes in our hierarchy:
+\vspace{-.1in}
+\begin{center}
+\includegraphics[height=1.2in]{employee-class-hierarchy.pdf}
+\end{center}
+\vspace{-.2in}
+But our classes aren't well factored.
+\begin{itemize}
+\item {\tt SalariedEmployee} and {\tt HourlyEmployee} have duplicate copies of {\tt disallowZeroesAndNegatives}
+\item {\tt SalariedEmployee} and {\tt HourlyEmployee} both have {\tt monthlyPay} methods, but these methods are not polymorphic because they're not defined in {\tt Employee} (you'll see what that means in a few minutes)
+\end{itemize}
+
+Let's refactor our {\tt Employee} class hierarchy to give it a clean object-oriented design.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Refactoring Common Code Into a Superclass}
+
+
+Let's move the definition of {\tt disallowZeroesAndNegatives} into {\tt Employee} so it will be shared (rather than duplicated) in {\tt SalariedEmployee} and {\tt HourlyEmployee}.\\
+\vspace{.05in}
+After cutting {\tt disallowZeroesAndNegatives} from {\tt SalariedEmployee} and {\tt HourlyEmployee} and pasting it into {\tt Employee}, {\tt javac} tells us:
+\vspace{-.1in}
+\begin{lstlisting}[language=Java]
+$ javac Employee.java HourlyEmployee.java SalariedEmployee.java
+HourlyEmployee.java:25: cannot find symbol
+symbol  : method disallowZeroesAndNegatives(double,double)
+location: class HourlyEmployee
+        disallowZeroesAndNegatives(anHourlyWage, aMonthlyHours);
+        ^
+SalariedEmployee.java:17: cannot find symbol
+symbol  : method disallowZeroesAndNegatives(double)
+location: class SalariedEmployee
+        disallowZeroesAndNegatives(anAnnualSalary);
+        ^
+2 errors
+\end{lstlisting}
+% $
+\vspace{-.1in}
+Why did we get these errors?
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt protected} Members}
+
+
+{\tt private} members of a superclass are effectively not inherited by subclasses.  To make a member accessible to subclasses, use {\tt protected}:
+\begin{lstlisting}[language=Java]
+public class Employee {
+    protected void disallowZeroesAndNegatives(double ... args) {
+        // ...
+    }
+    // ...
+}
+\end{lstlisting}
+{\tt protected} members
+\begin{itemize}
+\item are accessible to subclasses and other classes in the same package, and
+\item can be overriden in subclasses.
+\end{itemize}
+{\tt protected} members provide encapsulation within a class hierarchy, {\tt private} provides encapsulation within a single class.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{A Company Spec}
+
+
+Before we make {\tt monthlyPay} polymorphic, we need an application to demonstrate why doing so is useful.  Let's design a {\tt Company} class with the following specs:
+
+\begin{itemize}
+\item A {\tt Company} has exactly 10 employees (becuase we haven't learned about dynamically resized data structures yet)
+\item A company calculates its monthly payroll by adding up the monthly pay of each of its employees.
+\item A company can have any mix of hourly and salaried employees
+\end{itemize}
+
+That last bullet motivates the use of polymorphism.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Maintaing and Employee List}
+
+
+With our current class hirarchy, we need to maintain separate (partial) arrays of hourly and salaried employees.  Because they're partial arrays we also need to keep track of how many of each type of employee we have.
+\begin{lstlisting}[language=Java]
+public class Company {
+
+    private HourlyEmployee[] hourlyEmployees;
+    private int numHourlyEmployees;
+    private SalariedEmployee[] salariedEmployees;
+    private int numSalariedEmployees;
+
+    public Company(String employeeDataFile) {
+        hourlyEmployees = new HourlyEmployees[10];
+        salariedEmployees = new SalariedEmployees[10];
+        loadEmployeesFromFile(new File(employeeDataFile));
+    }
+}
+\end{lstlisting}
+
+\begin{itemize}
+\item
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Calculating Payroll the Hard Way}
+
+
+With our employee lists, calculatign payroll is accomplished with two loops:
+\begin{lstlisting}[language=Java]
+public class Company {
+
+    public double monthlyPayroll() {
+        double payroll = 0.0;
+        for (int i = 0; i < numHourlyEmployees; ++i) {
+            payroll += hourlyEmployees[i].monthlyPay();
+        }
+        for (int i = 0; i < numSalariedEmployees; ++i) {
+            payroll += salariedEmployees[i].monthlyPay();
+        }
+        return payroll;
+    }
+    // ..
+}
+\end{lstlisting}
+Seems reasonable.  But ...
+\begin{itemize}
+\item What if we want to add a third type of employee?
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Calculating Payroll the Easy Way}
+
+
+We'd like to be able to calculate payroll with a single loop over all employees:
+\begin{lstlisting}[language=Java]
+public class Company {
+
+    public double monthlyPayroll() {
+        double payroll = 0.0;
+        for (int i = 0; i < employees.length; ++i) {
+            payroll += employees[i].monthlyPay();
+        }
+        return payroll;
+    }
+    // ..
+}
+\end{lstlisting}
+
+That's certainly cleaner and less error-prone (e.g., we don't have the book-keeping of two partial arrays).  To be able to code like this we need to update the design of our {\tt Employee} class hierarchy.
+\begin{itemize}
+\item
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{A More General Employee List}
+
+
+The first step is to store one array of {\tt Employee}s:
+\vspace{-.05in}
+\begin{lstlisting}[language=Java]
+public class Company {
+    private Employee[] employees;
+
+    public Company(String employeeDataFile) {
+        employees = new HourlyEmployee[10];
+        loadEmployeesFromFile(new File(employeeDataFile));
+    }
+    public double monthlyPayroll() {
+        double payroll = 0.0;
+        for (int i = 0; i < employees.length; ++i) {
+            payroll += employees[i].monthlyPay();
+        }
+        return payroll;
+    }
+}
+\end{lstlisting}
+\vspace{-.05in}
+Much better.  But it doesn't compile.  Why?
+\vspace{-.05in}
+\begin{lstlisting}[language=Java]
+$ javac Company.java
+Company.java:15: cannot find symbol
+symbol  : method monthlyPay()
+location: class Employee
+            payroll += employees[i].monthlyPay();
+...
+\end{lstlisting}
+% $
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Abstract Classes}
+
+
+We need {\tt Employee} to declare a {\tt monthlyPay} method for subclasses to define.  Since we don't have a general definition for {\tt monthlyPay} suitable for {\tt Employee}, {\tt Employee} will need to be abstract.
+\begin{lstlisting}[language=Java]
+public abstract class Employee {
+    // ...
+    public abstract double monthlyPay();
+}
+\end{lstlisting}
+An abstract class
+\begin{itemize}
+\item Cannot be instantiated.
+\item May contain zero or more abstract methods.
+\end{itemize}
+
+This makes sense for our {\tt Employee} class.  We don't every want to instantiate {\tt Employee} objects.  {\tt Employee} simply defines the common aspects of all employees, with subclasses filling in the details.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Overriding verus Overloading}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+\begin{itemize}
+\item
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Covariant Returns In Overridden Methods}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+\begin{itemize}
+\item
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Visibility Modification in Overriden Methods}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+\begin{itemize}
+\item
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+% %------------------------------------------------------------------------
+% \begin{frame}[fragile]{}
+
+
+% \begin{lstlisting}[language=Java]
+
+% \end{lstlisting}
+
+% \begin{itemize}
+% \item
+% \end{itemize}
+
+
+% \end{frame}
+% %------------------------------------------------------------------------
+
+
+\end{document}

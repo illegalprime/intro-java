@@ -1,0 +1,294 @@
+\documentclass[xcolor={table}]{beamer}
+
+\newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
+\newcommand{\lesson}{Arrays, Part 3 of 3}
+\newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
+
+\author[Chris Simpkins] 
+{Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
+\institute[Georgia Tech] % (optional, but mostly needed)
+
+\date[CS 1331]{}
+\subject{\lesson}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% \pgfdeclareimage[width=0.6in]{coc-logo}{cc_2012_logo}
+% \logo{\pgfuseimage{coc-logo}}
+
+\mode<presentation>
+{
+  \usetheme{Berlin}
+  \useoutertheme{infolines}
+
+  % or ...
+
+ \setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+
+
+\usepackage{hyperref}
+\usepackage{fancybox}
+\usepackage{listings}
+\usepackage[abbr]{harvard}
+
+\usepackage[english]{babel}
+% or whatever
+
+\usepackage[latin1]{inputenc}
+% or whatever
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+
+
+\usepackage{listings}
+ 
+% "define" Scala
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]""",
+}
+
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+% Default settings for code listings
+\lstset{frame=tb,
+  language=scala,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\scriptsize\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  keepspaces=true
+  %tabsize=3
+}
+
+
+\title[\course] % (optional, use only with long
+                                      % paper titles)
+{\lesson}
+
+\subtitle{}
+%% {Include Only If Paper Has a Subtitle}
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%% \AtBeginSection[]
+%% {
+%%   \begin{frame}<beamer>{Outline}
+
+%%  \tableofcontents[currentsection]
+%%   \end{frame}
+%% }
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+% \beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Multidimensional Arrays}
+
+
+You can create arrays of any number of dimensions simply by adding additional square-bracketed sizes.  For example:
+
+\begin{lstlisting}[language=Java]
+char[][] grid;
+\end{lstlisting}
+The declaration statement above:
+\begin{itemize}
+\item Declares a 2-dimensional array of  {\tt char}.
+\item As with one-dimensinal arrays, {\tt char} is the base type.
+\item Each element of {\tt grid}, which is indexed by two {\tt int} expressions, is a {\tt char} variable.
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Initializing Multidimensional Arrays}
+
+
+Initialization of 2-dimensional arrays can be done with {\tt new}:
+\begin{lstlisting}[language=Java]
+grid = new char[10][10];
+\end{lstlisting}
+
+or with literal initialization syntax:
+\begin{lstlisting}[language=Java]
+char[][] grid = {{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                 {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                 {' ', '*', '*', ' ', ' ', ' ', ' ', '*', '*', ' '},
+                 {' ', '*', '*', ' ', ' ', ' ', ' ', '*', '*', ' '},
+                 {' ', ' ', ' ', ' ', '*', '*', ' ', ' ', ' ', ' '},
+                 {' ', ' ', ' ', ' ', '*', '*', ' ', ' ', ' ', ' '},
+                 {' ', '*', ' ', ' ', ' ', ' ', ' ', ' ', '*', ' '},
+                 {' ', ' ', '*', ' ', ' ', ' ', ' ', '*', ' ', ' '},
+                 {' ', ' ', ' ', '*', '*', '*', '*', ' ', ' ', ' '},
+                 {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}};
+\end{lstlisting}
+
+Notice that a 2-dimensional array is an array of 1-dimensional arrays (and a 3-dimensional array is an array of 2-dimensional arrays, and so on).
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Visualizing Multidimensional Arrays}
+
+
+Our 2-dimensional {\tt grid} array can be visualized as a 2-d grid of cells.\\
+\vspace{.1in}
+\begin{tabular}{p{.4in}p{.2in}p{.2in}p{.2in}p{.2in}p{.2in}p{.2in}p{.2in}p{.2in}p{.2in}p{.2in}}
+         & [0] & [1] & [2] & [3] & [4] & [5] & [6] & [7] & [8] & [9]
+\end{tabular}
+\begin{tabular}{p{.4in}|p{.2in}|p{.2in}|p{.2in}|p{.2in}|p{.2in}|p{.2in}|p{.2in}|p{.2in}|p{.2in}|p{.2in}|}\cline{2-11}
+grid[0] & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' \\
+\cline{2-11}
+grid[1] & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' \\
+\cline{2-11}
+grid[2] & ' ' & '*' & '*' & ' ' & ' ' & ' ' & ' ' & '*' & '*' & ' ' \\
+\cline{2-11}
+grid[3] & ' ' & '*' & \cellcolor{yellow}'*' & ' ' & ' ' & ' ' & ' ' & '*' & '*' & ' ' \\
+\cline{2-11}
+grid[4] & ' ' & ' ' & ' ' & ' ' & '*' & '*' & ' ' & ' ' & ' ' & ' ' \\
+\cline{2-11}
+grid[5] & ' ' & ' ' & ' ' & ' ' & '*' & '*' & ' ' & ' ' & ' ' & ' ' \\
+\cline{2-11}
+grid[6] & ' ' & '*' & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' & '*' & ' ' \\
+\cline{2-11}
+grid[7] & ' ' & ' ' & '*' & ' ' & ' ' & ' ' & ' ' & '*' & ' ' & ' ' \\
+\cline{2-11}
+grid[8] & ' ' & ' ' & ' ' & '*' & '*' & '*' & '*' & ' ' & ' ' & ' ' \\
+\cline{2-11}
+grid[9] & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' & ' ' \\
+\cline{2-11}
+\end{tabular}\\
+\vspace{.1in}
+And an individual cell can be accessed by supplying two indices:
+
+\begin{lstlisting}[language=Java]
+grid[3][2] == '*'; // true
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Traversing Multidimensional Arrays}
+
+
+Traverse 2-dimensional array by nesting loops.  The key to getting it right is to use the right {\tt length}s.
+\begin{lstlisting}[language=Java]
+for (int row = 0; row < grid.length; ++row) {
+    for (int col = 0; col < grid[row].length; ++col) {
+        System.out.print(grid[row][col]);
+    }
+    System.out.println();
+}
+\end{lstlisting}
+Note that the for loops above traverse the grid in row-major order.  We can traverse the grid in column-major order by reversing the nesting of the for-loops:
+\begin{lstlisting}[language=Java]
+for (int col = 0; col < grid[0].length; ++col) {
+    for (int row = 0; row < grid.length; ++row) {
+        System.out.print(grid[row][col]);
+    }
+    System.out.println();
+}
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Ragged Arrays}
+
+
+It's possible to create {\it ragged arrays} by creating nested arrays of variable length.  For example:
+\begin{lstlisting}[language=Java]
+double [][] ragged = new double[3][];
+ragged[0] = new double[5];
+ragged[1] = new double[10];
+ragged[2] = new double[4];
+\end{lstlisting}
+
+Can we traverse array {\tt ragged} in row-major order?
+
+Can we traverse array {\tt ragged} in column-major order?
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Programming Exercise}
+
+\begin{itemize}
+\item Download \href{\code/array-data.csv}{array-data.csv}.
+\item Let's write a program to read the data from \href{\code/array-data.csv}{array-data.csv} into an array.
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+% %------------------------------------------------------------------------
+% \begin{frame}[fragile]{}
+
+
+% \begin{lstlisting}[language=Java]
+
+% \end{lstlisting}
+
+% \begin{itemize}
+% \item
+% \end{itemize}
+
+
+% \end{frame}
+% %------------------------------------------------------------------------
+
+
+\end{document}
