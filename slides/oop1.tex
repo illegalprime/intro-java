@@ -140,108 +140,6 @@ That last part, dynamic method binding, provides for {\it polymorphism}, which w
 \end{frame}
 %------------------------------------------------------------------------
 
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{A {\tt SalariedEmployee} Class}
-
-
-Let's add {\tt SalariedEmployee} to our class hierarchy.  Here are the important pieces:
-\begin{lstlisting}[language=Java]
-public final class SalariedEmployee extends Employee {
-
-    private static final int MONTHS_PER_YEAR = 12;
-    private final double annualSalary;
-
-    public SalariedEmployee(String aName, Date aHireDate,
-                            double anAnnualSalary) {
-        super(aName, aHireDate);
-        disallowZeroesAndNegatives(anAnnualSalary);
-        annualSalary = anAnnualSalary;
-    }
-    public double getAnnualSalary() {
-        return annualSalary;
-    }
-    public double monthlyPay() {
-        return annualSalary / MONTHS_PER_YEAR;
-    }
-    // ...
-}
-\end{lstlisting}
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Our {\tt Employee} Class Hierarchy}
-
-
-We now have all the classes in our hierarchy:
-\vspace{-.1in}
-\begin{center}
-\includegraphics[height=1.2in]{employee-class-hierarchy.pdf}
-\end{center}
-\vspace{-.2in}
-But our classes aren't well factored.
-\begin{itemize}
-\item {\tt SalariedEmployee} and {\tt HourlyEmployee} have duplicate copies of {\tt disallowZeroesAndNegatives}
-\item {\tt SalariedEmployee} and {\tt HourlyEmployee} both have {\tt monthlyPay} methods, but these methods are not polymorphic because they're not defined in {\tt Employee} (you'll see what that means in a few minutes)
-\end{itemize}
-
-Let's refactor our {\tt Employee} class hierarchy to give it a clean object-oriented design.
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Refactoring Common Code Into a Superclass}
-
-
-Let's move the definition of {\tt disallowZeroesAndNegatives} into {\tt Employee} so it will be shared (rather than duplicated) in {\tt SalariedEmployee} and {\tt HourlyEmployee}.\\
-\vspace{.05in}
-After cutting {\tt disallowZeroesAndNegatives} from {\tt SalariedEmployee} and {\tt HourlyEmployee} and pasting it into {\tt Employee}, {\tt javac} tells us:
-\vspace{-.1in}
-\begin{lstlisting}[language=Java]
-$ javac Employee.java HourlyEmployee.java SalariedEmployee.java
-HourlyEmployee.java:25: cannot find symbol
-symbol  : method disallowZeroesAndNegatives(double,double)
-location: class HourlyEmployee
-        disallowZeroesAndNegatives(anHourlyWage, aMonthlyHours);
-        ^
-SalariedEmployee.java:17: cannot find symbol
-symbol  : method disallowZeroesAndNegatives(double)
-location: class SalariedEmployee
-        disallowZeroesAndNegatives(anAnnualSalary);
-        ^
-2 errors
-\end{lstlisting}
-% $
-\vspace{-.1in}
-Why did we get these errors?
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{{\tt protected} Members}
-
-
-{\tt private} members of a superclass are effectively not inherited by subclasses.  To make a member accessible to subclasses, use {\tt protected}:
-\begin{lstlisting}[language=Java]
-public class Employee {
-    protected void disallowZeroesAndNegatives(double ... args) {
-        // ...
-    }
-    // ...
-}
-\end{lstlisting}
-{\tt protected} members
-\begin{itemize}
-\item are accessible to subclasses and other classes in the same package, and
-\item can be overriden in subclasses.
-\end{itemize}
-{\tt protected} members provide encapsulation within a class hierarchy, {\tt private} provides encapsulation within a single class.
-
-\end{frame}
-%------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{A Company Spec}
@@ -400,8 +298,9 @@ public abstract class Employee {
 \end{lstlisting}
 An abstract class
 \begin{itemize}
-\item Cannot be instantiated.
-\item May contain zero or more abstract methods.
+\item cannot be instantiated,
+\item may contain zero or more abstract methods, and
+\item subclasses must either privide an implementation for abstract methods, or be declared {\tt abstract} themselves.
 \end{itemize}
 
 This makes sense for our {\tt Employee} class.  We don't every want to instantiate {\tt Employee} objects.  {\tt Employee} simply defines the common aspects of all employees, with subclasses filling in the details.
@@ -409,57 +308,6 @@ This makes sense for our {\tt Employee} class.  We don't every want to instantia
 \end{frame}
 %------------------------------------------------------------------------
 
-
-
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Overriding verus Overloading}
-
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-\begin{itemize}
-\item
-\end{itemize}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Covariant Returns In Overridden Methods}
-
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-\begin{itemize}
-\item
-\end{itemize}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Visibility Modification in Overriden Methods}
-
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-\begin{itemize}
-\item
-\end{itemize}
-
-
-\end{frame}
-%------------------------------------------------------------------------
 
 
 % %------------------------------------------------------------------------
