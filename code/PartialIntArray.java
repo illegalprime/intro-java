@@ -10,7 +10,7 @@ public class PartialIntArray {
         this.elementData = new int[initialCapacity];
     }
 
-    public ArrayList() {
+    public PartialIntArray() {
         this(10);
     }
 
@@ -19,12 +19,25 @@ public class PartialIntArray {
     }
 
     public int get(int index) {
-        return elementData(index);
+        if (index < 0 || index >= size) {
+            // ...
+        }
+        return elementData[index];
     }
 
     public int size() {
         return this.size;
     }
 
+    public static void main(String[] args) {
+        PartialIntArray pia = new PartialIntArray();
+        pia.add(2);
+        pia.add(4);
+        pia.add(6);
+        for (int i = 0; i <= pia.size(); i++) {
+            System.out.println(pia.get(i));
+        }
+        pia.get(10);
+    }
 
 }

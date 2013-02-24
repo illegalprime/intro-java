@@ -126,7 +126,7 @@
 
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{Our {\tt Employee} Class Hierarchy}
+\begin{frame}[fragile]{OurThe {\tt Employee} Class Hierarchy}
 
 
 Recall our {\tt Employee} class hierarchy:
@@ -134,8 +134,10 @@ Recall our {\tt Employee} class hierarchy:
 \begin{center}
 \includegraphics[height=1.5in]{employee-class-hierarchy.pdf}
 \end{center}
-
-
+\begin{itemize}
+\item In the last lecture we made {\tt Employee} abstract and added a polymorphic {\tt monthlyPay} method.
+\item Today we'll further refine our class hierarchy by moving duplicated code in {\tt HourlyEmployee} and {\tt SalariedEmployee} into the {\tt Employee} superclass.
+\end{itemize}
 \end{frame}
 %------------------------------------------------------------------------
 
@@ -174,7 +176,7 @@ Why did we get these errors?
 
 {\tt private} members of a superclass are effectively not inherited by subclasses.  To make a member accessible to subclasses, use {\tt protected}:
 \begin{lstlisting}[language=Java]
-public class Employee {
+public abstract class Employee {
     protected void disallowZeroesAndNegatives(double ... args) {
         // ...
     }
@@ -261,6 +263,22 @@ Obeying the general contract of {\tt equals} is easy if you follow these steps.\
 \item cast that to this.class (guaranteed to work after instanceof test)
 \item check equals on each ``significant'' field
 \end{enumerate}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{An {\tt equals} Method for {\tt SalariedEmployee}}
+
+
+\begin{lstlisting}[language=Java]
+
+\end{lstlisting}
+
+\begin{itemize}
+\item
+\end{itemize}
 
 
 \end{frame}

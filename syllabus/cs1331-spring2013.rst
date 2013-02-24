@@ -1,6 +1,7 @@
 .. |date| date::
 .. |time| date:: %H:%M
 
+
 ===================================================
 CS 1331 Introduction to Object Oriented Programming
 ===================================================
@@ -11,6 +12,7 @@ Spring 2013 Syllabus for Sections A1, A2, A3, A4 and GR
 Last updated on |date| at |time|.
 
 This open-access part of the syllabus contains schedule and general information for my sections.  The official CS 1331 for all sections, additional resources and all grade-related information are on T-Square.
+
 
 Instructor
 ==========
@@ -50,11 +52,25 @@ Walter Savitch and Kenrick Mock, Absolute Java, 5th edition, Addison-Wesley, Mar
 Resources
 =========
 
+Tutoring
+--------
+
+Struggling in class,  cannot comprehend the concepts,  need help with learning the materials?   Need a better grade on your test?  Take advantage of the FREE Tutoring that CS offers.
+
+CS offers tutoring for the following classes:
+
+  CS 1301, CS 1331, CS 1332, CS 2050, CS 2110,  CS 2200.
+ 
+If you would like to take advantage of these tutoring resources, send email to Kathy Earwood (kathy@cc.gatech.edu). In the subject line of your email write  "Need a Tutor – CS1331".  The body of your email should include your name, GT ID number, Email address, and course number to be tutored.
+
+
 Java
 ----
 
 - `Download Java`_ 
+- `Java Language Specification`_
 - `Java 7 API docs`_
+- `Java Standard Library Source`_
 - `Java Code Conventions`_ - Sun/Oracle's official code conventions for Java.  They're not perfect, and parts are dated (like the advice on make files), but most professional Java teams use these conventions. (Note: the official style guide for this course is on T-Square.  The CS 1331 style guide on T-Square is a nice concise distillation of Sun's conventions.)
 
 Guides
@@ -121,21 +137,31 @@ This schedule is subject ot change.  The further in the future, the less certain
 |            |                              | ArrayBasics.java_,              |
 |            |                              | Shout.java_,                    |
 +------------+------------------------------+---------------------------------+
-| 2013-02-13 | Arrays2_                     | AJ 6.3-6.4                      |
+| 2013-02-13 | Arrays2_                     | AJ 6.3                          |
 |            |                              | CourseAverage.java_,            |
-|            |                              | ArrayParameters.java_,          |
+|            |                              | MyYears.java_,                  |
+|            |                              | VarArgs.java_,                  |
+|            |                              | PlayingCard.java_,              |
 +------------+------------------------------+---------------------------------+
-| 2013-02-15 | Inheritance_                 | AJ 7.1                          |
+| 2013-02-15 | Arrays3_                     | AJ 6.4                          |
+|            |                              | Smiley.java_,                   |
+|            |                              | array-data.csv_,                |
+|            |                              | SimpleArrayCsv.java_,           |
 |            |                              |                                 |
 |            |                              | Progress reports due by noon    |
 +------------+------------------------------+---------------------------------+
-| 2013-02-18 | Inheritance_                 | AJ 7.2                          |
+| 2013-02-18 | Inheritance1_                | AJ 7.1-7.2                      |
+|            |                              | Employee.java_,                 |
+|            |                              | HourlyEmployee.java_            |
 +------------+------------------------------+---------------------------------+
-| 2013-02-20 | Inheritance_                 | AJ 7.3                          |
+| 2013-02-20 | Inheritance2_                | AJ 7.3                          |
+|            |                              | MutableHourlyEmployee.java_     |
 +------------+------------------------------+---------------------------------+
-| 2013-02-22 | Polymorphism_                | AJ 8.1                          |
+| 2013-02-22 | OOP1_                        | AJ 8.1                          |
+|            |                              | SalariedEmployee.java_          |
+|            |                              | Company.java_                   |
 +------------+------------------------------+---------------------------------+
-| 2013-02-25 | Polymorphism_                | AJ 8.1                          |
+| 2013-02-25 | OOP2_                        | AJ 8.1                          |
 +------------+------------------------------+---------------------------------+
 | 2013-02-27 | `Abstract Classes`_          | AJ 8.2                          |
 +------------+------------------------------+---------------------------------+
@@ -212,8 +238,11 @@ This schedule is subject ot change.  The further in the future, the less certain
 .. _Review1: ../slides/review1.pdf
 .. _Arrays1: ../slides/arrays1.pdf
 .. _Arrays2: ../slides/arrays2.pdf
-.. _Inheritance: ../slides/inheritance.pdf
-.. _Polymorphism: ../slides/polymorphism.pdf
+.. _Arrays3: ../slides/arrays3.pdf
+.. _Inheritance1: ../slides/inheritance1.pdf
+.. _Inheritance2: ../slides/inheritance2.pdf
+.. _OOP1: ../slides/oop1.pdf
+.. _OOP2: ../slides/oop2.pdf
 .. _`Abstract Classes`: ../slides/abstract-classes.pdf
 .. _Interfaces: ../slides/interfaces.pdf
 .. _Review2: ../slides/review2.pdf
@@ -266,12 +295,23 @@ This schedule is subject ot change.  The further in the future, the less certain
 .. _ArrayBasics.java: ../code/ArrayBasics.java
 .. _Shout.java: ../code/Shout.java
 .. _ArrayParameters.java: ../code/ArrayParameters.java
+.. _MyYears.java: ../code/MyYears.java
+.. _VarArgs.java: ../code/VarArgs.java
+.. _PlayingCard.java: ../code/PlayingCard.java
+.. _Smiley.java: ../code/Smiley.java
+.. _SimpleArrayCsv.java: ../code/SimpleArrayCsv.java
+.. _array-data.csv: ../code/array-data.csv
+.. _Employee.java: ../code/Employee.java
+.. _HourlyEmployee.java: ../code/HourlyEmployee.java
+.. _MutableHourlyEmployee.java: ../code/MutableHourlyEmployee.java
 
 .. Resources
 
 .. _`Download Java`: http://www.java.com/
-.. _`Java Code Conventions`: http://www.oracle.com/technetwork/java/codeconv-138413.html
+.. _`Java Language Specification`: http://docs.oracle.com/javase/specs/
 .. _`Java 7 API docs`: http://docs.oracle.com/javase/7/docs/api/
+.. _`Java Standard Library Source`: http://simpkins.org/java-lib-src/
+.. _`Java Code Conventions`: http://www.oracle.com/technetwork/java/codeconv-138413.html
 .. _`Learn UNIX in 10 Minutes`: http://freeengineer.org/learnUNIXin10minutes.html
 .. _`A Beginner's Guide to the UNIX Command Line`: https://www.osc.edu/supercomputing/unix-cmds
 .. _Ubuntu: http://www.ubuntu.com

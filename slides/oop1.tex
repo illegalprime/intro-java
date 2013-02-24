@@ -139,7 +139,56 @@ That last part, dynamic method binding, provides for {\it polymorphism}, which w
 
 \end{frame}
 %------------------------------------------------------------------------
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{A {\tt SalariedEmployee} Class}
 
+
+Let's add {\tt SalariedEmployee} to our class hierarchy.  Here are the important pieces:
+\begin{lstlisting}[language=Java]
+public final class SalariedEmployee extends Employee {
+
+    private static final int MONTHS_PER_YEAR = 12;
+    private final double annualSalary;
+
+    public SalariedEmployee(String aName, Date aHireDate,
+                            double anAnnualSalary) {
+        super(aName, aHireDate);
+        disallowZeroesAndNegatives(anAnnualSalary);
+        annualSalary = anAnnualSalary;
+    }
+    public double getAnnualSalary() {
+        return annualSalary;
+    }
+    public double monthlyPay() {
+        return annualSalary / MONTHS_PER_YEAR;
+    }
+    // ...
+}
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Our {\tt Employee} Class Hierarchy}
+
+
+We now have all the classes in our hierarchy:
+\vspace{-.1in}
+\begin{center}
+\includegraphics[height=1.1in]{employee-class-hierarchy.pdf}
+\end{center}
+\vspace{-.2in}
+But our classes aren't well factored.
+\begin{itemize}
+\item {\tt SalariedEmployee} and {\tt HourlyEmployee} have duplicate copies of {\tt disallowZeroesAndNegatives}
+\item {\tt SalariedEmployee} and {\tt HourlyEmployee} both have {\tt monthlyPay} methods, but these methods are not polymorphic because they're not defined in {\tt Employee} (you'll see what that means in the next lecture)
+\end{itemize}
+
+Over the next two lectures we'll refactor our {\tt Employee} class hierarchy to give it a clean object-oriented design and learn a few important details about fitting into the Java class hierarchy rooted at {\tt java.lang.Object}.
+
+\end{frame}
+%------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{A Company Spec}
@@ -159,10 +208,10 @@ That last bullet motivates the use of polymorphism.
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{Maintaing and Employee List}
+\begin{frame}[fragile]{Maintaining an Employee List}
 
 
-With our current class hirarchy, we need to maintain separate (partial) arrays of hourly and salaried employees.  Because they're partial arrays we also need to keep track of how many of each type of employee we have.
+With our current class hierarchy, we need to maintain separate (partial) arrays of hourly and salaried employees.  Because they're partial arrays we also need to keep track of how many of each type of employee we have.
 \begin{lstlisting}[language=Java]
 public class Company {
 
@@ -179,10 +228,6 @@ public class Company {
 }
 \end{lstlisting}
 
-\begin{itemize}
-\item
-\end{itemize}
-
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -191,7 +236,7 @@ public class Company {
 \begin{frame}[fragile]{Calculating Payroll the Hard Way}
 
 
-With our employee lists, calculatign payroll is accomplished with two loops:
+With our employee lists, calculating payroll is accomplished with two loops:
 \begin{lstlisting}[language=Java]
 public class Company {
 
@@ -227,8 +272,8 @@ public class Company {
 
     public double monthlyPayroll() {
         double payroll = 0.0;
-        for (int i = 0; i < employees.length; ++i) {
-            payroll += employees[i].monthlyPay();
+        for (Employee employee: employees) {
+            payroll += employee.monthlyPay();
         }
         return payroll;
     }
@@ -236,10 +281,8 @@ public class Company {
 }
 \end{lstlisting}
 
-That's certainly cleaner and less error-prone (e.g., we don't have the book-keeping of two partial arrays).  To be able to code like this we need to update the design of our {\tt Employee} class hierarchy.
-\begin{itemize}
-\item
-\end{itemize}
+Much cleaner and less error-prone (e.g., we don't have the book-keeping of two partial arrays).  To be able to code like this we need to update the design of our {\tt Employee} class hierarchy.
+
 
 
 \end{frame}
@@ -300,14 +343,13 @@ An abstract class
 \begin{itemize}
 \item cannot be instantiated,
 \item may contain zero or more abstract methods, and
-\item subclasses must either privide an implementation for abstract methods, or be declared {\tt abstract} themselves.
+\item subclasses must either provide an implementation for abstract methods, or be declared {\tt abstract} themselves.
 \end{itemize}
 
-This makes sense for our {\tt Employee} class.  We don't every want to instantiate {\tt Employee} objects.  {\tt Employee} simply defines the common aspects of all employees, with subclasses filling in the details.
+This makes sense for our {\tt Employee} class.  We don't ever want to instantiate {\tt Employee} objects.  {\tt Employee} simply defines the common aspects of all employees, with subclasses filling in the details.
 
 \end{frame}
 %------------------------------------------------------------------------
-
 
 
 % %------------------------------------------------------------------------
