@@ -80,6 +80,9 @@ object CourseMaterials extends Build {
     upload("slides/", ".pdf", scpDest)
     upload("guides/", ".html", scpDest)
     upload("code/", ".java", scpDest)
+    upload("code/", ".txt", scpDest)
+    upload("code/", ".csv", scpDest)
+    upload("code/", ".data", scpDest)
     upload("syllabus/", ".html", scpDest)
   }
 
