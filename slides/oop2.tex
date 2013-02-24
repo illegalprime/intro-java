@@ -126,52 +126,15 @@
 
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{A {\tt SalariedEmployee} Class}
-
-
-Let's add {\tt SalariedEmployee} to our class hierarchy.  Here are the important pieces:
-\begin{lstlisting}[language=Java]
-public final class SalariedEmployee extends Employee {
-
-    private static final int MONTHS_PER_YEAR = 12;
-    private final double annualSalary;
-
-    public SalariedEmployee(String aName, Date aHireDate,
-                            double anAnnualSalary) {
-        super(aName, aHireDate);
-        disallowZeroesAndNegatives(anAnnualSalary);
-        annualSalary = anAnnualSalary;
-    }
-    public double getAnnualSalary() {
-        return annualSalary;
-    }
-    public double monthlyPay() {
-        return annualSalary / MONTHS_PER_YEAR;
-    }
-    // ...
-}
-\end{lstlisting}
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
 \begin{frame}[fragile]{Our {\tt Employee} Class Hierarchy}
 
 
-We now have all the classes in our hierarchy:
+Recall our {\tt Employee} class hierarchy:
 \vspace{-.1in}
 \begin{center}
-\includegraphics[height=1.2in]{employee-class-hierarchy.pdf}
+\includegraphics[height=1.5in]{employee-class-hierarchy.pdf}
 \end{center}
-\vspace{-.2in}
-But our classes aren't well factored.
-\begin{itemize}
-\item {\tt SalariedEmployee} and {\tt HourlyEmployee} have duplicate copies of {\tt disallowZeroesAndNegatives}
-\item {\tt SalariedEmployee} and {\tt HourlyEmployee} both have {\tt monthlyPay} methods, but these methods are not polymorphic because they're not defined in {\tt Employee} (you'll see what that means in the next lecture)
-\end{itemize}
 
-Over the next two lectures we'll refactor our {\tt Employee} class hierarchy to give it a clean object-oriented design and learn a few important details about fitting into the Java class hierarchy rooted at {\tt java.lang.Object}.
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -229,67 +192,19 @@ public class Employee {
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{Overriding verus Overloading}
+\begin{frame}[fragile]{Fitting Classes Into the Java Hierarchy}
 
 
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
+{\tt java.lang.Object} defines several methods that are designed to be overriden in subclasses \href{http://docs.oracle.com/javase/specs/jls/se7/html/jls-4.html#jls-4.3.2}{JLS \S 4.3.2}: 
 \begin{itemize}
-\item
+\item The method {\tt equals} defines a notion of object equality, which is based on value, not reference, comparison.
+\item The method {\tt hashCode} is very useful, together with the method {\tt equals}, in hashtables such as {\tt java.util.Hashmap}.
+\item The method {\tt toString} returns a {\tt String} representation of the object.
+\item The method {\tt clone} is used to make a duplicate of an object
+\item The method {\tt finalize} is run just before an object is destroyed.
 \end{itemize}
 
-
-\end{frame}
-%------------------------------------------------------------------------
-
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Covariant Returns In Overridden Methods}
-
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-\begin{itemize}
-\item
-\end{itemize}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Visibility Modification in Overriden Methods}
-
-
-\begin{lstlisting}[language=Java]
-
-\end{lstlisting}
-
-\begin{itemize}
-\item
-\end{itemize}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{}
-
-
-{\tt java.lang.Object} defines several methods that are designed to be overriden in subclasses: 
-\begin{itemize}
-\item {\tt equals}
-\item {\tt hashCode}
-\item {\tt toString}
-\item {\tt clone}
-\item {\tt finalize}.
-\end{itemize}
-
+A class hierarchy is also sometimes called a {\it framework}.
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -304,14 +219,14 @@ The default implementation of {\tt equals} in {\tt java.lang.Object} is object i
 When should a class override {\tt equals}?
 \begin{itemize}
 \item When logical equality differes from object identity, as is the case for {\it value} classes like {\tt Date}
-\item When classes that don't implement instance control.
+\item When classes don't implement instance control.
   \begin{itemize}
   \item Instance control means that a class ensures that there is only one instance of a class.  
   \end{itemize}
 \item When a suitable {\tt equals} method is not provided by a superclass.
 \end{itemize}
 
-More important than recognizing {\it when} to override {\tt equals} is knowing {\tt how} to override {\tt equals}.
+More important than recognizing {\it when} to override {\tt equals} is knowing {\it how} to override {\tt equals}.
 \end{frame}
 %------------------------------------------------------------------------
 
@@ -323,7 +238,7 @@ Obey the general contract of {\tt equals} (\href{}{JLS }), which says that {\tt 
 \begin{itemize}
 \item reflexive - any object {\tt equals} itself
 \item symmetric - if {\tt a.equals(b)} is true then {\tt b.equals(a)} must be true
-\item transitive - if {\tt a.equals(b)} and {\tt b.equals(c)} is true then {\tt a.equals(c)} must be true
+\item transitive - if {\tt a.equals(b)} and {\tt b.equals(c)} are true then {\tt a.equals(c)} must be true
 \item consistent - if {\tt a} and {\tt b} do not change between invocations of {\tt a.equals(b)} or {\tt b.equals(a)} then each invocation must return the same result
 \item a.equals(null) must always return {\tt false}.
 \end{itemize}
@@ -334,14 +249,13 @@ Obey the general contract of {\tt equals} (\href{}{JLS }), which says that {\tt 
 
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{}
+\begin{frame}[fragile]{A Recipe for Implementing {\tt equals}}
 
 
-\begin{lstlisting}[language=Java]
+Obeying the general contract of {\tt equals} is easy if you follow these steps.\\
 
-\end{lstlisting}
-General recipe for proper equals method
 \begin{enumerate}
+\item ensure that is not null
 \item check this == that
 \item check that instanceof this
 \item cast that to this.class (guaranteed to work after instanceof test)
