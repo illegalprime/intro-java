@@ -1,7 +1,7 @@
 \documentclass{beamer}
 
 \newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
-\newcommand{\lesson}{Inheritance, Part 3 of 3}
+\newcommand{\lesson}{Object-Oriented Programming, Part 2 of 4}
 \newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
 
 \author[Chris Simpkins] 
@@ -9,111 +9,7 @@
 \institute[Georgia Tech] % (optional, but mostly needed)
 
 \date[CS 1331]{}
-\subject{\lesson}
-% This is only inserted into the PDF information catalog. Can be left
-% out. 
-
-% If you have a file called "university-logo-filename.xxx", where xxx
-% is a graphic format that can be processed by latex or pdflatex,
-% resp., then you can add a logo as follows:
-
-% \pgfdeclareimage[width=0.6in]{coc-logo}{cc_2012_logo}
-% \logo{\pgfuseimage{coc-logo}}
-
-\mode<presentation>
-{
-  \usetheme{Berlin}
-  \useoutertheme{infolines}
-
-  % or ...
-
- \setbeamercovered{transparent}
-  % or whatever (possibly just delete it)
-}
-
-\usepackage{hyperref}
-\usepackage{fancybox}
-\usepackage{listings}
-\usepackage[abbr]{harvard}
-
-\usepackage[english]{babel}
-% or whatever
-
-\usepackage[latin1]{inputenc}
-% or whatever
-
-\usepackage{times}
-\usepackage[T1]{fontenc}
-% Or whatever. Note that the encoding and the font should match. If T1
-% does not look nice, try deleting the line with the fontenc.
-
-
-\usepackage{listings}
- 
-% "define" Scala
-\lstdefinelanguage{scala}{
-  morekeywords={abstract,case,catch,class,def,%
-    do,else,extends,false,final,finally,%
-    for,if,implicit,import,match,mixin,%
-    new,null,object,override,package,%
-    private,protected,requires,return,sealed,%
-    super,this,throw,trait,true,try,%
-    type,val,var,while,with,yield},
-  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
-  sensitive=true,
-  morecomment=[l]{//},
-  morecomment=[n]{/*}{*/},
-  morestring=[b]",
-  morestring=[b]',
-  morestring=[b]""",
-}
-
-\usepackage{color}
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
- 
-% Default settings for code listings
-\lstset{frame=tb,
-  language=scala,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\scriptsize\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  frame=single,
-  breaklines=true,
-  breakatwhitespace=true,
-  keepspaces=true
-  %tabsize=3
-}
-
-
-\title[\course] % (optional, use only with long
-                                      % paper titles)
-{\lesson}
-
-\subtitle{}
-%% {Include Only If Paper Has a Subtitle}
-
-
-% Delete this, if you do not want the table of contents to pop up at
-% the beginning of each subsection:
-%% \AtBeginSection[]
-%% {
-%%   \begin{frame}<beamer>{Outline}
-
-%%  \tableofcontents[currentsection]
-%%   \end{frame}
-%% }
-
-% If you wish to uncover everything in a step-wise fashion, uncomment
-% the following command: 
+\include{beamer-common}
 
 % \beamerdefaultoverlayspecification{<+->}
 
@@ -126,7 +22,7 @@
 
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{OurThe {\tt Employee} Class Hierarchy}
+\begin{frame}[fragile]{The {\tt Employee} Class Hierarchy}
 
 
 Recall our {\tt Employee} class hierarchy:
@@ -142,11 +38,42 @@ Recall our {\tt Employee} class hierarchy:
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
+\begin{frame}[fragile]{}
+
+
+Recall the definition of {\tt disallowZeroesAndNegatives}:
+\begin{lstlisting}[language=Java]
+private void disallowZeroesAndNegatives(double ... args) {
+    boolean shouldThrowException = false;
+    String nonPositives = "";
+    for (double arg: args) {
+        if (arg <= 0.0) {
+            shouldThrowException = true;
+            nonPositives += arg + " ";
+        }
+    }
+    if (shouldThrowException) {
+        String msg = "Following arguments were <= 0: " + nonPositives;
+        throw new IllegalArgumentException(msg);
+    }
+}
+\end{lstlisting}
+
+\begin{itemize}
+\item This method is duplicated in {\tt HourlyEmployee} and {\tt SalariedEmployee}
+\item Let's move the definition of {\tt disallowZeroesAndNegatives} into {\tt Employee} so it will be shared (rather than duplicated) in {\tt SalariedEmployee} and {\tt HourlyEmployee}.
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+
+%------------------------------------------------------------------------
 \begin{frame}[fragile]{Refactoring Common Code Into a Superclass}
 
 
-Let's move the definition of {\tt disallowZeroesAndNegatives} into {\tt Employee} so it will be shared (rather than duplicated) in {\tt SalariedEmployee} and {\tt HourlyEmployee}.\\
-\vspace{.05in}
 After cutting {\tt disallowZeroesAndNegatives} from {\tt SalariedEmployee} and {\tt HourlyEmployee} and pasting it into {\tt Employee}, {\tt javac} tells us:
 \vspace{-.1in}
 \begin{lstlisting}[language=Java]
@@ -257,12 +184,13 @@ Obey the general contract of {\tt equals} (\href{}{JLS }), which says that {\tt 
 Obeying the general contract of {\tt equals} is easy if you follow these steps.\\
 
 \begin{enumerate}
-\item ensure that is not null
-\item check this == that
-\item check that instanceof this
-\item cast that to this.class (guaranteed to work after instanceof test)
-\item check equals on each ``significant'' field
+\item Ensure the other object is not null.
+\item Check for reference equality with == (are we comparing to self?).
+\item Check that the other object is an {\tt instanceof} this object's class.
+\item Cast the other object to this's type (guaranteed to work after. instanceof test)
+\item Check that each ``significant'' field in the other object {\tt equals} the corresponding field in this object.
 \end{enumerate}
+
 
 
 \end{frame}
@@ -272,19 +200,56 @@ Obeying the general contract of {\tt equals} is easy if you follow these steps.\
 \begin{frame}[fragile]{An {\tt equals} Method for {\tt SalariedEmployee}}
 
 
+First, here's the {\tt equals} method for Employee:
 \begin{lstlisting}[language=Java]
-
+public boolean equals(Object other) {
+    if (other == null) return false;
+    if (this == other) return true;
+    if (!(other instanceof Employee)) return false;
+    Employee that = (Employee) other;
+    return name.equals(that.name) && hireDate.equals(that..hireDate);
+}
 \end{lstlisting}
 
-\begin{itemize}
-\item
-\end{itemize}
-
+Now we can chain it in {\tt SalariedEmployee}:
+\begin{lstlisting}[language=Java]
+public boolean equals(Object other) {A
+    if (other == null) return false;
+    if (this == other) return true;
+    if (!(other instanceof SalariedEmployee)) return false;
+    SalariedEmployee that = (SalariedEmployee) other;
+    return super.equals(that) 
+        && (this.annualSalary == that.annualSalary);
+}
+\end{lstlisting}
 
 \end{frame}
 %------------------------------------------------------------------------
 
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Overriding versus Overloading}
 
+\vspace{-.05in}
+Take another look at {\tt Emplyee}'s {\tt equals} method:
+\vspace{-.1in}
+\begin{lstlisting}[language=Java]
+public boolean equals(Object other) {
+    if (other == null) return false;
+    if (this == other) return true;
+    if (!(other instanceof Employee)) return false;
+    Employee that = (Employee) other;
+    return name.equals(that.name) && hireDate.equals(that.hireDate);
+}
+\end{lstlisting}
+\vspace{-.1in}
+\begin{itemize}
+\item The signature of {\tt equals} in {\tt java.lang.Object} is {\tt public boolean equals(Object that)} - the argument is of type {\tt Object}.
+\item What if the {\tt equals} in {\tt Employee} took an {\tt Employee} argument instead of an {\tt Object} argument?
+\end{itemize}
+
+We'll talk more about this next lecture and extend our {\tt Employee} class hierarchy to overriding (subclass polymorphism) and overloading (ad-hoc polymorphism).\footnote{There's actually much more to properly overriding {\tt equals}, like overriding {\tt hashCode}.  We'll revisit {\tt equals} and {\tt hashCode} when we learn about collections.}
+\end{frame}
+%------------------------------------------------------------------------
 
 
 % %------------------------------------------------------------------------

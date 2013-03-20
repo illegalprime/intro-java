@@ -1,0 +1,192 @@
+\documentclass{beamer}
+
+\newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
+\newcommand{\lesson}{Review 2: Arrays Inheritance, and Polymorphism}
+\newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
+
+\author[Chris Simpkins] 
+{Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
+\institute[Georgia Tech] % (optional, but mostly needed)
+
+\date[CS 1331]{}
+
+\include{beamer-common}
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+% \beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Arrays}
+
+
+Java Arrays (\href{http://docs.oracle.com/javase/specs/jls/se7/html/jls-10.html}{JLS \S 10}):
+\begin{itemize}
+\item are objects,
+\item are dynamically allocated (e.g., with operator {\tt new}),
+\item have a fixed number of elements of the same type, and
+\item elements are accessed by an index that ranges from 0 to the length of the array - 1.
+\end{itemize}
+
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Creating Arrays}
+
+
+Consider the following array definitions:
+\begin{lstlisting}[language=Java]
+double[] scores = new double[5];
+Dog[] dogs = new Dog[5];
+\end{lstlisting}
+
+\begin{itemize}
+\item {\tt scores} now contains 5 {\tt double} values, each initialized to 0.0
+\item {\tt dogs} now contains 5 reference values of type {\tt Dog}, each initialized to {\tt null}
+\item In general each element of the array is initialized to the default value for the element type ({\tt 0} for numeric types, {\tt false} for {\tt boolean} types, and {\tt null} for references \href{http://docs.oracle.com/javase/specs/jls/se7/html/jls-4.html#jls-4.12.5}{JLS \S 4.12.5}).
+
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Inheritance and Polymorphism}
+
+
+Consider
+\begin{lstlisting}[language=Java]
+public abstract class Animal { public abstract void speak(); }
+public class Mammal {
+    public void speak() { System.out.println("Hello!"); }
+}
+public class Dog extends Mammal {
+    public void speak() { System.out.println("Woof, woof!"); }
+    public void wagTail() { System.out.println("(wags tail)"); }        
+}
+public class Cat extends Mammal {
+    public void speak() { System.out.println("Meow!"); }  
+}
+\end{lstlisting}
+
+We'll use these classes in the examples in the remaining slides.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Assignments}
+
+
+Each variable has a static, or compile-time type, and a dynamic, or run-time type.
+\begin{itemize}
+\item The type of the l-value (to the left of the {\tt =} symbol) in an assignment statement is the static type
+\item The type of the r-value (to the right of the {\tt =} symbol) in an assignment statement is the dynamic type
+\item In general, for reference assignments the type of the r-value must be a subclass of the type of the l-value
+\item Remember that every class is a subclass of itself.
+\end{itemize}
+
+So this is fine:
+\begin{lstlisting}[language=Java]
+Animal fido = new Dog();
+\end{lstlisting}
+But this is not:
+\begin{lstlisting}[language=Java]
+Dog spot = new Mammal();  // Error: Mammal not a subclass of Dog
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Casting and Method Binding}
+
+
+Casting affects static types (some would say ``casting shuts the compiler up'') but method binding is still based on dynamic type.  So
+\begin{lstlisting}[language=Java]
+Dog fido = new Dog();
+((Mammal) fido).speak();
+\end{lstlisting}
+Produces
+\begin{lstlisting}[language=bash]
+Woof, woof!
+\end{lstlisting}
+Even though {\tt Mammal}s say ``Hello!'' because the run-time type of {\tt spot} is still {\tt Dog}.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Upcasting and Downcasting}
+
+
+The assignment statements we've seen so far are examples of implicit upcasting.
+\begin{itemize}
+\item Upcasting means treating a reference as an instance of one of its superclasses.
+\item Upcasting is safe becuase every object contains the elements of each of its superclasses.
+\item Downcasting means treating a reference as an instance of one of its subclasses
+\item Downcasting is not safe in general because subclasses may add methods not present in superclasses.  This is why Java doesn't implicitly downcast in assignment statements.
+\end{itemize}
+Think of upcasting as ``going up'' the class hierarchy and downcasting as ``going down'' the class hierarchy.
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Upcasting and Downcasting Examples}
+
+
+Consider the following:
+\begin{lstlisting}[language=Java]
+1: Mammal mittens = (Mammal) new Cat(); // Safe
+2: Mammal sparky = new Mammal();
+3: // Compiles, but will cause a ClassCastException at run-time,
+4: Dog huh = (Dog) sparky;
+5: // so we won't even get here.
+6: huh.wagTail();
+\end{lstlisting}
+
+\begin{itemize}
+\item The upcast in line 1 is fine.
+\item The downcast in line 4 will compile but will cause a ClassCastException at run-time.
+\item We won't even get to line 6 due to the exception, which is good because a mammal doesn't have a {\tt wagTail} method.  This is what the ClassCastException is guarding against.
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+% %------------------------------------------------------------------------
+% \begin{frame}[fragile]{}
+
+
+% \begin{lstlisting}[language=Java]
+
+% \end{lstlisting}
+
+% \begin{itemize}
+% \item
+% \end{itemize}
+
+
+% \end{frame}
+% %------------------------------------------------------------------------
+
+
+\end{document}
