@@ -5,21 +5,23 @@
 ===================================================
 CS 1331 Introduction to Object Oriented Programming
 ===================================================
--------------------------------------------------------
-Spring 2013 Syllabus for Sections A1, A2, A3, A4 and GR
--------------------------------------------------------
+----------------------------------------------------
+Summer 2013 Syllabus for Sections A1, A2, GR and QUP
+----------------------------------------------------
 
 Last updated on |date| at |time|.
 
-This open-access part of the syllabus contains schedule and general information for my sections.  The official CS 1331 for all sections, additional resources and all grade-related information are on T-Square.
+This open-access part of the syllabus contains schedule and general information for my sections.  All grade-related information are on T-Square.
 
-There is also a general syllabus here: `<cs1331-syllabus.pdf>`_
+There is also a general syllabus here: `<cs1331-syllabus.pdf>`_ .
+
+**Please read and be sure you fully understand the** `<cs1331-course-policies.html>`_.
 
 
 NEWS
 ====
 
-Be a TA for Summer or Fall 2013.  See `<Recruiting-2013Summer-2013Fall.pdf>`_
+Be a TA for Fall 2013.  See `<Recruiting-2013Summer-2013Fall.pdf>`_
 
 
 Instructor
@@ -34,20 +36,17 @@ http://www.cc.gatech.edu/~simpkins/
 Schedule and Office Hours
 =========================
 
-- Lectures: Monday, Wednesday and Friday at 14:05 - 14:55 in Howey Physics L4
+- Lectures: Mondays and Wednesdays, 14:00 - 15:45 in Clough Commons 152
 
-- Recitations:
+- Recitations: 
 
-  - Section A1: Tuesday at 15:05 - 16:25 in Van Leer C240
-  - Section A2: Tuesday at 16:35 - 17:55 in Van Leer C240
-  - Section A3: Tuesday at 16:35 - 17:55 in Van Leer C340
-  - Sections A4 and GR: Tuesday at 15:05 - 16:25 in Van Leer C340
+  - Secion A1: Wednesdays,  16:00 - 17:45 in Instructional Center 215
+  - Secion A2/GR: Wednesdays,  16:00 - 17:45 in Clough Commons 102
 
 - Office Hours: Mondays and Wednesdays after class, other times by
   appointment, always available by email.
 
 Please see the common CS1331 syllabus on T-Square for grading, course policies and procedures.
-
 
 Textbook
 ========
@@ -56,6 +55,25 @@ Walter Savitch and Kenrick Mock, Absolute Java, 5th edition, Addison-Wesley, Mar
       
 - ISBN-10: 0-13-283031-0
 - ISBN-13: 978-0-13-283031-7
+
+Grading
+=======
+
+- ~10 Programming Homeworks: 20%
+- 3 Exams: 60%
+- Final exam: 20%
+
+Course grades will be determined by the usual non-curved cutoffs:
+
+::
+
+  double courseAvg = .2 * hwAvg + .6 * examAvg + .2 * finalExam;
+  char courseGrade = 'F';
+  if (courseAvg >= 90) courseGrade = 'A';
+  else if (courseAvg >= 80) courseGrade = 'B';
+  else if (courseAvg >= 70) courseGrade = 'C';
+  else if (courseAvg >= 60) courseGrade = 'D';
+
 
 Resources
 =========
@@ -105,41 +123,36 @@ This schedule is subject ot change.  The further in the future, the less certain
 +------------+------------------------------+---------------------------------+
 | Date       |  Topics                      | Readings and Example Code       |
 +============+==============================+=================================+
-| 2013-01-07 | Introduction_                | Syllabus                        |
+| 2013-05-13 | Introduction_                | Syllabus                        |
+|            |                              |                                 |
+|            | `Java Overview`_             | AJ 1.1-1.2 HelloWorld.java_     |
 +------------+------------------------------+---------------------------------+
-| 2013-01-09 | `Java Overview`_             | AJ 1.1-1.2                      |
-+------------+------------------------------+---------------------------------+
-| 2013-01-11 | `Values and Variables`_      | AJ 1.3-1.4                      |
-+------------+------------------------------+---------------------------------+
-| 2013-01-14 | Strings_                     | Strings.java_, NameParser.java_ |
-+------------+------------------------------+---------------------------------+
-| 2013-01-16 | `Console IO`_                | AJ 2, ConsoleOutput.java_,      |
+| 2013-05-15 | `Values and Variables`_      | AJ 1.3-1.4                      |
+|            |                              | Strings.java_, NameParser.java_ |
+|            |                              |                                 |
+|            | `Console IO`_                | AJ 2, ConsoleOutput.java_,      |
 |            |                              | CurrencyFormatting.java_,       |
 |            |                              | ConsoleInput.java_,             |
 |            |                              | CourseAverage.java_,            |
 |            |                              | grades.txt_                     |
 +------------+------------------------------+---------------------------------+
-| 2013-01-18 | `Conditional Execution`_     | AJ 3.1-3.2, Conditionals.java_  |
+| 2013-05-20 | `Conditional Execution`_     | AJ 3.1-3.2, Conditionals.java_  |
 |            |                              | Switch.java_                    |
+|            |                              |                                 |
+|            | Loops_                       | AJ 3.3, Loops.java_             |
 +------------+------------------------------+---------------------------------+
-| 2013-01-21 |  No Class - MLK Day          |                                 |
-+------------+------------------------------+---------------------------------+
-| 2013-01-23 | Loops_                       | AJ 3.3, Loops.java_             |
-+------------+------------------------------+---------------------------------+
-| 2013-01-25 | Debugging_                   | AJ 3.4-3.5, Bugs.java_,         |
+| 2013-05-22 | Debugging_                   | AJ 3.4-3.5, Bugs.java_,         |
 |            |                              | InsertionSort.java_             |
+|            |                              |                                 |
+| 2013-05-29 | `Data Abstraction`_          | AJ 4.1-4.2, Complex.java_       |
 +------------+------------------------------+---------------------------------+
-| 2013-01-28 | `Data Abstraction`_          | AJ 4.1-4.2, Complex.java_       |
+| 2013-05-27 | Memorial Day - No Class      |                                 |
 +------------+------------------------------+---------------------------------+
-| 2013-01-30 | Classes_                     |                                 |
-+------------+------------------------------+---------------------------------+
-| 2013-02-01 |                              |                                 |
-+------------+------------------------------+---------------------------------+
-| 2013-02-04 | Review1_                     | Hello.java_, ShortCircuit.java_ |
-+------------+------------------------------+---------------------------------+
-| 2013-02-06 | Exam 1                       | AJ 1-4                          |
-+------------+------------------------------+---------------------------------+
-| 2013-02-08 | Classes_                     | AJ 5, Card0.java_,              |
+| 2013-05-29 | Arrays1_                     | AJ 6.1-6.2                      |
+|            |                              | ArrayBasics.java_,              |
+|            |                              | Shout.java_,                    |
+|            |                              |                                 |
+|            | Classes_                     | AJ 5, Card0.java_,              |
 |            |                              | Card1.java_,                    |
 |            |                              | Card2.java_, Dealer2.java_,     |
 |            |                              | Card3.java_, Dealer3.java_,     |
@@ -148,40 +161,40 @@ This schedule is subject ot change.  The further in the future, the less certain
 |            |                              | Card6.java_, Dealer6.java_,     |
 |            |                              | Card.java_                      |
 +------------+------------------------------+---------------------------------+
-| 2013-02-11 | Arrays1_                     | AJ 6.1-6.2                      |
-|            |                              | ArrayBasics.java_,              |
-|            |                              | Shout.java_,                    |
-+------------+------------------------------+---------------------------------+
-| 2013-02-13 | Arrays2_                     | AJ 6.3                          |
+| 2013-06-03 | Arrays2_                     | AJ 6.3-6.4                      |
 |            |                              | CourseAverage.java_,            |
 |            |                              | MyYears.java_,                  |
 |            |                              | VarArgs.java_,                  |
-|            |                              | PlayingCard.java_,              |
-+------------+------------------------------+---------------------------------+
-| 2013-02-15 | Arrays3_                     | AJ 6.4                          |
 |            |                              | Smiley.java_,                   |
 |            |                              | array-data.csv_,                |
 |            |                              | SimpleArrayCsv.java_,           |
 |            |                              |                                 |
-|            |                              | Progress reports due by noon    |
+|            | Review1_                     | Hello.java_, ShortCircuit.java_ |
 +------------+------------------------------+---------------------------------+
-| 2013-02-18 | Inheritance1_                | AJ 7.1-7.2                      |
+| 2013-06-05 | Exam 1                       | AJ 1-6                          |
++------------+------------------------------+---------------------------------+
+| 2013-06-10 | Inheritance1_                | AJ 7.1-7.2                      |
 |            |                              | Employee.java_,                 |
 |            |                              | HourlyEmployee.java_            |
-+------------+------------------------------+---------------------------------+
-| 2013-02-20 | Inheritance2_                | AJ 7.3                          |
+|            |                              |                                 |
+|            | Inheritance2_                | AJ 7.3                          |
 |            |                              | MutableHourlyEmployee.java_     |
+|            |                              |                                 |
+|            |                              |                                 |
+|            |                              | Progress reports due by noon    |
 +------------+------------------------------+---------------------------------+
-| 2013-02-22 | OOP1_                        | AJ 8.1                          |
+| 2013-06-12 | OOP1_                        | AJ 8.1                          |
 |            |                              | SalariedEmployee.java_          |
 |            |                              | Company.java_                   |
-+------------+------------------------------+---------------------------------+
-| 2013-02-25 | OOP2_                        | AJ 8.1                          |
+|            |                              |                                 |
+|            | OOP2_                        | AJ 8.1                          |
 |            |                              | SummerIntern.java_              |
+|            |                              |                                 |
+|            |                              | Drop deadline: 2013-06-14       |
 +------------+------------------------------+---------------------------------+
-| 2013-02-27 | OOP3_                        | AJ 8.2                          |
-+------------+------------------------------+---------------------------------+
-| 2013-03-01 | OOP4_                        | AJ 13.1                         |
+| 2013-06-17 | OOP3_                        | AJ 8.2                          |
+|            |                              |                                 |
+|            | OOP4_                        | AJ 13.1                         |
 |            |                              | PlayingCard.java_               |
 |            |                              | Deck.java_                      |
 |            |                              | BlackjackHand.java_             |
@@ -189,85 +202,72 @@ This schedule is subject ot change.  The further in the future, the less certain
 |            |                              | BlackjackPlayer.java_           |
 |            |                              | RandomPlayer.java_              |
 |            |                              | HumanPlayer.java_               |
-|            |                              |                                 |
-|            |                              | Drop deadline                   |
 +------------+------------------------------+---------------------------------+
-| 2013-03-04 | Review2_                     |                                 |
-+------------+------------------------------+---------------------------------+
-| 2013-03-06 | Exam 2                       |                                 |
-+------------+------------------------------+---------------------------------+
-| 2013-03-08 | `Exception Handling`_        | AJ 9.1                          |
+| 2013-06-19 | Exceptions_                  | AJ 9                            |
 |            |                              | Company.java_                   |
 |            |                              | GuessNumber.java_               |
-+------------+------------------------------+---------------------------------+
-| 2013-03-11 |`Programming with Exceptions`_| AJ 9.2                          |
 |            |                              | Wee.java_                       |
+|            |                              |                                 |
+|            | `File IO`_                   | AJ 10                           |
 +------------+------------------------------+---------------------------------+
-| 2013-03-13 | Recursion_                   | AJ 11                           |
-|            |                              | Fac.java_                       |
+| 2013-06-24 | Review2_                     |                                 |
 +------------+------------------------------+---------------------------------+
-| 2013-03-15 | `File IO`_                   | AJ 10                           |
+| 2013-06-26 | Exam 2                       |                                 |
 +------------+------------------------------+---------------------------------+
-| 2013-03-18 | No Class - Spring Break      |                                 |
-+------------+------------------------------+---------------------------------+
-| 2013-03-20 | No Class - Spring Break      |                                 |
-+------------+------------------------------+---------------------------------+
-| 2013-03-22 | No Class - Spring Break      |                                 |
-+------------+------------------------------+---------------------------------+
-| 2013-03-25 | Swing1_                      | AJ 17                           |
-|            |                              | HelloSwing.java_                |
-|            |                              | HelloButtons.java_              |
-|            |                              | ExitListener.java_              |
-|            |                              | CountListener.java_             |
-+------------+------------------------------+---------------------------------+
-| 2013-03-27 | Swing2_                      | AJ 17                           |
-|            |                              | CounterFrame.java_              |
-|            |                              | ColorBox.java_                  |
-+------------+------------------------------+---------------------------------+
-| 2013-03-29 | Swing3_                      | AJ 17                           |
-|            |                              | companygui_                     |
-+------------+------------------------------+---------------------------------+
-| 2013-04-01 | Swing3_                      | AJ 18                           |
-+------------+------------------------------+---------------------------------+
-| 2013-04-03 | Swing4_                      | AJ 18                           |
-|            |                              | Jack.java_                      |
-|            |                              | GtFrame.java_                   |
-+------------+------------------------------+---------------------------------+
-| 2013-04-05 |                              |                                 | 
-+------------+------------------------------+---------------------------------+
-| 2013-04-08 | Review3_                     | AJ 9, 11, 17, 18                |
-|            |                              | BadListener.java_               |
-|            |                              | BetterListener.java_            |
-+------------+------------------------------+---------------------------------+
-| 2013-04-10 | Exam 3                       |                                 |
-+------------+------------------------------+---------------------------------+
-| 2013-04-12 | ArrayList_                   | AJ 14.1, 14.2                   |
+| 2013-07-01 | ArrayList_                   | AJ 14.1, 14.2                   |
 |            |                              | ArrayListBasics.java_           |
 |            |                              | ArrayListPrimitivesDemo.java_   |
 |            |                              | ArrayListGenericsDemo.java_     |
 |            |                              | ArrayListEqualsDemo.java_       |
 +------------+------------------------------+---------------------------------+
-| 2013-04-15 | `Linked Lists`_              | AJ 15.1                         |
-|            |                              | RecursiveList.java_             |
-|            |                              | LinkedList.java_                |
+| 2013-07-03 | Swing1_                      | AJ 17                           |
+|            |                              | HelloSwing.java_                |
+|            |                              | HelloButtons.java_              |
+|            |                              | ExitListener.java_              |
+|            |                              | CountListener.java_             |
+|            |                              |                                 |
+|            | Swing2_                      | AJ 17                           |
+|            |                              | CounterFrame.java_              |
+|            |                              | ColorBox.java_                  |
 +------------+------------------------------+---------------------------------+
-| 2013-04-17 | `Linked Lists`_              | AJ 14.2, 15.1                   |
+| 2013-07-08 | Swing3_                      | AJ 17                           |
+|            |                              | companygui_                     |
+|            |                              |                                 |
+|            | Swing3_                      | AJ 18                           |
++------------+------------------------------+---------------------------------+
+| 2013-07-10 | Swing4_                      | AJ 18                           |
+|            |                              | Jack.java_                      |
+|            |                              | GtFrame.java_                   |
+|            |                              |                                 |
+|            | Review3_                     | AJ 14, 17, 18                   |
+|            |                              | BadListener.java_               |
+|            |                              | BetterListener.java_            |
++------------+------------------------------+---------------------------------+
+| 2013-07-15 | Exam 3                       |                                 |
++------------+------------------------------+---------------------------------+
+| 2013-07-17 | Recursion_                   | AJ 11                           |
+|            |                              | RecursiveList.java_             |
+|            |                              |                                 |
+|            | `Linked Lists`_              | AJ 14.2, 15.1                   |
+|            |                              | LinkedList.java_                |
 |            |                              | GenericLinkedList.java_         |
 |            |                              | DoublyLinkedList.java_          |
 +------------+------------------------------+---------------------------------+
-| 2013-04-19 | `Stacks and Queues`_         | AJ 15.4                         |
+| 2013-07-22 | `Stacks and Queues`_         | AJ 15.4                         |
 |            |                              | ArrayListDataStructures.java_   |
-+------------+------------------------------+---------------------------------+
-| 2013-04-22 | `Binary Trees`_              | AJ 15.7                         |
+|            |                              | LinkedStack.java_               |
+|            |                              | LinkedQueue.java_               |
+|            |                              |                                 |
+|            | `Binary Trees`_              | AJ 15.7                         |
 |            |                              | BinaryTree.java_                |
 +------------+------------------------------+---------------------------------+
-| 2013-04-24 |                              |                                 |
-+------------+------------------------------+---------------------------------+
-| 2013-04-26 |                              |                                 |
-+------------+------------------------------+---------------------------------+
-| 2013-05-03 | Final Exam                   |                                 |
+|2013-07-24  | Sorting_                     |                                 |
 |            |                              |                                 |
-| 11:30-14:20|                              |                                 |
+|            | Review                       |                                 |
++------------+------------------------------+---------------------------------+
+| 2013-07-31 | Final Exam                   |                                 |
+|            |                              |                                 |
+| 14:50-17:40|                              |                                 |
 +------------+------------------------------+---------------------------------+
 
 
@@ -296,6 +296,7 @@ This schedule is subject ot change.  The further in the future, the less certain
 .. _Review2: ../slides/review2.pdf
 .. _Interfaces: ../slides/interfaces.pdf
 .. _Review2: ../slides/review2.pdf
+.. _Exceptions: ../slides/exceptions.pdf
 .. _`Exception Handling`: ../slides/exception-handling.pdf
 .. _`Programming with Exceptions`: ../slides/programming-exceptions.pdf
 .. _`File IO`: ../slides/file-io.pdf
@@ -309,10 +310,13 @@ This schedule is subject ot change.  The further in the future, the less certain
 .. _`Linked Lists`: ../slides/linked-lists.pdf
 .. _`Stacks and Queues`: ../slides/stacks-queues.pdf 
 .. _`Binary Trees`: ../slides/binary-trees.pdf
+.. _Sorting: ../slides/sorting.pdf
 .. _Review3: ../slides/review3.pdf
 
 .. Example code
 
+.. _Hello.java: ../code/Hello.java
+.. _HelloWorld.java: ../code/HelloWorld.java
 .. _Strings.java: ../code/Strings.java
 .. _NameParser.java: ../code/NameParser.java
 .. _ConsoleInput.java: ../code/ConsoleInput.java
@@ -326,7 +330,6 @@ This schedule is subject ot change.  The further in the future, the less certain
 .. _Bugs.java: ../code/Bugs.java
 .. _InsertionSort.java: ../code/InsertionSort.java
 .. _Complex.java: ../code/Complex.java
-.. _Hello.java: ../code/Hello.java
 .. _ShortCircuit.java: ../code/ShortCircuit.java
 .. _Card0.java: ../code/Card0.java
 .. _Card1.java: ../code/Card1.java
@@ -385,6 +388,8 @@ This schedule is subject ot change.  The further in the future, the less certain
 .. _GenericLinkedList.java: ../code/GenericLinkedList.java
 .. _DoublyLinkedList.java: ../code/DoublyLinkedList.java
 .. _ArrayListDataStructures.java: ../code/ArrayListDataStructures.java
+.. _LinkedStack.java: ../code/LinkedStack.java
+.. _LinkedQueue.java: ../code/LinkedQueue.java
 .. _Stack.java: ../code/Stack.java
 .. _Queue.java: ../code/Queue.java
 .. _BinaryTree.java: ../code/BinaryTree.java
