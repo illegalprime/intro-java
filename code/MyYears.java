@@ -21,7 +21,7 @@ public class MyYears {
     }
 
     public int[] getYears() {
-        return years;
+        return copyOf(years);
     }
 
     private void modifyElement(int[] array, int index, int newValue) {

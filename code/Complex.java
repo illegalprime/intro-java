@@ -6,8 +6,8 @@ public class Complex {
 
     // These are the operations of the ADT
 
-    public Complex(double aReal, double anImaginary) {
-        real = aReal;
+    public Complex(double real, double anImaginary) {
+        this.real = real;
         imaginary = anImaginary;
     }
 
@@ -18,14 +18,14 @@ public class Complex {
     }
 
     public String toString() {
-        return "Complex( " + real + ", " + imaginary + ")";
+        return "Complex(" + real + ", " + imaginary + ")";
     }
 
     public static void main(String[] args) {
         Complex a = new Complex(1.0, 2.0);
         Complex b = new Complex(3.0, 4.0);
         Complex c = a.plus(b);
-        System.out.println(a + " + " + b + " = " + c);
+        System.out.println(a.toString() + " + " + b + " = " + c);
     }
 
 }

@@ -20,7 +20,7 @@ public class CourseAverage {
         examAvg = calcAverage(exams);
         hwAvg = gradeFile.nextDouble();
         finalExam = gradeFile.nextDouble();
-        courseAvg = .6 * hwAvg + .2 * examAvg + .2 * finalExam;
+        courseAvg = .2 * hwAvg + .6 * examAvg + .2 * finalExam;
         System.out.printf("Your course average is %.1f%n", courseAvg);    
     }
 

@@ -34,7 +34,7 @@ public class PartialIntArray {
         pia.add(2);
         pia.add(4);
         pia.add(6);
-        for (int i = 0; i <= pia.size(); i++) {
+        for (int i = 0; i < pia.size(); i++) {
             System.out.println(pia.get(i));
         }
         pia.get(10);

@@ -6,6 +6,7 @@ public class Conditionals {
         System.out.print("Enter an integer: ");
         Scanner keyboard = new Scanner(System.in);
         int num = keyboard.nextInt();
+
         if ((num % 2) == 0)
             System.out.printf("%d is even.%n", num);
         else
@@ -13,9 +14,21 @@ public class Conditionals {
 
         // Boolean expressions
         boolean numIsEven = (num % 2) == 0;
+
+        // Notice the use of {} even for single statements - 
+        // - good idea always to use {}
         if (numIsEven) {
             System.out.println("I like even numbers.");
         } else {
+            System.out.println("I'm ambivalent about odd numbers.");
+        }
+
+        // The if-else statements above can be combined using blocks
+        if (numIsEven) {  // What if we used numIsEven here?
+            System.out.printf("%d is even.%n", num);
+            System.out.println("I like even numbers.");
+        } else {
+            System.out.printf("%d is odd.%n", num);
             System.out.println("I'm ambivalent about odd numbers.");
         }
 
@@ -28,15 +41,7 @@ public class Conditionals {
         } else {
             System.out.println("This statement will never execute.");
         }
-        System.out.println();
 
-        // The if-else statements above can be combined using blocks
-        if (numIsEven) {  // What if we used numIsEven here?
-            System.out.printf("%d is even.%n", num);
-            System.out.println("I like even numbers.");
-        } else {
-            System.out.printf("%d is odd.%n", num);
-            System.out.println("I'm ambivalent about odd numbers.");
-        }
+        System.out.println();
     }
 }

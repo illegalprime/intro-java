@@ -1,3 +1,4 @@
+import java.util.Calendar;
 import java.util.Date;
 
 public final class SalariedEmployee extends Employee {
@@ -22,12 +23,19 @@ public final class SalariedEmployee extends Employee {
         return annualSalary;
     }
 
-    public double monthlyPay() {
+    public double monthlyPay(Calendar cal) {
         return annualSalary / MONTHS_PER_YEAR;
     }
 
     public String toString() {
-        return getName() + "; Hire Date: " + getHireDate() + "; Annual Salary: "
-            + annualSalary;
+        return super.toString() + "; Annual Salary: " + annualSalary;
+    }
+
+    public boolean equals(Object other) {
+        if (other == null) return false;
+        if (this == other) return true;
+        if (!(other instanceof SalariedEmployee)) return false;
+        SalariedEmployee that = (SalariedEmployee) other;
+        return super.equals(that) && (this.annualSalary == that.annualSalary);
     }
 }

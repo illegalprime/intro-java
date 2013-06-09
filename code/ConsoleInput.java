@@ -10,7 +10,9 @@ public class ConsoleInput {
         exam1 = keyboard.nextInt();
         exam2 = keyboard.nextInt();
         exam3 = keyboard.nextInt();
+        System.out.println("What's uyour name?");
+        String name = keyboard.next();
         examAvg = (exam1 + exam2 + exam3) / 3.0; // Why 3.0 instead of 3?
-        System.out.printf("Your exam average is %.1f%n", examAvg);        
+        System.out.printf("Hi %s, your exam average is %.1f%n", name, examAvg);
     }
 }

@@ -15,7 +15,7 @@ public class ConsoleOutput {
         System.out.printf("%d %s.\n", 7, "Samurai");
 
         // Better to use %n tahn \n because %n is platform-independent
-        System.out.printf("I like %15f.%n%n", Math.PI);
+        System.out.printf("I like %5.3f.%n%n", Math.PI);
 
         // Notice that you can use any String-valued expression
         // for the format string

@@ -1,7 +1,6 @@
-import java.util.Calendar;
 import java.util.Date;
 
-public class HourlyEmployee extends Employee {
+public final class HourlyEmployee extends Employee {
 
     private final double hourlyWage;
     private final double monthlyHours;
@@ -36,12 +35,27 @@ public class HourlyEmployee extends Employee {
         return monthlyHours;
     }
 
-    public double monthlyPay(Calendar cal) {
+    public double monthlyPay() {
         return hourlyWage * monthlyHours;
     }
 
     public String toString() {
         return getName() + "; Hire Date: " + getHireDate() + "; Hourly Wage: "
             + hourlyWage + "; Monthly Hours: " + monthlyHours;
+    }
+
+    private void disallowZeroesAndNegatives(double ... args) {
+        boolean shouldThrowException = false;
+        String nonPositives = "";
+        for (double arg: args) {
+            if (arg <= 0.0) {
+                shouldThrowException = true;
+                nonPositives += arg + " ";
+            }
+        }
+        if (shouldThrowException) {
+            String msg = "Following arguments were <= 0: " + nonPositives;
+            throw new IllegalArgumentException(msg);
+        }
     }
 }

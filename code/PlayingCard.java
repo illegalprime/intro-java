@@ -13,17 +13,8 @@ public class PlayingCard {
         this(extractRank(aCardDescription), extractSuit(aCardDescription));
     }
 
-
-    public PlayingCard(Rank aRank, Suit aSuit) {
-        rank = aRank;
-        suit = aSuit;
-    }
-
-    public String toString() {
-        return rank + " of " + suit;
-    }
-    
-    private static Rank extractRank(String cardDescription) {
+    private static Rank extractRank(String cardDescription)
+            throws IllegalArgumentException {
         String[] parts = cardDescription.split(" ");
         if (parts.length != 3) {
             String msg="Illegal card description: " + cardDescription;
@@ -33,6 +24,25 @@ public class PlayingCard {
         }
         return Rank.valueOf(normalizeString(parts[0].trim()));
     }
+
+
+    public PlayingCard(Rank aRank, Suit aSuit) 
+        rank = aRank;
+        suit = aSuit;
+    }
+    
+    public Rank getRank() {
+        return rank;
+    }
+
+    public Suit getSuit() {
+        return suit;
+    }
+
+    public String toString() {
+        return rank + " of " + suit;
+    }
+    
 
     private static Suit extractSuit(String cardDescription) {
         String[] parts = cardDescription.split(" ");
@@ -62,7 +72,7 @@ public class PlayingCard {
         }
         System.out.println();
         System.out.println("Example PlayingCards:");
-        PlayingCard c1 = new PlayingCard(Rank.ONE, Suit.DIAMONDS);
+        PlayingCard c1 = new PlayingCard(Rank.TWO, Suit.DIAMONDS);
         System.out.println(c1);
         PlayingCard c2 = new PlayingCard("QuEen of hEarTs");
         System.out.println(c2);

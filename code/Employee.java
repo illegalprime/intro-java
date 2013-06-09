@@ -1,3 +1,4 @@
+import java.util.Calendar;
 import java.util.Date;
 
 public abstract class Employee {
@@ -16,7 +17,12 @@ public abstract class Employee {
         hireDate = aHireDate;
     }
 
-    public abstract double monthlyPay();
+    public double monthlyPay() {
+        Calendar rightNow = Calendar.getInstance();
+        return monthlyPay(rightNow);
+    }
+
+    public abstract double monthlyPay(Calendar calendar);
 
     public String getName() {
         return name;
@@ -30,8 +36,12 @@ public abstract class Employee {
         return name + "; " + hireDate;
     }
 
-    public boolean equals(Employee other) {
-        return name.equals(other.name) && hireDate.equals(other.hireDate);
+    public boolean equals(Object other) {
+        if (other == null) return false;
+        if (this == other) return true;
+        if (!(other instanceof Employee)) return false;
+        Employee that = (Employee) other;
+        return name.equals(that.name) && hireDate.equals(that.hireDate);
     }
 
     private void disallowNullArguments(Object ... args) {

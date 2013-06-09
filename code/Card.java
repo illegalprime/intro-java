@@ -3,10 +3,10 @@ import java.util.Arrays;
 public class Card {
 
     public static final String[] VALID_RANKS =
-    {"2", "3", "4", "5", "6", "7", "8", "9",
-     "10", "jack", "queen", "king", "ace"};
+        {"2", "3", "4", "5", "6", "7", "8", "9",
+         "10", "jack", "queen", "king", "ace"};
     public static final String[] VALID_SUITS =
-    {"diamonds", "clubs", "hearts","spades"};
+        {"diamonds", "clubs", "hearts","spades"};
 
     private String rank;
     private String suit;

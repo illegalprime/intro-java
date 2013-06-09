@@ -10,7 +10,7 @@ public class Strings {
 	String bam = foo + bar + baz;
 
 	// Strings can also be concatenated with other objects
-	String s = bam + 42 + 1; // s is "foobarbaz42"
+	String s = bam + (42 + 1); 
 	String t = 42 + bam; // t is "42foobarbaz"	
 	
 	System.out.println("bam=\"" + bam + "\"");
@@ -41,7 +41,7 @@ public class Strings {
 	System.out.println("In empty, \"a\" first occurs at index " + aPos);
 	// Beware: because String is a class, an unitialized String
 	// variable has the value null
-	String boom;
-	//int aPosInBoom = boom.indexOf("a"); // This won't compile
+	String boom = null;
+	int aPosInBoom = boom.indexOf("a"); // This won't compile
     }
 }

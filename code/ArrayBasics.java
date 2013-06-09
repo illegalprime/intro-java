@@ -1,13 +1,16 @@
 public class ArrayBasics {
+    
+    class Dog {
+        public void speak() {
+            System.out.println("Woof, woof!");
+        }
+    }
 
     public static void main(String[] args) {
         double[] scores = new double[5];
         System.out.println("After double[] scores = new double[5]:");
         for (int i = 0; i < 5; ++i) {
             System.out.printf("scores[%d] = %.2f%n", i, scores[i]);
-        }
-        for (double score: scores) {
-            System.out.println(score);
         }
 
         scores[0] = 89;
@@ -23,5 +26,6 @@ public class ArrayBasics {
         System.out.println("Trying scores[scores.length] = 100 causes:");
         // And this line will cause an error at run-time:
         scores[scores.length] = 100;
+
     }
 }
