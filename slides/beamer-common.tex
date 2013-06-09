@@ -27,7 +27,7 @@
 \usepackage[english]{babel}
 % or whatever
 
-\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
 % or whatever
 
 \usepackage{times}
@@ -64,8 +64,8 @@
 % Default settings for code listings
 \lstset{frame=tb,
   language=scala,
-  aboveskip=3mm,
-  belowskip=3mm,
+  aboveskip=2mm,
+  belowskip=2mm,
   showstringspaces=false,
   columns=flexible,
   basicstyle={\scriptsize\ttfamily},
@@ -88,3 +88,5 @@
 
 \subtitle{}
 %% {Include Only If Paper Has a Subtitle}
+
+\newcommand{\link}[2]{\href{#1}{\textcolor{blue}{\underline{#2}}}}

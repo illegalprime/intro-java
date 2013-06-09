@@ -8,112 +8,9 @@
 {Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
 \institute[Georgia Tech] % (optional, but mostly needed)
 
-\date[CS 1331]{}
-\subject{\lesson}
-% This is only inserted into the PDF information catalog. Can be left
-% out. 
+\date{}
 
-% If you have a file called "university-logo-filename.xxx", where xxx
-% is a graphic format that can be processed by latex or pdflatex,
-% resp., then you can add a logo as follows:
-
-% \pgfdeclareimage[width=0.6in]{coc-logo}{cc_2012_logo}
-% \logo{\pgfuseimage{coc-logo}}
-
-\mode<presentation>
-{
-  \usetheme{Berlin}
-  \useoutertheme{infolines}
-
-  % or ...
-
- \setbeamercovered{transparent}
-  % or whatever (possibly just delete it)
-}
-
-\usepackage{hyperref}
-\usepackage{fancybox}
-\usepackage{listings}
-\usepackage[abbr]{harvard}
-
-\usepackage[english]{babel}
-% or whatever
-
-\usepackage[latin1]{inputenc}
-% or whatever
-
-\usepackage{times}
-\usepackage[T1]{fontenc}
-% Or whatever. Note that the encoding and the font should match. If T1
-% does not look nice, try deleting the line with the fontenc.
-
-
-\usepackage{listings}
- 
-% "define" Scala
-\lstdefinelanguage{scala}{
-  morekeywords={abstract,case,catch,class,def,%
-    do,else,extends,false,final,finally,%
-    for,if,implicit,import,match,mixin,%
-    new,null,object,override,package,%
-    private,protected,requires,return,sealed,%
-    super,this,throw,trait,true,try,%
-    type,val,var,while,with,yield},
-  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
-  sensitive=true,
-  morecomment=[l]{//},
-  morecomment=[n]{/*}{*/},
-  morestring=[b]",
-  morestring=[b]',
-  morestring=[b]""",
-}
-
-\usepackage{color}
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
- 
-% Default settings for code listings
-\lstset{frame=tb,
-  language=scala,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\scriptsize\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  frame=single,
-  breaklines=true,
-  breakatwhitespace=true,
-  keepspaces=true
-  %tabsize=3
-}
-
-
-\title[\course] % (optional, use only with long
-                                      % paper titles)
-{\lesson}
-
-\subtitle{}
-%% {Include Only If Paper Has a Subtitle}
-
-
-% Delete this, if you do not want the table of contents to pop up at
-% the beginning of each subsection:
-%% \AtBeginSection[]
-%% {
-%%   \begin{frame}<beamer>{Outline}
-
-%%  \tableofcontents[currentsection]
-%%   \end{frame}
-%% }
-
-% If you wish to uncover everything in a step-wise fashion, uncomment
-% the following command: 
+\include{beamer-common}
 
 % \beamerdefaultoverlayspecification{<+->}
 
@@ -255,42 +152,6 @@ if (color.toUpperCase().equals("RED")) {
 }
 \end{lstlisting}
 
-Play with \href{\code/Conditionals.java}{Conditionals.java}.
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{The {\tt switch} Statement}
-
-
-Java provides {\tt switch} statement for multi-way branching.
-\vspace{-.1in}
-\begin{lstlisting}[language=Java]
-switch (expr) {
-    case 1:
-        // executed only when case 1 holds
-        break;
-    case 2:
-        // executed only when case 2 holds
-    case 3:
-        // executed whenever case 2 and 3 hold
-        break;
-    default:
-        // executed only when other cases don't hold        
-}
-\end{lstlisting}
-\vspace{-.15in}
-\begin{itemize}
-\item Type of {\tt expr} can be {\tt char}, {\tt int}, {\tt short}, {\tt byte}, or {\tt String}
-\item In example above, what is type of {\tt expr}?
-\item {\tt switch} considered harmful.  97\% of fall-throughs
-  unwanted\footnote{Peter van der Linden, {\it Deep C Secrets}}
-\item Anachronism from ``structured assembly language'', a.k.a. C (a {\tt switch} is just a jump table)
-\end{itemize}
-
-Play with \href{\code/Switch.java}{Switch.java}
-
 \end{frame}
 %------------------------------------------------------------------------
 
@@ -340,7 +201,9 @@ In this example, note that Java uses short-circuit evaluation.  If
 {\tt kids !=0} evaluates to {\tt false}, then the second sub-expression is not evaluated, thus avoiding a divide-by-zero error.
 
 \vspace{.1in}
-Note: You can force a complete evaluation by using {\tt \&} or {\tt |}, for example if you have side effects you want to ensure happen in the second expression.  We mention this fact for completeness but implore you not to write such code.
+Note: You can force a complete evaluation by using {\tt \&} or {\tt |}, for example if you have side effects you want to ensure happen in the second expression.  We mention this fact for completeness but implore you not to write such code.\\
+
+Play with \link{\code/Conditionals.java}{Conditionals.java}.
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -389,18 +252,54 @@ Three side-effects: result = 3, other = 8, and n = 4
 \end{frame}
 %------------------------------------------------------------------------
 
-
-% %------------------------------------------------------------------------
-% \begin{frame}[fragile]{}
-
-
-% \begin{lstlisting}[language=Java]
-
-% \end{lstlisting}
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{The {\tt switch} Statement}
 
 
-% \end{frame}
-% %------------------------------------------------------------------------
+Java provides {\tt switch} statement for multi-way branching.
+\vspace{-.1in}
+\begin{lstlisting}[language=Java]
+switch (expr) {
+    case 1:
+        // executed only when case 1 holds
+        break;
+    case 2:
+        // executed only when case 2 holds
+    case 3:
+        // executed whenever case 2 and 3 hold
+        break;
+    default:
+        // executed only when other cases don't hold        
+}
+\end{lstlisting}
+\vspace{-.15in}
+\begin{itemize}
+\item Type of {\tt expr} can be {\tt char}, {\tt int}, {\tt short}, {\tt byte}, or {\tt String}
+\item In example above, what is type of {\tt expr}?
+\item {\tt switch} considered harmful.  97\% of fall-throughs
+  unwanted\footnote{Peter van der Linden, {\it Deep C Secrets}}
+\item Anachronism from ``structured assembly language'', a.k.a. C (a {\tt switch} is just a jump table)
+\end{itemize}
+
+Play with \link{\code/Switch.java}{Switch.java}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Closing Thoughts}
+
+
+\begin{itemize}
+\item Conditional execution straigtforward, but watch out for side-effects in boolean assignments.
+\item Parenthesize your expressions to make them clera to the reader and to Java.
+\item Next we'll learn loops, and we'll have all the tools we need to implement any algorithm.
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
 
 
 \end{document}

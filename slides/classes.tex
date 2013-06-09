@@ -9,111 +9,10 @@
 \institute[Georgia Tech] % (optional, but mostly needed)
 
 \date[CS 1331]{}
-\subject{\lesson}
-% This is only inserted into the PDF information catalog. Can be left
-% out. 
 
-% If you have a file called "university-logo-filename.xxx", where xxx
-% is a graphic format that can be processed by latex or pdflatex,
-% resp., then you can add a logo as follows:
+\usepackage{media9} 
 
-% \pgfdeclareimage[width=0.6in]{coc-logo}{cc_2012_logo}
-% \logo{\pgfuseimage{coc-logo}}
-
-\mode<presentation>
-{
-  \usetheme{Berlin}
-  \useoutertheme{infolines}
-
-  % or ...
-
- \setbeamercovered{transparent}
-  % or whatever (possibly just delete it)
-}
-
-\usepackage{hyperref}
-\usepackage{fancybox}
-\usepackage{listings}
-\usepackage[abbr]{harvard}
-
-\usepackage[english]{babel}
-% or whatever
-
-\usepackage[latin1]{inputenc}
-% or whatever
-
-\usepackage{times}
-\usepackage[T1]{fontenc}
-% Or whatever. Note that the encoding and the font should match. If T1
-% does not look nice, try deleting the line with the fontenc.
-
-
-\usepackage{listings}
- 
-% "define" Scala
-\lstdefinelanguage{scala}{
-  morekeywords={abstract,case,catch,class,def,%
-    do,else,extends,false,final,finally,%
-    for,if,implicit,import,match,mixin,%
-    new,null,object,override,package,%
-    private,protected,requires,return,sealed,%
-    super,this,throw,trait,true,try,%
-    type,val,var,while,with,yield},
-  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
-  sensitive=true,
-  morecomment=[l]{//},
-  morecomment=[n]{/*}{*/},
-  morestring=[b]",
-  morestring=[b]',
-  morestring=[b]""",
-}
-
-\usepackage{color}
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
- 
-% Default settings for code listings
-\lstset{frame=tb,
-  language=scala,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\scriptsize\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  frame=single,
-  breaklines=true,
-  breakatwhitespace=true,
-  keepspaces=true
-  %tabsize=3
-}
-
-
-\title[\course] % (optional, use only with long
-                                      % paper titles)
-{\lesson}
-
-\subtitle{}
-%% {Include Only If Paper Has a Subtitle}
-
-
-% Delete this, if you do not want the table of contents to pop up at
-% the beginning of each subsection:
-%% \AtBeginSection[]
-%% {
-%%   \begin{frame}<beamer>{Outline}
-
-%%  \tableofcontents[currentsection]
-%%   \end{frame}
-%% }
-
-% If you wish to uncover everything in a step-wise fashion, uncomment
-% the following command: 
+\include{beamer-common}
 
 % \beamerdefaultoverlayspecification{<+->}
 
@@ -124,6 +23,22 @@
   \titlepage
 \end{frame}
 
+%% %------------------------------------------------------------------------
+%% \begin{frame}[fragile]{}
+
+
+%% \includemedia[
+%%   width=0.6\linewidth,height=0.45\linewidth,
+%%   activate=pageopen,
+%%   flashvars={
+%%     modestbranding=1 % no YT logo in control bar
+%%    &autohide=1       % controlbar autohide
+%%    &showinfo=0       % no title and other info before start
+%%   }
+%% ]{}{http://www.youtube.com/watch?v=8aXsEO2eKo4}   % Flash file
+
+%% \end{frame}
+%% %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{The Anatomy of a Class Definition}
@@ -266,7 +181,7 @@ Now we have an ``ace of base'' card and a ``jack of all trades'' card.  But thos
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{Encapsulation: Card, v2}
 
-
+\vspace{-.05in}
 Let's protect the instance variables by making them private:
 \begin{lstlisting}[language=Java]
 public class Card2 {
@@ -286,7 +201,7 @@ public class Card2 {
     }
 }
 \end{lstlisting}
-
+\vspace{-.05in}
 Why does this still compile?
 
 \begin{itemize}
@@ -460,9 +375,9 @@ Invariants for Card class:
 \begin{frame}[fragile]{Maintaining Class Invariants via Input Validation}
 
 
-
+\vspace{-.05in}
 {\tt rank} invariant can be maintained by adding:
-\vspace{-.1in}
+
 \begin{lstlisting}[language=Java]
 import java.util.Arrays;
 // ...
@@ -682,9 +597,9 @@ Does this make sense?  Should Card objects be mutable?
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{Immutable Objects}
 
-
+\vspace{-.05in}
 Card objects don't change.  We can model this behavior by removing the setters and putting the initialization code in the constructor (or making the setters private and calling them from the constructor):
-\vspace{-.1in}
+
 \begin{lstlisting}[language=Java]
 public Card(String aRank, String aSuit) { // constructor
   if (!isValidRank(rank)) {
@@ -699,7 +614,7 @@ public Card(String aRank, String aSuit) { // constructor
   suit = aSuit;
 }
 \end{lstlisting}
-\vspace{-.1in}
+\vspace{-.05in}
 \small Note the use of another idiom for disambiguating constructor paramters from instance variables (as opposed to using {\tt this}).\normalsize
 
 \end{frame}
@@ -709,7 +624,7 @@ public Card(String aRank, String aSuit) { // constructor
 \begin{frame}[fragile]{A Few Final Bits of Polish}
 
 
-Take a look at the final evolution of our Card class, \href{\code/Card.java}{Card.java}.  It contains a few more enhancements to help the client programmer (so it differs slightly from the code indicated on the previous slide).
+Take a look at the final evolution of our Card class, \link{\code/Card.java}{Card.java}.  It contains a few more enhancements to help the client programmer (so it differs slightly from the code indicated on the previous slide).
 \begin{itemize}
 \item Instead of simply terminating the program, the constructor throws {\tt IllegalArgumentException} on invalid input so that client code can choose to deal with the exception at run-time.
 \item Input is normalized to lower case and spaces trimmed to make the Card object robust to oddly formatted input.

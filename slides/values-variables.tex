@@ -3,125 +3,12 @@
 \newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
 \newcommand{\lesson}{Values and Variables}
 \newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
-\mode<presentation>
-{
-  \usetheme{Berlin}
-  \useoutertheme{infolines}
 
-  % or ...
-
- \setbeamercovered{transparent}
-  % or whatever (possibly just delete it)
-}
-
-\usepackage{hyperref}
-\usepackage{fancybox}
-\usepackage{listings}
-\usepackage[abbr]{harvard}
-
-\usepackage[english]{babel}
-% or whatever
-
-\usepackage[latin1]{inputenc}
-% or whatever
-
-\usepackage{times}
-\usepackage[T1]{fontenc}
-% Or whatever. Note that the encoding and the font should match. If T1
-% does not look nice, try deleting the line with the fontenc.
-
-
-\usepackage{listings}
- 
-% "define" Scala
-\lstdefinelanguage{scala}{
-  morekeywords={abstract,case,catch,class,def,%
-    do,else,extends,false,final,finally,%
-    for,if,implicit,import,match,mixin,%
-    new,null,object,override,package,%
-    private,protected,requires,return,sealed,%
-    super,this,throw,trait,true,try,%
-    type,val,var,while,with,yield},
-  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
-  sensitive=true,
-  morecomment=[l]{//},
-  morecomment=[n]{/*}{*/},
-  morestring=[b]",
-  morestring=[b]',
-  morestring=[b]""",
-}
-
-\usepackage{color}
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
- 
-% Default settings for code listings
-\lstset{frame=tb,
-  language=scala,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\scriptsize\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  frame=single,
-  breaklines=true,
-  breakatwhitespace=true,
-  keepspaces=true
-  %tabsize=3
-}
-
-
-\title[\course] % (optional, use only with long
-                                      % paper titles)
-{\lesson}
-
-\subtitle{}
-%% {Include Only If Paper Has a Subtitle}
-
-\author[Chris Simpkins] % (optional, use only with lots of authors)
+\author[Chris Simpkins] 
 {Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
-% - Give the names in the same order as the appear in the paper.
-% - Use the \inst{?} command only if the authors have different
-%   affiliation.
-
 \institute[Georgia Tech] % (optional, but mostly needed)
 
-\date[] % (optional, should be abbreviation of
-                           % conference name)
-{}
-% - Either use conference name or its abbreviation.
-% - Not really informative to the audience, more for people (including
-%   yourself) who are reading the slides online
-
-\subject{\lesson}
-% This is only inserted into the PDF information catalog. Can be left
-% out. 
-
-% If you have a file called "university-logo-filename.xxx", where xxx
-% is a graphic format that can be processed by latex or pdflatex,
-% resp., then you can add a logo as follows:
-
-%% \pgfdeclareimage[width=0.6in]{gtri_logo}{gtri_logo}
-%% \logo{\pgfuseimage{gtri_logo}}
-
-% Delete this, if you do not want the table of contents to pop up at
-% the beginning of each subsection:
-%% \AtBeginSection[]
-%% {
-%%   \begin{frame}<beamer>{Outline}
-
-%%  \tableofcontents[currentsection]
-%%   \end{frame}
-%% }
-
-% If you wish to uncover everything in a step-wise fashion, uncomment
-% the following command: 
+\include{beamer-common}
 
 % \beamerdefaultoverlayspecification{<+->}
 
@@ -133,11 +20,95 @@
 \end{frame}
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{}
+\begin{frame}[fragile]{Java Programs}
 
+
+A Java program consists of one or more classes, one or more of which has a {\tt main} method.
+\begin{lstlisting}[language=Java]
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, world!");
+    }
+}
+\end{lstlisting}
+\begin{itemize}
+\item The body of a method consists of a sequence of statements.
+\item Statements are executed in order until there are no more statements, at which point the program terminates. (Next week we'll see hiow to alter the flow of control.)
+\item Today we'll focus on declarations and assignment statements.
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Identifiers}
+
+
+An identifier is a string of characters.  Identifiers are used as names for classes, methods, and variables
+\begin{itemize}
+\item Java identifiers can contain letters, digits, and the underscore symbol and may not start with a digit.
+\item Java identifiers are case-sensitive:  {\tt this} is not the same as {\tt This}.
+\item Identifiers used by the Java language compiler are called reserved words, or keywords.  
+\begin{itemize}
+\item Identifiers used by Java, like {\tt class}, {\tt public}, {\tt if} and so on.
+\item Identifiers that aren't currently used but are reserved, like {\tt goto} and {\tt const}
+\item You can't use reserved keywords for your own identifiers.
+\item Full list is here: \url{http://docs.oracle.com/javase/tutorial/java/nutsandbolts/_keywords.html}
+\end{itemize}
+
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Variable Declarations}
+
+
+Variables are identifiers that name a value.
+\begin{itemize}
+\item Every variable has a type
+\item Every variable has a storage location for the variable's value
+\item The value of a variable can change (unless it is declared {\tt final})
+\end{itemize}
+
+Variables must be declared before they are used like this:
+\begin{lstlisting}[language=Java]
+float twoThirds;
+\end{lstlisting}
+\begin{itemize}
+\item {\tt float} is the variable's type
+\item {\tt twoThirds} is the variable name
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Assignment Statements}
+
+
+{\tt =} is the assignment operator.
+\begin{itemize}
+\item The identifier on the left side of a {\tt =} must be a variable identifier (an lvalue)
+\item The right side of the {\tt =} must be an expression
+\begin{itemize}
+\item An expression has a value;
+\item {\tt 2 + 3} is an expression.  It has the value {\t 5}.
+\item A variable is also an expression.  It has whatever value it was last assigned.
+\end{itemize}
+
+\end{itemize}
 
 \begin{lstlisting}[language=Java]
-
+float twoThirds;
+twoThirds = 2/3;
+\end{lstlisting}
+We usually combin declaration and assignment into an initialization statement:
+\begin{lstlisting}[language=Java]
+float twoThirds = 2/3;
 \end{lstlisting}
 
 
@@ -145,73 +116,223 @@
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{}
+\begin{frame}[fragile]{Syntax and Semantics}
 
 
+\begin{itemize}
+\item Syntax - the form to which your source code must conform
+\item Semantics - the meaning of the code, i.e., what it does
+\end{itemize}
+Consider:
 \begin{lstlisting}[language=Java]
-
+public class Program {
+    public static void main(String[] args) {
+        float twoThirds = 2/3;
+        System.out.println(twoThirds);
+    }
+}
 \end{lstlisting}
+
+\begin{itemize}
+\item The code inside {\tt main} conforms to the Java syntax: a sequence of statements that each end with a semicolon.
+\item The meaning of the program, its semantics, is that we initialize the variabel {\tt twoThirds} with the value {\tt .667} and then print it out to the console (or so we think ...)
+\end{itemize}
+
+Run \link{\code/Program.java}{Program.java} and see what it prints.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Type Compatibility}
+
+
+When we run {\tt Program.java} we get this:
+\begin{lstlisting}[language=Java]
+$ java Program
+0.0
+\end{lstlisting}
+What happened?
+\begin{itemize}
+\item {\tt twoThirds} is a {\tt float}, so it can hold fractional values.
+\item But {\tt 2} and {\tt 3} are the literal representations for the {\tt int} values 2 and 3.
+\item {\tt 2/3} perfomed integer division, resulting in a value of {\tt 0}.
+\item Since a {\tt float} variable can hold integer values, Java performed an automatic conversion to {\tt float} upon assignment to {\tt twoThirds}, which ended up with the value {\tt 0.0}.
+\end{itemize}
 
 
 \end{frame}
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{}
+\begin{frame}[fragile]{Type Conversions}
 
+
+The previous example showed an implicit widening conversion
+\begin{itemize}
+\item {\tt float} is {\it wider} than {\tt int} because all intergers are also floating point values.
+\item Java will perform widening conversions automically because no precision is lost.
+\item To perform a narrowing conversion, you must explicitly cast the value.
+\end{itemize}
+
+This won't compile because an {\tt int} can't hold a fractional value ( aloss fo precision):
+\begin{lstlisting}[language=Java]
+int threeFourths = 3f/4f;
+\end{lstlisting}
+
+You have to cast the floating point value to an int:
 
 \begin{lstlisting}[language=Java]
-
+int threeFourths = (int) (3f/4f);
 \end{lstlisting}
+
+What happens if we leave off the parentheses around {\tt (3f/4f)}?
 
 
 \end{frame}
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{}
+\begin{frame}[fragile]{Integral Primitive Types}
 
 
-\begin{lstlisting}[language=Java]
 
-\end{lstlisting}
+\begin{itemize}
+\item  byte: The byte data type is an 8-bit signed two's complement integer. It has a minimum value of -128 and a maximum value of 127 (inclusive).
+
+\item short: The short data type is a 16-bit signed two's complement integer. It has a minimum value of -32,768 and a maximum value of 32,767 (inclusive). 
+
+\item int: The int data type is a 32-bit signed two's complement integer. It has a minimum value of -2,147,483,648 and a maximum value of 2,147,483,647 (inclusive). For integral values {\tt int} is generally the default choice.
+
+\item long: The long data type is a 64-bit signed two's complement integer. It has a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807 (inclusive). Use this data type when you need a range of values wider than those provided by int.
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Floating Point Primitive Types}
+
+
+\begin{itemize}
+\item float: The float data type is a single-precision 32-bit IEEE 754 floating point. This data type should never be used for precise values, such as currency. For that, you will need to use the java.math.BigDecimal class instead. Numbers and Strings covers BigDecimal and other useful classes provided by the Java platform.
+
+\item double: The double data type is a double-precision 64-bit IEEE 754 floating point. Its range of values is beyond the scope of this discussion, but is specified in the Floating-Point Types, Formats, and Values section of the Java Language Specification. For decimal values, {\tt double} is generally the default choice. As mentioned above, this data type should never be used for precise values, such as currency.
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt boolean} and {\tt char}}
+
+
+\begin{itemize}
+\item boolean: The boolean data type has only two possible values: true and false. Use this data type for simple flags that track true/false conditions. This data type represents one bit of information, but its "size" isn't something that's precisely defined.
+
+\item char: The char data type is a single 16-bit Unicode character. It has a minimum value of \verb@'\u0000'@ (or 0) and a maximum value of \verb@'\uffff'@ (or 65,535 inclusive).
+\end{itemize}
 
 
 \end{frame}
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{}
+\begin{frame}[fragile]{Assignment Compatibility}
 
+
+In general, automatic widening conversions of numeric values are performed in the following cases.  Read {\tt ->} as ``can be assigned to.''
 
 \begin{lstlisting}[language=Java]
-
+byte -> short -> int -> char -> long -> float -> double
 \end{lstlisting}
 
+\begin{itemize}
+\item Note that {\tt char} holds an integral value that is interpreted as a character according to the text encoding in use (e.g., UTF8, Latin-1, ASCII, etc).
+\item Unlike in some languages, you can't assign an {\tt int} to a {\tt boolean} or vice-versa.
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt String} Values}
+
+
+Two ways to represent {\tt String} values in a program:
+\begin{itemize}
+
+\item {\tt String} literals
+\begin{lstlisting}[language=Java]
+"foo"
+\end{lstlisting}
+
+\item {\tt String} variables
+
+\begin{lstlisting}[language=Java]
+String foo = "foo";
+\end{lstlisting}
+
+ 
+\end{itemize}
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt String} Concatenation }
+
+
+The {\tt +} operator is overloaded to mean concatenation for {\tt String} objects
+
+\begin{itemize}
+
+\item Strings can be concatenated
+\begin{lstlisting}[language=Java]
+String bam = foo + bar + baz; // Now bam is "foobarbaz"
+\end{lstlisting}
+
+\item Primitive types can also be concatenated with {\tt Strings}.  The primitive is converted to a String
+\begin{lstlisting}[language=Java]
+String s = bam + 42; // s is "foobarbaz42"
+String t = 42 + bam; // t is "42foobarbaz"
+\end{lstlisting}
+
+\end{itemize}
+
+Note that {\tt +} is only overloaded for {\tt Strings}.
 
 \end{frame}
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{}
+\begin{frame}[fragile]{The {\tt String} Class}
 
 
+{\tt String} acts like primitive thanks to syntactic sugar provided by the Java compiler, but it is defined as a class in the Java standard library
+
+\begin{itemize}
+
+\item See \url{http://docs.oracle.com/javase/7/docs/api/java/lang/String.html} for details.
+
+\item Methods on objects are invoked on the object using the {\tt .} operator
 \begin{lstlisting}[language=Java]
-
+String empty = "";
+int len = empty.length(); // len is 0
 \end{lstlisting}
 
+\item Look up the methods {\tt length}, {\tt indexOf}, {\tt substring}, and {\tt compareTo}, and {\tt trim}
 
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{}
-
-
+\item Because {\tt String}s are objects, beware of null references:
 \begin{lstlisting}[language=Java]
-
+int aPosInBoom = boom.indexOf("a"); // This won't compile
 \end{lstlisting}
 
+\end{itemize}
+
+Play with \link{\code/Strings.java}{Strings.java}
 
 \end{frame}
 %------------------------------------------------------------------------

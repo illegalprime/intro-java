@@ -8,112 +8,9 @@
 {Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
 \institute[Georgia Tech] % (optional, but mostly needed)
 
-\date[CS 1331]{}
-\subject{\lesson}
-% This is only inserted into the PDF information catalog. Can be left
-% out. 
+\date{}
 
-% If you have a file called "university-logo-filename.xxx", where xxx
-% is a graphic format that can be processed by latex or pdflatex,
-% resp., then you can add a logo as follows:
-
-% \pgfdeclareimage[width=0.6in]{coc-logo}{cc_2012_logo}
-% \logo{\pgfuseimage{coc-logo}}
-
-\mode<presentation>
-{
-  \usetheme{Berlin}
-  \useoutertheme{infolines}
-
-  % or ...
-
- \setbeamercovered{transparent}
-  % or whatever (possibly just delete it)
-}
-
-\usepackage{hyperref}
-\usepackage{fancybox}
-\usepackage{listings}
-\usepackage[abbr]{harvard}
-
-\usepackage[english]{babel}
-% or whatever
-
-\usepackage[latin1]{inputenc}
-% or whatever
-
-\usepackage{times}
-\usepackage[T1]{fontenc}
-% Or whatever. Note that the encoding and the font should match. If T1
-% does not look nice, try deleting the line with the fontenc.
-
-
-\usepackage{listings}
- 
-% "define" Scala
-\lstdefinelanguage{scala}{
-  morekeywords={abstract,case,catch,class,def,%
-    do,else,extends,false,final,finally,%
-    for,if,implicit,import,match,mixin,%
-    new,null,object,override,package,%
-    private,protected,requires,return,sealed,%
-    super,this,throw,trait,true,try,%
-    type,val,var,while,with,yield},
-  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
-  sensitive=true,
-  morecomment=[l]{//},
-  morecomment=[n]{/*}{*/},
-  morestring=[b]",
-  morestring=[b]',
-  morestring=[b]""",
-}
-
-\usepackage{color}
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
- 
-% Default settings for code listings
-\lstset{frame=tb,
-  language=scala,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\scriptsize\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  frame=single,
-  breaklines=true,
-  breakatwhitespace=true,
-  keepspaces=true
-  %tabsize=3
-}
-
-
-\title[\course] % (optional, use only with long
-                                      % paper titles)
-{\lesson}
-
-\subtitle{}
-%% {Include Only If Paper Has a Subtitle}
-
-
-% Delete this, if you do not want the table of contents to pop up at
-% the beginning of each subsection:
-%% \AtBeginSection[]
-%% {
-%%   \begin{frame}<beamer>{Outline}
-
-%%  \tableofcontents[currentsection]
-%%   \end{frame}
-%% }
-
-% If you wish to uncover everything in a step-wise fashion, uncomment
-% the following command: 
+\include{beamer-common}
 
 % \beamerdefaultoverlayspecification{<+->}
 
@@ -123,6 +20,18 @@
 \begin{frame}
   \titlepage
 \end{frame}
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Bug}
+
+\begin{center}
+\includegraphics[height=2.5in]{bug.png}\\
+\link{http://xkcd.com/376/}{http://xkcd.com/376/}
+\end{center}
+
+\end{frame}
+%------------------------------------------------------------------------
 
 
 
@@ -155,9 +64,6 @@ Java catches many kinds of errors at compile-time, including:
 \item Method parameter matching - passing the wrong number or type of arguments to a method
 \end{itemize}
 
-\vspace{.2in}
-See \href{\code/Bugs.java}{Bugs.java}
-
 \end{frame}
 %------------------------------------------------------------------------
 
@@ -171,26 +77,6 @@ A program can compile successfully and fail at runtime.
 \item Array index out of bounds - referencing an array element with a negative index or an index $\ge$ the array length
 \item {\tt NullPointerException} - calling a method or accessing an instance member on an object reference that is {\tt null}
 \end{itemize}
-
-\vspace{.2in}
-See \href{\code/Bugs.java}{Bugs.java}
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Finding Errors}
-
-
-The process of finding errors is called {\bf debugging}.
-
-\begin{itemize}
-\item Fixing compile-time errors is largely a matter of knowing the language and having a keen eye for typos
-\item Simple runtime errors, like array indexes out of bounds, are caught and reported with their precise location
-\item Semantic errors (which sometimes manifest as runtime errors) require a great deal of patience, detective work, and a toolbag of debigging techniques to find and fix
-\end{itemize}
-
-Finding semantic errors is the dominant of debugging.
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -243,6 +129,7 @@ Tracing is usually combined with watching the values of variables as the program
 \item Debugger: variables can be designated as ``watch'' variables and be displayed separately while the program runs
 \end{itemize}
 
+Let's try some of these techniques on \link{\code/Bugs.java}{Bugs.java}
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -281,7 +168,7 @@ Assertions are useful for checking semantic errors in your programs, but require
 \end{itemize}
 
 \vspace{.2in}
-Let's add some defensive code to \href{\code/Bugs.java}{Bugs.java}
+Let's add some defensive code to \link{\code/Bugs.java}{Bugs.java}
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -378,7 +265,7 @@ for (int j = 1; j < a.length; ++j) {
 Note that we didn't express the entire invariant in Java.  We could, but you must trade off implementation effort and benefit.
 
 \vspace{.1in}
-See \href{\code/InsertionSort.java}{InsertionSort.java}.
+See \link{\code/InsertionSort.java}{InsertionSort.java}.
 
 
 \end{frame}
@@ -386,21 +273,20 @@ See \href{\code/InsertionSort.java}{InsertionSort.java}.
 
 
 
-% %------------------------------------------------------------------------
-% \begin{frame}[fragile]{}
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Closing Thoughts}
 
 
-% \begin{lstlisting}[language=Java]
+\begin{itemize}
+\item Computers are compliant and finicky
+\item Debugging is an art and a science
+\item Think like a detective
+\item Code defensively
+\end{itemize}
 
-% \end{lstlisting}
 
-% \begin{itemize}
-% \item
-% \end{itemize}
-
-
-% \end{frame}
-% %------------------------------------------------------------------------
+\end{frame}
+%------------------------------------------------------------------------
 
 
 \end{document}
