@@ -1,120 +1,19 @@
 \documentclass{beamer}
 
-\usepackage[english]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{eurosym}
+\newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
+\newcommand{\lesson}{Console IO}
+\newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
 
-\mode<presentation>
-{
-  \usetheme{Berlin}
-  \useoutertheme{infolines}
-
-  % or ...
-
- \setbeamercovered{transparent}
-  % or whatever (possibly just delete it)
-}
-\usepackage{hyperref}
-\usepackage{fancybox}
-\usepackage{framed}
-\usepackage{listings}
-\usepackage[abbr]{harvard}
-
-\usepackage{times}
-% Or whatever. Note that the encoding and the font should match. If T1
-% does not look nice, try deleting the line with the fontenc.
-
-
-\usepackage{listings}
- 
-% "define" Scala
-\lstdefinelanguage{scala}{
-  morekeywords={abstract,case,catch,class,def,%
-    do,else,extends,false,final,finally,%
-    for,if,implicit,import,match,mixin,%
-    new,null,object,override,package,%
-    private,protected,requires,return,sealed,%
-    super,this,throw,trait,true,try,%
-    type,val,var,while,with,yield},
-  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
-  sensitive=true,
-  morecomment=[l]{//},
-  morecomment=[n]{/*}{*/},
-  morestring=[b]",
-  morestring=[b]',
-  morestring=[b]""",
-}
-
-\usepackage{color}
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
- 
-% Default settings for code listings
-\lstset{frame=tb,
-  language=scala,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\scriptsize\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  frame=single,
-  breaklines=true,
-  breakatwhitespace=true,
-  keepspaces=true
-  %tabsize=3
-}
-
-
-
-\title[CS 1331 Introduction to Object-Oriented Programming] % (optional, use only with long
-                                      % paper titles)
-{Console IO}
-
-\subtitle{}
-%% {Include Only If Paper Has a Subtitle}
-
-\author[Chris Simpkins] % (optional, use only with lots of authors)
+\author[Chris Simpkins] 
 {Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
-% - Give the names in the same order as the appear in the paper.
-% - Use the \inst{?} command only if the authors have different
-%   affiliation.
-
 \institute[Georgia Tech] % (optional, but mostly needed)
 
-\date[] % (optional, should be abbreviation of
-                           % conference name)
-{}
-% - Either use conference name or its abbreviation.
-% - Not really informative to the audience, more for people (including
-%   yourself) who are reading the slides online
+\date[CS 1331]{}
 
-\subject{Console IO}
-% This is only inserted into the PDF information catalog. Can be left
-% out. 
+\include{beamer-common}
 
-% If you have a file called "university-logo-filename.xxx", where xxx
-% is a graphic format that can be processed by latex or pdflatex,
-% resp., then you can add a logo as follows:
-
-%% \pgfdeclareimage[width=0.6in]{gtri_logo}{gtri_logo}
-%% \logo{\pgfuseimage{gtri_logo}}
-
-% Delete this, if you do not want the table of contents to pop up at
-% the beginning of each subsection:
-%% \AtBeginSection[]
-%% {
-%%   \begin{frame}<beamer>{Outline}
-
-%%  \tableofcontents[currentsection]
-%%   \end{frame}
-%% }
+\usepackage{framed}
+\usepackage{eurosym}
 
 % If you wish to uncover everything in a step-wise fashion, uncomment
 % the following command: 
@@ -207,7 +106,7 @@ System.out.printf("%d %s.\n", 7, "Samurai");
 \end{lstlisting}
 prints
 \begin{lstlisting}[language=Java]
-7 Samurai
+7 Samurai.
 \end{lstlisting}
 
 \item Floating point numbers - {\tt f}
@@ -216,12 +115,12 @@ prints
 \end{lstlisting}
 prints
 \begin{lstlisting}[language=Java]
-I like 3.14
+I like 3.14.
 \end{lstlisting}
 
 \end{itemize}
 
-Play around with \url{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code/ConsoleOutput.java} to get a feel for printf.
+Play around with \link{\code/ConsoleOutput.java}{ConsoleOutput.java} to get a feel for {\tt printf}.
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -268,7 +167,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 \end{lstlisting}
 \vspace{-.1in}
-See \url{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code/CurrencyFormatting.java}
+See \link{\code/CurrencyFormatting.java}{CurrencyFormatting.java}
 \end{frame}
 %------------------------------------------------------------------------
 
@@ -299,12 +198,12 @@ System.out.printf("Your exam average is %.1f%n", examAvg);\end{lstlisting}
 \begin{frame}[fragile]{Basic File Input using {\tt Scanner}}
 
 
-You can read form a file the same way you read form a keyboard by simply initializing with a {\tt FileInputStream} instead of {\tt System.in}
+You can read from a file the same way you read form a keyboard by simply initializing with a {\tt FileInputStream} instead of {\tt System.in}
 \begin{lstlisting}[language=Java]
 Scanner gradeFile = new Scanner(new FileInputStream("grades.txt"));
 \end{lstlisting}
  
-See \url{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code/CourseAverage.java} for an example.
+See \link{\code/CourseAverage.java}{CourseAverage.java} for an example.
 \end{frame}
 %------------------------------------------------------------------------
 

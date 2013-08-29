@@ -156,7 +156,7 @@ Post-order:
 \item Process node's item.
 \end{itemize}
 
-There are variations on these strategies.
+Let's look at \link{\code/BinaryTree.java}{BinaryTree.java} for examples of these traversals.
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -187,6 +187,23 @@ Let's implement an in-order iterator for a binary tree, a non-trivial task, to g
 \end{frame}
 %------------------------------------------------------------------------
 
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Stateful In-Order Tree Traversal}
+
+
+In the traversal examples we saw earlier the traversal order was effected by the method call stack.  A stateful iterator is much more challenging because:
+
+\begin{itemize}
+\item The iterator must remember where it is in the tree
+\item The iterator must be able to back-track to parent nodes after processing child branches
+\end{itemize}
+
+The essential implementation idea is to use a stack to store nodes for back-tracking.  Traditionally (at least in AI), this ``to-do list'' stack is called the {\it fringe}\footnote{This search strategy is called {\it depth-first search}.  Using a queue for the fringe instead of a stack would effect a {\it breadth-first search}}.
+
+Let's look at \link{\code/BinaryTree.java}{BinaryTree.java} again to see how we implement a stateful in-order iterator.
+
+\end{frame}
+%------------------------------------------------------------------------
 
 % %------------------------------------------------------------------------
 % \begin{frame}[fragile]{}

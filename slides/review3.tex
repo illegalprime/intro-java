@@ -1,7 +1,7 @@
 \documentclass{beamer}
 
 \newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
-\newcommand{\lesson}{Review 3: Exceptions, Recursion, and Swing}
+\newcommand{\lesson}{ArrayList and Swing}
 \newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
 
 \author[Chris Simpkins] 
@@ -24,225 +24,90 @@
   \titlepage
 \end{frame}
 
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Exam 3 Topics}
-
-
-\begin{itemize}
-\item Exceptions
-\item Recursion
-\item Swing
-\end{itemize}
-
-
-\end{frame}
-%------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{Exceptions}
+\begin{frame}[fragile]{Java Collections}
 
-\begin{itemize}
-\item How they work
-\item Checked and unchecked exceptions
-\item The ``declare or throw'' rule
-\item Multiple catch blocks
-\end{itemize}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Throwing Exceptions is a Control Flow Mechanism}
-
-
-What does this code print?
-\begin{lstlisting}[language=Java]
-public class Wee {
-
-    static void bar() throws Throwable {
-        throw new Throwable("Wee!");
-    }
-
-    static void foo() throws Throwable {
-        bar();
-        System.out.println("Foo!");
-    }
-
-    public static void main(String[] args) {
-        try {        
-            foo();
-        } catch (Throwable t) {
-            System.out.println(t.getMessage());
-        }
-        System.out.println("I'm still running.");
-    }
-}
-\end{lstlisting}
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Java's Exception Hierarchy}
-
-\begin{columns}[t]
-\begin{column}{2in}
 \begin{center}
-\includegraphics[height=2.5in]{hierarchy_of_java_exceptions.png}
+\includegraphics[width=4in]{colls-coreInterfaces.png}
 \end{center}
-\end{column}
-\begin{column}{3in}
-\begin{itemize}
-\item Most (checked) exceptions will subclass {\tt Exception}
-\item Most uncheked exceptions will subclass {\tt RuntimeException}
-\item {\tt Error} is for compiler hackers.  Don't use it directly.
-\end{itemize}
-\end{column}
-\end{columns}
+
+{\tt ArralyList} and {\tt LinkedList} are the two basic {\tt List} implementations provided in the Java standard library.  The concepts we'll learn for {\tt ArrayList} apply to all of Java's collection classes.
 
 \end{frame}
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{Catch or Declare}
+\begin{frame}[fragile]{{\tt ArrayList} Basics}
 
 
-The method {\tt initFromFile} throws {\tt FileNotFoundException}. Since {\tt FileNotFoundException} is a checked exception, you must deal with it in one of two ways:\\
-\vspace{.1in}
-{\it catch}:
-\vspace{-.05in}
-\begin{lstlisting}[language=Java,escapechar=`]
-public void myMethod(String dataFile) {
-    try {
-        initFromFile(new File(dataFile));
-    } `\colorbox{yellow}{catch (FileNotFoundException e) \{}`
-        System.out.println(e.getMessage());
-    }
-}
-\end{lstlisting}
-or {\it declare}:
-\vspace{-.05in}
-\begin{lstlisting}[language=Java,escapechar=`]
-public void myMethod(String dataFile) `\colorbox{yellow}{throws FileNotFoundException \{}`
-      initFromFile(new File(dataFile));
-}
-\end{lstlisting}
-
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Multiple Catch Blocks}
-
-
-What's wrong with this code?
+Create an {\tt ArrayList} with operator {\tt new}:
 \begin{lstlisting}[language=Java]
-public class Company {
-    private ArrayList<Employee> employees;
-
-    public Company(String employeeDataFile) {
-        employees = new ArrayList<Employee>(10);
-        try {
-            initFromFile(new File(employeeDataFile));
-        } catch (Exception e) {
-            System.out.println("Exception occurred: "+e.getMessage());
-        } catch (FileNotFoundException e) {
-            System.out.println("Employee data file not found.");
-        } catch (ParseException e) {
-            System.out.println("Malformed data file: "+e.getMessage();
-        }
-    }
-    //...
-}
+  ArrayList tasks = new ArrayList();
 \end{lstlisting}
+Add items with {\tt add()}:
+\begin{lstlisting}[language=Java]
+  tasks.add("Eat");
+  tasks.add("Sleep");
+  tasks.add("Code");
+\end{lstlisting}
+Traverse with for-each loop:
+\begin{lstlisting}[language=Java]
+  for (Object task: tasks) {
+      System.out.println(task);
+  }
+\end{lstlisting}
+
+Note that the for-each loop implicitly uses an iterator.
 
 \end{frame}
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{Multiple Catch Blocks}
+\begin{frame}[fragile]{Using Generics}
 
 
-The first catch clause will always be the one executed, because {\tt Exception} is a superclass of {\tt FileNotFoundException} and {\tt ParseException}.
-\begin{lstlisting}[language=Java,escapechar=`]
-public class Company {
-    private ArrayList<Employee> employees;
-
-    public Company(String employeeDataFile) {
-        employees = new ArrayList<Employee>(10);
-        try {
-            initFromFile(new File(employeeDataFile));
-        } catch (`\colorbox{yellow}{Exception e}`) {
-            System.out.println("Exception occurred: "+e.getMessage());
-        } catch (FileNotFoundException e) {
-            System.out.println("Employee data file not found.");
-        } catch (ParseException e) {
-            System.out.println("Malformed data file: "+e.getMessage();
-        }
-    }
-    //...
-}
-
+Supply a type argument in the angle brackets.  Read {\tt ArrayList<String>} as ``ArrayList of String''
+\begin{lstlisting}[language=Java]
+  ArrayList<String> strings = new ArrayList<String>();
+  strings.add("Helluva"); strings.add("Engineer!");
 \end{lstlisting}
+If we try to add an object that isn't a {\tt String}, we get a compile error:
+\begin{lstlisting}[language=Java]
+  Integer BULL_DOG = Integer.MIN_VALUE;
+  strings.add(BULL_DOG); // Won't compile
+\end{lstlisting}
+
+With a typed collection, we get autoboxing on insertion {\it and} retrieval:
+
+\begin{lstlisting}[language=Java]
+  ArrayList<Integer> ints = new ArrayList<>();
+  ints.add(42);
+  int num = ints.get(0);
+\end{lstlisting}
+Notice that we didn't need to supply the type parameter in the creation expression above.  Java inferred the type parameter from the declaration. (Note: this only works in Java 7 and above.)
+
+See \link{\code/ArrayListGenericsDemo.java}{ArrayListGenericsDemo.java} for more.
 
 \end{frame}
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{Recursion}
+\begin{frame}[fragile]{The {\tt equals} Method and Collections}
+
 
 
 \begin{itemize}
-\item A recursive processes or data structure is defined in terms of itself
-\item A properly written recursive function must
-\begin{itemize}
-\item hand the base case, and
-\item convergence to the base case.
-\end{itemize}
-\item Failure to properly handle the base case or converge to the base (divergence) case may result in infinite recursion.
+\item A class whose instances will be stored in a collection must have a properly implemented {\tt equals} method.
+\item The {\tt contains} method in collections uses the {\tt equals} method in the stored objects.
+\item The default implementation of {\tt equals} (object identity - true only for same object in memory) only rarely gives correct results.
+\item Note that {\tt hashcode()} also has a defualt implementation that uses the object's memory address.  As a rule, whenever you override {\tt equals}, you should also override {\tt hashcode}
 \end{itemize}
 
 
 \end{frame}
 %------------------------------------------------------------------------
 
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{A Recursive Factorial Function}
-
-
-Point out the base case and explain how this function converges to it.
-\vspace{-.05in}
-\begin{lstlisting}[language=Java]
-public static int fac(int n) {
-    if (n <= 1) {
-        return 1;
-    } else {
-        return n * fac(n - 1);
-    }
-}
-\end{lstlisting}
-\vspace{-.05in}
-The substitution model of evaluation is a tool for understanding recursive processes.  Here's {\tt fac(5)}:
-\vspace{-.05in}
-\begin{lstlisting}[language=Java]
-fac(5)
-5 * fac(4)
-5 * 4 * fac(3)
-5 * 4 * 3 * fac(2)
-5 * 4 * 3 * 2 * fac(1)
-5 * 4 * 3 * 2 * 1
-5 * 4 * 3 * 2
-5 * 4 * 6
-5 * 24
-120
-\end{lstlisting}
-
-
-\end{frame}
-%------------------------------------------------------------------------
 
 
 %------------------------------------------------------------------------
@@ -251,9 +116,15 @@ fac(5)
 
 Lots of stuff in Swing.  A few highlights:
 \begin{itemize}
-\item Components with {\tt ActionListener}s
-\item Use {\tt private} inner classes (not anonymous inner classes)
-\item Avoid using a single monolithic class and identifying the event firer with {\tt getActionCommand()}
+\item Container classes, e.g. {\tt JFrame} and {\tt JPanel}
+\item Layout managers, e.g. {\tt FlowLayout}, {\tt BorderLayout}, {\tt GridLayout}
+\item {\tt JLabel}s
+\item {\tt Graphics} and drawing
+\item Components with {\tt ActionListener}s, like {\tt JButton}
+\begin{itemize}
+\item Use {\tt private} inner classes
+\item Avoid using a single monolithic class that extends JFrame or JPanel and implements ActionListener
+\end{itemize}
 \end{itemize}
 
 

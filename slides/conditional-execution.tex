@@ -139,9 +139,9 @@ if (color.toUpperCase().equals("RED")) {
     }
 }
 \end{lstlisting}
-\vspace{-.1in}
+\vspace{-.05in}
 This multiway {\tt if-else} is equivalent, and clearer:
-\vspace{-.1in}
+\vspace{-.05in}
 \begin{lstlisting}[language=Java]
 if (color.toUpperCase().equals("RED")) {
     System.out.println("Redrum!");
@@ -235,7 +235,7 @@ The expression {\tt 6 + 7 * n - 12} is evaluated in the following steps, assumin
 (20 - 12)
 8
 \end{lstlisting}
-\vspace{-.1in}
+\vspace{-.05in}
 Beware of side-effects.  Consider the evaluation of {\tt ((result = (++n)) + (other = (2*(++n))))}:
 \begin{lstlisting}[language=Java]
 ((result = (++n)) + (other = (2*(++n))))
@@ -246,7 +246,7 @@ Beware of side-effects.  Consider the evaluation of {\tt ((result = (++n)) + (ot
 (3 + 8)
 11
 \end{lstlisting}
-\vspace{-.1in}
+\vspace{-.05in}
 Three side-effects: result = 3, other = 8, and n = 4
 
 \end{frame}
@@ -255,9 +255,9 @@ Three side-effects: result = 3, other = 8, and n = 4
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{The {\tt switch} Statement}
 
-
-Java provides {\tt switch} statement for multi-way branching.
 \vspace{-.1in}
+Java provides {\tt switch} statement for multi-way branching.
+\vspace{-.05in}
 \begin{lstlisting}[language=Java]
 switch (expr) {
     case 1:
@@ -272,7 +272,7 @@ switch (expr) {
         // executed only when other cases don't hold        
 }
 \end{lstlisting}
-\vspace{-.15in}
+\vspace{-.1in}
 \begin{itemize}
 \item Type of {\tt expr} can be {\tt char}, {\tt int}, {\tt short}, {\tt byte}, or {\tt String}
 \item In example above, what is type of {\tt expr}?

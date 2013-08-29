@@ -1,7 +1,7 @@
 \documentclass{beamer}
 
 \newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
-\newcommand{\lesson}{Swing, Part 4 of 5}
+\newcommand{\lesson}{Swing, Part 4 of 4}
 \newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
 
 \author[Chris Simpkins] 
@@ -103,7 +103,7 @@ public abstract class WindowAdapter
 An {\it icon} is a fixed-sized picture.
 
 \begin{itemize}
-\item Swing components such as {\tt JButton}s, {\tt JMenuItem}s and {\tt JLabel}s can be decorated with {\tt ImageIcon}s.
+\item Swing components such as {\tt JButton}s, {\tt JMenuItem}s and {\tt JLabel}s can display {\tt ImageIcon}s.
 \item Typical sizes for button and menu item icons are 16x16 or 32x32.  Oracle provides a set of ready-to-use icons in the \link{http://www.oracle.com/technetwork/java/index-138612.html}{Java look and feel Graphics Repository}
 \item {\tt ImageIcon}s can be used for displaying any image, not just icons for GUI components. (But you wouldn't use {\tt ImageIcon} as the basis for an image-editing application.)
 \end{itemize}
@@ -194,17 +194,8 @@ Key points:
 
 \begin{itemize}
 \item There's much more to Swing and GUI programming.
-\item Event-driven GUI programming requires a shift in thinking.  Putting the user in control means you have to work harder to
-\begin{itemize}
-  \item handle order dependencies, e.g., by disabling buttons until certain actions are taken, and
-  \item guide the user, e.g., by following UI guidelines to maximize familiarity.
-\end{itemize}
-\item JavaFX is the future, but learning Swing first makes sense because
-\begin{itemize}
-  \item Swing concepts are present in JavaFX,
-  \item JavaFX is much harder to set up and debug (so Swing is better for beginners), and
-  \item our goal here is to teach the basics of event-driven GUI programming.
-\end{itemize}
+\item You've learned the basics of GUIs and seen a good example of an object-oriented framework (Swing)
+\item Underneath it all, it's just programs made of the same stuff we've learned already - data and processes, variables and control structures, classes and methods.
 
 \end{itemize}
 

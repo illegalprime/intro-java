@@ -1,0 +1,319 @@
+\documentclass{beamer}
+
+\newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
+\newcommand{\lesson}{Recursion}
+\newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
+
+\author[Chris Simpkins] 
+{Christopher Simpkins \\\texttt{chris.simpkins@gatech.edu}}
+\institute[Georgia Tech] % (optional, but mostly needed)
+
+\date[CS 1331]{}
+
+\include{beamer-common}
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+% \beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Recursion}
+
+
+\begin{itemize}
+\item A recursive processes or data structure is defined in terms of itself
+\item A properly written recursive function must
+\begin{itemize}
+\item handle the base case, and
+\item convergence to the base case.
+\end{itemize}
+\item Failure to properly handle the base case or converge to the base case (divergence) may result in infinite recursion.
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{The Factorial Function}
+
+
+A mathematical definition: For a non-negative integer $n$:
+\begin{equation*}
+    fac(n) = \begin{cases}
+               1                   & \text{if } n \le 1\\
+               n * fac(n-1)        & \text{otherwise}
+           \end{cases}
+\end{equation*}
+
+\begin{itemize}
+\item This definition tells us what a factorial is.
+\item Defined in cases: a base case and a recursive case
+\end{itemize}
+ Factorial is defined in terms of itself
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{A Recursive Factorial Function}
+
+\begin{quote}
+Mathematics provides a rigorous framework for dealing with notions of {\em what is}, computation provides a rigorous framework for dealing with notions of {\em how to}. -- SICP
+\end{quote}
+
+To translate the mathematical definition of factorial (what a factorial {\it is} into a computational defiinition ({\it how to} compute a particular factorial), we need to
+\begin{itemize}
+\item identify the base case(s), and
+\item figure out how to get our computation to converge to a base case.
+\end{itemize}
+
+For factorial, the solution is straightforward:
+\begin{lstlisting}[language=Java]
+public static int fac(int n) {
+    if (n <= 1) {
+        return 1;
+    } else {
+        return n * fac(n - 1);
+    }
+}
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{The Substitution Model of Function Evaluation}
+
+
+\begin{itemize}
+\item Functions are evaluated in an eval-apply cycle: function arguments are evaluated (which may in turn require function evaluation), then the function is applied to the arguments.
+\item The substitution model of evaluation is a tool for understanding function evaluation in general, and recursive processes in particular.
+\end{itemize}
+Here's {\tt fac(5)}:
+\vspace{-.05in}
+\begin{lstlisting}[language=Java]
+fac(5)
+5 * fac(4)
+5 * 4 * fac(3)
+5 * 4 * 3 * fac(2)
+5 * 4 * 3 * 2 * fac(1)
+5 * 4 * 3 * 2 * 1
+5 * 4 * 3 * 2
+5 * 4 * 6
+5 * 24
+120
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}{Activation Records}
+
+\begin{itemize}
+
+\item Recursive subprograms cannot use statically allocated local
+  variables, because each instance of the subprogram needs its own
+  copies of local variables
+
+\item Most modern languages allocate local variables for functions on
+  the run-time stack.
+
+\item The system provides a stack pointer pointing to the next
+  available storage space on the stack.
+
+\item Subprogram instances use a frame pointer that points to their
+  activation record, or stack frame, which contains its copies of
+  local variables
+
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Activation Record Example}
+
+\scriptsize
+\begin{columns}
+\begin{column}{3cm}
+\begin{lstlisting}[language=C]
+int fac(n) {
+  if (n <=1) {
+    return 1
+  } else {
+    return n * fac(n-1)
+  }
+}
+int foo() {
+  int r = 3;
+  fac(r)
+}
+int main() {
+  print(foo())
+}
+\end{lstlisting}
+\end{column}
+
+\begin{column}{6cm}
+The stack just before fact returns with 6:
+\begin{tabular}{r|c|}
+ & return address to main \\ \hline
+foo frame & return value (TBD) \\
+ & r = 3 in foo \\
+ & return address to foo \\ \hline
+fac(3) frame & return value (TBD) \\
+ & parameter n = 3 in fac \\
+ & return address to fac \\ \hline
+fac(2) frame & return value (TBD) \\
+ & parameter n = 2 in fac \\
+ & return address to fac \\ \hline
+fac(1) frame & return value (1 by definition) \\
+ & parameter n = 1 in fac \\ \hline
+\end{tabular}
+
+\end{column}
+\end{columns}
+
+\normalsize
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Stack Overflow}
+
+
+
+\begin{itemize}
+\item The run-time stack is finite in size.
+\item If you put too many activation records on the stack (for example by calling a recursive function with a ``large'' argument), you will overflow the stack.
+\end{itemize}
+
+\begin{lstlisting}[language=Java]
+$ java Fac 10000
+facLoop(10000)=0
+Exception in thread "main" java.lang.StackOverflowError
+	at Fac.facHelper(Fac.java:35)
+	at Fac.facHelper(Fac.java:38)
+	at Fac.facHelper(Fac.java:38)
+...
+\end{lstlisting}
+
+Three ways to deal with this:
+
+\begin{itemize}
+\item limit input size (brittle -- how do you know limit on a particular machine?),
+\item increase stack size (brittle -- how do you know how big), or 
+\item replace recursion with iteration.
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Looping is Imperative Recursion}
+
+
+\begin{lstlisting}[language=Java]
+    public static int facLoop(int n) {
+        int factorial = 1;
+        for (int x = n; x > 0; x--) {
+            factorial *= x;
+        }
+        return factorial;
+    }
+\end{lstlisting}
+
+\begin{itemize}
+\item The base case is the termination condition for the loop.
+\item The loop variable converges to the termination condition.
+\end{itemize}
+
+Recursive definitions are often more natural, but imperative/iterative definitions
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Tail Recursion}
+
+\vspace{-.05in}
+\begin{lstlisting}[language=Java]
+    private static int facIter(int n) {
+        return facHelper(n, 1);
+    }
+    private static int facHelper(int n, int accum) {
+        if (n <= 1) {
+            return accum;
+        } else {
+            return facHelper(n - 1, n * accum);
+        }
+    }
+\end{lstlisting}
+\vspace{-.05in}
+Tail call optimization creates an iterative, rather than a recursive process:
+\vspace{-.05in}
+\begin{lstlisting}[language=Java]
+    facHelper(5);
+    facHelper(4, 5);
+    facHelper(3, 20);
+    facHelper(2, 60);
+    facHelper(1, 120);
+    120
+\end{lstlisting}
+\vspace{-.05in}
+Note: Java does not optimize tail calls, but many other languages (including all functional languages) do.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Closing Thoughts}
+
+
+\begin{itemize}
+\item Remember: A properly written recursive function must
+\begin{itemize}
+\item handle the base case, and
+\item convergence to the base case.
+\end{itemize}
+\item We've seen recursive processes, next we'll learn about recursive data structures.
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+% %------------------------------------------------------------------------
+% \begin{frame}[fragile]{}
+
+
+% \begin{lstlisting}[language=Java]
+
+% \end{lstlisting}
+
+% \begin{itemize}
+% \item
+% \end{itemize}
+
+
+% \end{frame}
+% %------------------------------------------------------------------------
+
+
+\end{document}

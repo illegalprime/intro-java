@@ -62,25 +62,6 @@ A stack may also have
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{Queue ADT}
-
-
-A {\it queue} is a FIFO (first in, first out) data structure with two defining operations:
-\begin{itemize}
-\item {\it enqueue} adds an element to the stack
-\item {\it dequeue} returns and removes the least recently added element from the queue
-\end{itemize}
-
-A queue may also have 
-\begin{itemize}
-\item an {\it isEmpty} operation, which is good style but not strictly necessary.
-\item a {\it peek} operation, which returns the next element to be removed from the queue with a dequeue operation but does not remove it.
-\end{itemize}
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
 \begin{frame}[fragile]{ArrayList Stack Implementation}
 
 
@@ -108,6 +89,57 @@ The entire implementation (as an inner class) is:
         }
     }
 \end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Linked Stack Implementation}
+
+
+Here's a stack implemented with {\tt Node}s.
+\begin{lstlisting}[language=Java]
+public class LinkedStack<E> {
+    private class Node<E> {
+        E data;
+        Node<E> next;
+
+        Node(E data, Node<E> next) { this.data=data; this.next=next; }
+    }
+    private Node<E> head;
+    
+    public void push(E item) {
+        head = new Node<E>(item, head);
+    }  
+    public E pop() {
+        E answer = head.data;
+        head = head.next;
+        return answer;
+    }
+    public boolean isEmpty() { return (head == null); }
+}
+\end{lstlisting}
+\vspace{-.05in}
+Look familiar? See \link{\code/LinkedStack.java}{LinkedStack.java}.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Queue ADT}
+
+
+A {\it queue} is a FIFO (first in, first out) data structure with two defining operations:
+\begin{itemize}
+\item {\it enqueue} adds an element to the stack
+\item {\it dequeue} returns and removes the least recently added element from the queue
+\end{itemize}
+
+A queue may also have 
+\begin{itemize}
+\item an {\it isEmpty} operation, which is good style but not strictly necessary.
+\item a {\it peek} operation, which returns the next element to be removed from the queue with a dequeue operation but does not remove it.
+\end{itemize}
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -142,38 +174,6 @@ The entire implementation (as an inner class) is:
 \end{lstlisting}
 \vspace{-.05in}
 See \link{\code/ArrayListDataStructures.java}{ArrayListDataStructures.java}.
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Linked Stack Implementation}
-
-
-Here's a stack implemented with {\tt Node}s.
-\begin{lstlisting}[language=Java]
-public class LinkedStack<E> {
-    private class Node<E> {
-        E data;
-        Node<E> next;
-
-        Node(E data, Node<E> next) { this.data=data; this.next=next; }
-    }
-    private Node<E> head;
-    
-    public void push(E item) {
-        head = new Node<E>(item, head);
-    }  
-    public E pop() {
-        E answer = head.data;
-        head = head.next;
-        return answer;
-    }
-    public boolean isEmpty() { return (head == null); }
-}
-\end{lstlisting}
-\vspace{-.05in}
-Look familiar? See \link{\code/LinkedStack.java}{LinkedStack.java}.
 
 \end{frame}
 %------------------------------------------------------------------------
