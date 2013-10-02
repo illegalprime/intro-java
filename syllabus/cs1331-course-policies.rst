@@ -15,7 +15,7 @@ Programming homework turn-in is via T-Square. Each assignment is due by the time
 Exams
 -----
 
-There are no makeup exams. Exceptions to this policy will only be considered under special circumstances such as serious illness, hospitalization, death in the family, judicial procedures, military service, or official school functions. Notification by email, etc. must be given in advance unless circumstances make that impossible. (Rarely do such circumstances exist.) Documentation must be provided to and verified by the Dean of Students. The Dean of Students will then in turn send us (and possibly all your professors when appropriate) a notice. The decision to make an exception to the no makeup exam policy is at the sole discretion of your instructor. Events such as errands, work conflicts, sleeping through your alarm, alarm malfunction, not being aware of the exam are definitely not valid excuses.
+There are no makeup exams. Exceptions to this policy will only be considered under special circumstances such as serious illness, hospitalization, death in the family, judicial procedures, military service, or official school functions. Notification by email, etc. must be given in advance unless circumstances make that impossible. (Rarely do such circumstances exist.) You must provide documentation to the Dean of Students **within one week of your return from illness/activity**. The Dean of Students will verifiy your excuse and send us (and possibly all your professors when appropriate) a notice. The decision to make an exception to the no makeup exam policy is at the sole discretion of your instructor. Events such as errands, work conflicts, sleeping through your alarm, alarm malfunction, not being aware of the exam are definitely not valid excuses.
 
 Email Policy
 ------------
@@ -30,7 +30,7 @@ Lecture and workshop/recitation attendance is required and assumed.
 Grade Contest
 -------------
 
-To contest any grade, you must submit an official regrade form to the Head TA, Andrew Schuster, within one week of the assignment's original return date. The original return date is when the exam was first made available for students to pick up or the grade was posted on T-Square in the case of homework assignments. This regrade policy applies to ALL grades.
+To contest any grade, you must submit an official regrade form to the Head TA **within one week of the assignment's original return date**. The original return date is when the exam was first made available for students to pick up or the grade was posted on T-Square in the case of homework assignments. This regrade policy applies to ALL grades.
 
 Course Expectations
 -------------------
