@@ -76,7 +76,7 @@ for(initializer; condition; update) {
 }
 \end{lstlisting}
 \begin{itemize}
-\item {\tt intializer} is an assignment statement that sets the initial value of the loop variables also called the loop index
+\item {\tt intializer} is an assignment statement that sets the initial value of the loop variables, also called the loop index
 \item {\tt condition} is tested at the beginning of the loop body to determine whether the loop body should be executed.  When false, the loop exits just like a while loop
 \item {\tt update} is an expression that updates the loop variables
 \end{itemize}
@@ -152,7 +152,7 @@ to:
 int i; // Bad.  Looop index variable visible outside loop.
 for (i = 0; i < 10; ++i)
 \end{lstlisting}
-\vspace{-.08in}
+
 You can have multiple loop indexes separated by commas:
 \vspace{-.05in}
 \begin{lstlisting}[language=Java]
@@ -161,11 +161,11 @@ for (int i = 0, j = len - 1; i < len/2; ++i, --j) {
     solved = solved + mystery.charAt(i) + mystery.charAt(j);
 }
 \end{lstlisting}
-\vspace{-.1in}
+
 Note that the loop above is one loop, not nested loops.\\
 \vspace{.025in}
 Beware of common ``extra semicolon'' syntax error:
-\vspace{-.08in}
+\vspace{-.05in}
 \begin{lstlisting}[language=Java]
 for (int i = 0; i < 10; ++i); // oops!  semicolon ends the statement
     print(meow);  // this will only execute once, not 10 times
@@ -270,7 +270,6 @@ while (shouldContinue) {
 \item Selection
 \item Repetition
 \end{itemize}
-\item Now we can start learning about Java's support for OOP.
 \end{itemize}
 
 

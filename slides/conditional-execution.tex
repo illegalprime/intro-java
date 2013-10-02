@@ -22,7 +22,93 @@
 \end{frame}
 
 %------------------------------------------------------------------------
-\begin{frame}{Structured Programming}
+\begin{frame}[fragile]{Boolean Values}
+
+
+There are 10 kinds of people:
+\pause
+\begin{itemize}
+\item Those who know binary,
+\pause
+\item and those who don't.
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Boolean Values}
+
+
+In Java, boolean values have the {\tt boolean} type.  Four kinds of boolean expressions:
+\begin{itemize}
+\item {\tt boolean} literals: {\tt true} and {\tt false}
+\item {\tt boolean} variables
+\item expressions formed by combining non-{\tt boolean} expressions with comparison operators
+\item expressions formed by combining {\tt boolean} expressions with logical operators
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Boolean Expressions}
+
+
+Simple boolean expressions formed with comparison operators:
+\begin{itemize}
+\item Equal to: {\tt ==}, like $=$ in math
+  \begin{itemize}
+    \item Remember, {\tt =} is assignment operator, {\tt ==} is comparison operator!
+  \end{itemize}
+\item Not equal to: {\tt !=}, like $\ne$ in math
+\item Greater than: {\tt >}, like $>$ in math
+\item Greater than or equal to: {\tt >=}, like $\ge$ in math
+\item ...
+\end{itemize}
+Examples:
+\begin{lstlisting}[language=Java]
+1 == 1 // true
+1 != 1 // false
+1 >= 1 // true
+1 > 1  // false
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Combining Boolean Expressions}
+
+
+Simple boolean expressions can be combined to form larger expressions using:
+\begin{itemize}
+\item And: {\tt \&\&}, like $\land$ in math
+\item Or: {\tt ||}, like $\lor$ in math
+\end{itemize}
+Examples:
+\vspace{-.05in}
+\begin{lstlisting}[language=Java]
+if ((kids !=0) && ((pieces / kids) >= 2))
+    System.out.println("Each kid may have two pieces.");
+\end{lstlisting}
+\vspace{-.05in}
+In this example, note that Java uses short-circuit evaluation.  If
+{\tt kids !=0} evaluates to {\tt false}, then the second sub-expression is not evaluated, thus avoiding a divide-by-zero error.
+
+\vspace{.1in}
+Note: You can force a complete evaluation by using {\tt \&} or {\tt |}, for example if you have side effects you want to ensure happen in the second expression.  We mention this fact for completeness but implore you not to write such code.\\
+
+Play with \link{\code/Conditionals.java}{Conditionals.java}.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Structured Programming}
 
 
 Control flow issues:
@@ -156,103 +242,6 @@ if (color.toUpperCase().equals("RED")) {
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{Boolean Expressions}
-
-
-Simple boolean expressions formed with comparison operators:
-\begin{itemize}
-\item Equal to: {\tt ==}, like $=$ in math
-  \begin{itemize}
-    \item Remember, {\tt =} is assignment operator, {\tt ==} is comparison operator!
-  \end{itemize}
-\item Not equal to: {\tt !=}, like $\ne$ in math
-\item Greater than: {\tt >}, like $>$ in math
-\item Greater than or equal to: {\tt >=}, like $\ge$ in math
-\item ...
-\end{itemize}
-Examples:
-\begin{lstlisting}[language=Java]
-1 == 1 // true
-1 != 1 // false
-1 >= 1 // true
-1 > 1  // false
-\end{lstlisting}
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Combining Boolean Expressions}
-
-
-Simple boolean expressions can be combined to form larger expressions using:
-\begin{itemize}
-\item And: {\tt \&\&}, like $\land$ in math
-\item Or: {\tt ||}, like $\lor$ in math
-\end{itemize}
-Examples:
-\vspace{-.05in}
-\begin{lstlisting}[language=Java]
-if ((kids !=0) && ((pieces / kids) >= 2))
-    System.out.println("Each kid may have two pieces.");
-\end{lstlisting}
-\vspace{-.05in}
-In this example, note that Java uses short-circuit evaluation.  If
-{\tt kids !=0} evaluates to {\tt false}, then the second sub-expression is not evaluated, thus avoiding a divide-by-zero error.
-
-\vspace{.1in}
-Note: You can force a complete evaluation by using {\tt \&} or {\tt |}, for example if you have side effects you want to ensure happen in the second expression.  We mention this fact for completeness but implore you not to write such code.\\
-
-Play with \link{\code/Conditionals.java}{Conditionals.java}.
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Precedence and Associativity}
-
-
-If an expression contains no parentheses, Java evaluates using precedence and associativity rules (Page 126 in your textbook) in a three-step process:
-\begin{enumerate}
-\item Associate operands with operators, starting with highest-precedence operators.  This step effectively parenthesizes expression (book calls this ``binding'')
-\item Evaluate subexpressions in left to right order (possibly in multiple sweeps if deeply nested)
-\item Evaluate outer ``top-level'' operation once all subexpressions have been evaluated
-\end{enumerate}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Evaluation Examples}
-
-
-The expression {\tt 6 + 7 * n - 12} is evaluated in the following steps, assuming n = 2:
-\begin{lstlisting}[language=Java]
-((6 + (7 * n)) - 12)
-((6 + (7 * 2)) - 12)
-((6 + 14) - 12)
-(20 - 12)
-8
-\end{lstlisting}
-\vspace{-.05in}
-Beware of side-effects.  Consider the evaluation of {\tt ((result = (++n)) + (other = (2*(++n))))}:
-\begin{lstlisting}[language=Java]
-((result = (++n)) + (other = (2*(++n))))
-((result = 3) + (other = (2*(++n))))
-(3 + (other = (2*(++n))))
-(3 + (other = (2*4))) // Note that n was 3 from the first pre-increment
-(3 + (other = 8))
-(3 + 8)
-11
-\end{lstlisting}
-\vspace{-.05in}
-Three side-effects: result = 3, other = 8, and n = 4
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
 \begin{frame}[fragile]{The {\tt switch} Statement}
 
 \vspace{-.1in}
@@ -286,6 +275,49 @@ Play with \link{\code/Switch.java}{Switch.java}
 \end{frame}
 %------------------------------------------------------------------------
 
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Precedence and Associativity}
+
+
+If an expression contains no parentheses, Java evaluates using precedence and associativity rules (Page 126 in your textbook) in a three-step process:
+\begin{enumerate}
+\item Associate operands with operators, starting with highest-precedence operators.  This step effectively parenthesizes expression (book calls this ``binding'')
+\item Evaluate subexpressions in left to right order (possibly in multiple sweeps if deeply nested)
+\item Evaluate outer ``top-level'' operation once all subexpressions have been evaluated
+\end{enumerate}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Evaluation Examples}
+
+
+The expression {\tt 6 + 7 * 2 - 12} is evaluated in the following steps:
+\begin{lstlisting}[language=Java]
+((6 + (7 * 2)) - 12) // Associate operands with operators
+((6 + 14) - 12)      // Evaluate subexpressions ...
+(20 - 12)
+8
+\end{lstlisting}
+\vspace{-.05in}
+Beware of side-effects.  Consider the evaluation of {\tt ((result = (++n)) + (other = (2*(++n))))} for {\tt n = 2}:
+\begin{lstlisting}[language=Java]
+((result = (++n)) + (other = (2*(++n))))
+((result = 3) + (other = (2*(++n))))
+(3 + (other = (2*(++n))))
+(3 + (other = (2*4))) // Note that n was 3 from the first pre-increment
+(3 + (other = 8))
+(3 + 8)
+11
+\end{lstlisting}
+\vspace{-.05in}
+Three side-effects: result = 3, other = 8, and n = 4
+
+\end{frame}
+%------------------------------------------------------------------------
+
 
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{Closing Thoughts}
@@ -293,7 +325,7 @@ Play with \link{\code/Switch.java}{Switch.java}
 
 \begin{itemize}
 \item Conditional execution straigtforward, but watch out for side-effects in boolean assignments.
-\item Parenthesize your expressions to make them clera to the reader and to Java.
+\item Parenthesize your expressions to make them clear to the reader and to Java.
 \item Next we'll learn loops, and we'll have all the tools we need to implement any algorithm.
 \end{itemize}
 

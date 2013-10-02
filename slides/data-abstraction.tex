@@ -190,8 +190,8 @@ Here's a Java implementation of our complex number ADT \footnote{\url{http://int
 public class Complex {
     // These are the data of the ADT
 
-    private final double real;
-    private final double imaginary;
+    private double real;
+    private double imaginary;
 
     // These are the operations of the ADT
 
@@ -213,6 +213,76 @@ public class Complex {
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
+\begin{frame}[fragile]{Reference Variables}
+
+
+Consider the following code:
+\begin{lstlisting}[language=Java]
+Complex a = new Complex(1.0, 2.0);
+Complex b = new Complex(3.0, 4.0);
+Complex c = a.plus(b);
+\end{lstlisting}
+
+{\tt a}, {\tt b}, and {\tt c} are {\it reference} variables of type {\tt Complex}.  Reference variables have one of two values:
+
+\begin{itemize}
+\item the address of an object in memory (in this case an instance of {\tt Complex}), or
+\item {\tt null}, meaning the variable references nothing.
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Invoking Constructors}
+
+
+The line:
+\begin{lstlisting}[language=Java]
+Complex a = new Complex(1.0, 2.0);
+\end{lstlisting}
+
+invokes the {\tt Complex} constructor, passing arguments {\tt 1.0} and {\tt 2.0}:
+
+\begin{lstlisting}[language=Java,escapechar=`]
+public Complex(`\colorbox{yellow}{1.0}`, `\colorbox{yellow}{2.0}`) {
+    real = `\colorbox{yellow}{1.0}`;
+    imaginary = `\colorbox{yellow}{2.0}`;
+}
+\end{lstlisting}
+
+which {\it instantiates} a {\tt Complex} object and stores its address in the variable {\tt a}:
+
+\begin{lstlisting}[language=Java]
+Complex a = new Complex(1.0, 2.0);
+\end{lstlisting}
+Constructors initialize objects.  After the line above, {\tt Complex} object {\tt a}'s instance variables have the values {\tt 1.0} and {\tt 2.0}.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Invoking Methods on Objects}
+
+
+The line:
+\begin{lstlisting}[language=Java]
+Complex c = a.plus(b);
+\end{lstlisting}
+invokes the {\tt plus} method on the {\tt a} object, passing the {\tt b} object as an argument:
+\begin{lstlisting}[language=Java,escapechar=`]
+a.plus(`\colorbox{yellow}{b}`) {
+    double resultReal = this.real + `\colorbox{yellow}{b}`.real; \\ 3.0
+    double resultImaginary = this.imaginary + `\colorbox{yellow}{b}`.imaginary; \\ 4.0
+    return new Complex(resultReal, resultImaginary);
+}
+\end{lstlisting}
+which returns a new {\tt Complex} object and assigns its address to the  reference variable {\tt c}.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
 \begin{frame}[fragile]{Using the {\tt Complex} Class}
 
 
@@ -223,13 +293,14 @@ Complex b = new Complex(3.0, 4.0);
 Complex c = a.plus(b);
 \end{lstlisting}
 
-Note that the user of a class need not be concerned with its implementation, only with its interface, or {\it API} (application programmer interface).\\
+without being concerned with {\tt Complex}'s implementation (which could use polar form, for example).  Clients (i.e., users) of the {\tt Complex} class need only be concerned with its interface, or {\it API} (application programmer interface) -- the public methods of the class.\\
 \vspace{.1in}
-Classes give us powerful tools to define well-structured software using ADTs (and later, inheritance).  In the next lecture we begin studying classes in detail.
+Classes give us powerful tools to define well-structured software using ADTs (and later, inheritance). In the next lecture we begin studying classes in detail.
 
 
 \end{frame}
 %------------------------------------------------------------------------
+
 
 
 % %------------------------------------------------------------------------

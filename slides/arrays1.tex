@@ -94,11 +94,11 @@ double scores[], average;
 \end{lstlisting}
 creates
 \begin{itemize}
-\item an uninitialzed array of {\tt double} named {\tt scores}, and
-\item a {\tt double} variable named {\tt average} (auto-initialized to the default value for {\tt double}, namely, {\tt 0.0} if it's an instance variable).
+\item an array of {\tt double} reference named {\tt scores}, and
+\item a {\tt double} variable named {\tt average}
 \end{itemize}
 
-What is the value of {\tt scores} after the statement above?
+What's the size of the {\tt scores} array declared above?
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -204,7 +204,7 @@ for (double score: scores) {
 }
 \end{lstlisting}
 
-Read the enhanced for loop as ``for each element of the array ...''.
+Read the enhanced for loop as ``for each element of the array ...''.  Why use for-each instead of traditional for? ...
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -315,8 +315,8 @@ See also \link{\code/CourseAverage.java}{CourseAverage.java}
 \begin{frame}[fragile]{Closing Thoughts}
 
 \begin{itemize}
-\item Arrays are our first ``collection class''.
-\item Arrays are objects, so array objects are created with operator {`tt new} and array variables can have the value {\tt null}.
+\item Arrays are our first ``collection classes'' (but are not Java {\tt Collection} classes).
+\item Arrays are objects, so array objects are created with operator {\tt new} and array variables can have the value {\tt null}.
 \item Arrays have special syntax to make them syntactically similar to C's arrays.
 \end{itemize}
 

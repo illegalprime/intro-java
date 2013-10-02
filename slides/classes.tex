@@ -33,7 +33,7 @@
 %%   flashvars={
 %%     modestbranding=1 % no YT logo in control bar
 %%    &autohide=1       % controlbar autohide
-%%    &showinfo=0       % no title and other info before start
+%    &showinfo=0       % no title and other info before start
 %%   }
 %% ]{}{http://www.youtube.com/watch?v=8aXsEO2eKo4}   % Flash file
 
@@ -213,7 +213,7 @@ Let's make a dealer class to represent client code.
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{A Dealer Class}
+\begin{frame}[fragile]{A Dealer Class\footnote{Our Dealer class plays the role that a Driver class often plays in your homework.}}
 
 
 (We'll synchronize the names of Dealer classes with the names of Card classes, so {\tt Dealer2} is meant to test {\tt Card2}.) 
@@ -377,16 +377,12 @@ Invariants for Card class:
 
 \vspace{-.05in}
 {\tt rank} invariant can be maintained by adding:
-
+\vspace{-.05in}
 \begin{lstlisting}[language=Java]
-import java.util.Arrays;
-// ...
 public class Card5 {
-
     private final String[] VALID_RANKS =
         {"2", "3", "4", "5", "6", "7", "8", "9",
          "10", "jack", "queen", "king", "ace"};
-
     public void setRank(String rank) {
         if (!isValidRank(rank)) {
             System.out.println(rank + " is not a valid rank.");
@@ -394,9 +390,16 @@ public class Card5 {
         }
         this.rank = rank;
     }
-
     private boolean isValidRank(String someRank) {
-        return Arrays.asList(VALID_RANKS).contains(someRank);
+        return contains(VALID_RANKS, someRank);
+    }
+    private boolean contains(String[] array, String item) {
+        for (String element: array) {
+            if (element.equals(item)) {
+                return true;
+            }
+        }
+        return false;
     }
     // ...
 }
@@ -539,10 +542,10 @@ Do we need a separate instance of {\tt VALID\_RANKS} and {\tt VALID\_SUITS} for 
 
 {\tt static} members are shared with all instances of a class:
 \begin{lstlisting}[language=Java]
-public static final String[] validRanks = 
+public static final String[] VALID_RANKS = 
     {"2", "3", "4", "5", "6", "7", "8", "9",
      "10", "jack", "queen", "king", "ace"};
-public static final String[] validSuits =
+public static final String[] VALID_SUITS =
     {"diamonds", "clubs", "hearts","spades"};
 \end{lstlisting}
 Given the declarations above:
@@ -621,6 +624,39 @@ public Card(String aRank, String aSuit) { // constructor
 %------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
+\begin{frame}[fragile]{Immutable Classes}
+
+
+An immutable class is a class whose instances cannot be modified.  To make a class immutable:
+
+\begin{itemize}
+\item Don't provide mutator methods (``setters'')
+\item Make the class {\tt final} so it can't be extended (there's another way to accomplish this, but making the class {\tt final} is good enough for now)
+\item Make all fields {\tt final}
+\item Make all fields {\tt private}
+\item For fields of mutable class types, return defensive copies in accessor methods (as we discussed in the lectures on arrays)
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Prefer Immutable Classes}
+
+
+In general, make your classes immutable unless you have a good reason to make them mutable.  Why?  Because immutable objects
+\begin{itemize}
+\item are simpler to design becuase you don't have to worry about enforcing class invariants in multiple places,
+\item are easier to reason about because the state of an object never changes after instantiation,
+\item are inherently thread-safe becuase access to mutable data need not be syncronized, and
+\item enable safe instance sharing, so redundant copies need not be created.
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
 \begin{frame}[fragile]{A Few Final Bits of Polish}
 
 
@@ -628,7 +664,7 @@ Take a look at the final evolution of our Card class, \link{\code/Card.java}{Car
 \begin{itemize}
 \item Instead of simply terminating the program, the constructor throws {\tt IllegalArgumentException} on invalid input so that client code can choose to deal with the exception at run-time.
 \item Input is normalized to lower case and spaces trimmed to make the Card object robust to oddly formatted input.
-\item An extra constructor is provided for simpler Card object instantiation with strings like ``ace of spades''.  This constructor chains to the other constructor so no code is duplicated.
+\item An extra constructor is provided for simpler Card object instantiation with strings like ``ace of spades''.  This constructor delegates to the other constructor so no code is duplicated.
 \end{itemize}
 
 

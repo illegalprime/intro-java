@@ -147,28 +147,13 @@ assert condition;
 \item {\tt condition} is any boolean expression
 \item Normally, assertions are not checked
 \item To hava {\tt java} check assertions, run program with {\tt enableassertions} switch
-\item A more robust versoin of {\tt \#IFDEF DEBUG} from the old C days
+\item A more robust version of {\tt \#IFDEF DEBUG} from the old C days
 \end{itemize}
 With {\tt enableassertions} switch, when some {\tt condition} in an assertion is {\tt false}, the program terminates with a {\tt java.lang.AssertionError}.
 
 \vspace{.1in}
 Assertions are useful for checking semantic errors in your programs, but require some effort.
 
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Avoiding Bugs}
-
-\begin{itemize}
-\item Defensive programming - validate input, check array bounds, check for nulls, use checked expections
-\item Incremental development - develop program in small pieces, test peices individually before combining
-\item Code review/pair programming - have another set of eyes on your code
-\end{itemize}
-
-\vspace{.2in}
-Let's add some defensive code to \link{\code/Bugs.java}{Bugs.java}
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -262,11 +247,32 @@ for (int j = 1; j < a.length; ++j) {
     a[i + 1] = key;
 }
 \end{lstlisting}
-Note that we didn't express the entire invariant in Java.  We could, but you must trade off implementation effort and benefit.
+Note that we didn't express the entire invariant in Java.  We could, but you must trade off implementation effort and benefit. Run the program with the {\tt -ea} switch to enable assertions:
+\begin{lstlisting}[language=Java]
+$ java -ea InsertionSort
+\end{lstlisting}
 
-\vspace{.1in}
 See \link{\code/InsertionSort.java}{InsertionSort.java}.
 
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Avoiding Bugs}
+
+\begin{quote}
+There are two ways to write error-free programs; only the third one works. -- Alan Perlis 
+\end{quote}
+
+\begin{itemize}
+\item Defensive programming - validate input, check array bounds, check for nulls, use checked expections
+\item Incremental development - develop program in small pieces, test peices individually before combining
+\item Code review/pair programming - have another set of eyes on your code
+\end{itemize}
+
+\vspace{.2in}
+Let's add some defensive code to \link{\code/Bugs.java}{Bugs.java}
 
 \end{frame}
 %------------------------------------------------------------------------

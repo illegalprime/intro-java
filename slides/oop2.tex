@@ -1,7 +1,7 @@
 \documentclass{beamer}
 
 \newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
-\newcommand{\lesson}{Object-Oriented Programming, Part 2 of 4}
+\newcommand{\lesson}{Object-Oriented Programming, Part 2 of 3}
 \newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
 
 \author[Chris Simpkins] 
@@ -21,104 +21,6 @@
 \end{frame}
 
 
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{The {\tt Employee} Class Hierarchy}
-
-
-Recall our {\tt Employee} class hierarchy:
-\vspace{-.1in}
-\begin{center}
-\includegraphics[height=1.5in]{employee-class-hierarchy.pdf}
-\end{center}
-\begin{itemize}
-\item In the last lecture we made {\tt Employee} abstract and added a polymorphic {\tt monthlyPay} method.
-\item Today we'll further refine our class hierarchy by moving duplicated code in {\tt HourlyEmployee} and {\tt SalariedEmployee} into the {\tt Employee} superclass.
-\end{itemize}
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{}
-
-
-Recall the definition of {\tt disallowZeroesAndNegatives}:
-\begin{lstlisting}[language=Java]
-private void disallowZeroesAndNegatives(double ... args) {
-    boolean shouldThrowException = false;
-    String nonPositives = "";
-    for (double arg: args) {
-        if (arg <= 0.0) {
-            shouldThrowException = true;
-            nonPositives += arg + " ";
-        }
-    }
-    if (shouldThrowException) {
-        String msg = "Following arguments were <= 0: " + nonPositives;
-        throw new IllegalArgumentException(msg);
-    }
-}
-\end{lstlisting}
-
-\begin{itemize}
-\item This method is duplicated in {\tt HourlyEmployee} and {\tt SalariedEmployee}
-\item Let's move the definition of {\tt disallowZeroesAndNegatives} into {\tt Employee} so it will be shared (rather than duplicated) in {\tt SalariedEmployee} and {\tt HourlyEmployee}.
-\end{itemize}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Refactoring Common Code Into a Superclass}
-
-
-After cutting {\tt disallowZeroesAndNegatives} from {\tt SalariedEmployee} and {\tt HourlyEmployee} and pasting it into {\tt Employee}, {\tt javac} tells us:
-\vspace{-.1in}
-\begin{lstlisting}[language=Java]
-$ javac Employee.java HourlyEmployee.java SalariedEmployee.java
-HourlyEmployee.java:25: cannot find symbol
-symbol  : method disallowZeroesAndNegatives(double,double)
-location: class HourlyEmployee
-        disallowZeroesAndNegatives(anHourlyWage, aMonthlyHours);
-        ^
-SalariedEmployee.java:17: cannot find symbol
-symbol  : method disallowZeroesAndNegatives(double)
-location: class SalariedEmployee
-        disallowZeroesAndNegatives(anAnnualSalary);
-        ^
-2 errors
-\end{lstlisting}
-% $
-\vspace{-.1in}
-Why did we get these errors?
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{{\tt protected} Members}
-
-
-{\tt private} members of a superclass are effectively not inherited by subclasses.  To make a member accessible to subclasses, use {\tt protected}:
-\begin{lstlisting}[language=Java]
-public abstract class Employee {
-    protected void disallowZeroesAndNegatives(double ... args) {
-        // ...
-    }
-    // ...
-}
-\end{lstlisting}
-{\tt protected} members
-\begin{itemize}
-\item are accessible to subclasses and other classes in the same package, and
-\item can be overriden in subclasses.
-\end{itemize}
-{\tt protected} members provide encapsulation within a class hierarchy, {\tt private} provides encapsulation within a single class.
-
-\end{frame}
-%------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{Fitting Classes Into the Java Hierarchy}
@@ -250,6 +152,128 @@ public boolean equals(Object other) {
 We'll talk more about this next lecture and extend our {\tt Employee} class hierarchy to overriding (subclass polymorphism) and overloading (ad-hoc polymorphism).\footnote{There's actually much more to properly overriding {\tt equals}, like overriding {\tt hashCode}.  We'll revisit {\tt equals} and {\tt hashCode} when we learn about collections.}
 \end{frame}
 %------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{SummerIntern}
+
+
+Let's add a summer intern class to our Employee hierarchy.
+\begin{lstlisting}[language=Java]
+public class SummerIntern extends HourlyEmployee {
+
+    public SummerIntern(String name, Date hireDate) {
+        this(name, hireDate, 20.00, 160.0);
+    }
+    public SummerIntern(String name, Date hireDate, 
+                        double hourlyWage, double monthlyHours) {
+        super(name, hireDate, hourlyWage, monthlyHours);
+    }
+    public double monthlyPay() {
+        Calendar rightNow = Calendar.getInstance();
+        return isSummer(rightNow) ? super.monthlyPay() : 0.0;
+    }
+    // ...
+}
+\end{lstlisting}
+
+Will this compile?
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{The {\tt Employee} Class Hierarchy}
+
+
+Now we have an expanded {\tt Employee} class hierarchy:
+\vspace{-.1in}
+\begin{center}
+\includegraphics[height=1.5in]{expanded-employee-class-hierarchy.pdf}
+\end{center}
+
+\begin{itemize}
+\item We can get the payRoll for the current month by making use of the polymorphic {\tt getMonthlyPay} method.
+\item What if we wanted to get the payroll for a particular month?
+\end{itemize}
+
+Let's overload {\tt monthlyPay} so we can get the payroll for any month, not just the current month.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Overloading Methods}
+
+
+An overloaded method is a set of methods with the same names but different signatures (different return types and/or parameter lists)\footnote{More precisely, two methods with the same name whose signatures are not {\it override-equivalent} are overloaded.} (\href{http://docs.oracle.com/javase/specs/jls/se7/html/jls-8.html#jls-8.4.9}{JLS \S 8.4.9}).\\
+\vspace{.1in}
+Here's an overloaded {\tt monthlyPay}
+\begin{lstlisting}[language=Java]
+public double monthlyPay() {
+    Calendar rightNow = Calendar.getInstance();
+    return monthlyPay(rightNow);
+}
+
+public double monthlyPay(Calendar calendar) {
+    return isSummer(calendar) ? super.monthlyPay() : 0.0;
+}
+\end{lstlisting}
+
+\begin{itemize}
+\item In which classes should these methods be defined?
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{The {\tt Employee} Class Hierarchy in UML}
+
+
+\vspace{-.2in}
+\begin{center}
+\includegraphics[height=1.5in]{employee-uml.pdf}
+\end{center}
+\vspace{-.25in}
+\begin{itemize}
+\item Italicized names are abstract (e.g., {\it Employee} is an abstract class, {\it + getMonthlyPay(month: Calendar)} is an abstract method).
+\item We've only shown public methods (denoted by the '+' symbols in front of their names).
+\item Each class has all the public methods in its superclasses, and possibly additional methods.
+\item {\tt SummerIntern} only {\it specializes} {\tt HourlyEmployee}, that is, it modifies some behavior of its superclass but does not add any additional behavior. 
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Forecasting Payroll}
+
+
+Now with our overloaded  {\tt montlyPay} method we can forecast payroll:
+\begin{lstlisting}[language=Java]
+Company c = new Company("employees.data");
+Calendar may =  Calendar.getInstance();
+may.set(Calendar.MONTH, Calendar.MAY);
+Calendar june = Calendar.getInstance();
+june.set(Calendar.MONTH, Calendar.JUNE);
+System.out.println(c.employees.get(0).monthlyPay());
+System.out.printf("Monthly payroll for May: %.2f%n",
+                  c.monthlyPayroll(may));
+System.out.printf("Monthly payroll for June: %.2f%n",
+                  c.monthlyPayroll(june));
+\end{lstlisting}
+
+Let's play with these classes.
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
 
 
 % %------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 \documentclass{beamer}
 
 \newcommand{\course}{CS 1331 Introduction to Object Oriented Programming}
-\newcommand{\lesson}{Object-Oriented Programming, Part 1 of 4}
+\newcommand{\lesson}{Object-Oriented Programming, Part 1 of 3}
 \newcommand{\code}{http://www.cc.gatech.edu/~simpkins/teaching/gatech/cs1331/code}
 
 \author[Chris Simpkins] 
@@ -36,6 +36,27 @@ That last part, dynamic method binding, provides for {\it polymorphism}, which w
 
 \end{frame}
 %------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Class Hierarchies}
+
+\vspace{-.05in}
+Class hierarchies depict the superclass-subclass relationships between families of related classes.  Consider:
+\vspace{-.05in}
+\begin{center}
+\includegraphics[height=1.4in]{employee-class-hierarchy.pdf}
+\end{center}
+\vspace{-.2in}
+\begin{itemize}
+\item {\tt Employee} is the superclass of {\tt HourlyEmployee} and {\tt SalariedEmployee}
+\item {\tt Employee} is more general than {\tt HourlyEmployee} and {\tt SalariedEmployee}, e.g., there at least as many {\tt Employee}s as either {\tt HourlyEmployee}s or {\tt SalariedEmployee}s
+\item {\tt HourlyEmployee} and {\tt SalariedEmployee} are richer than {\tt Employee} becuse they extend {\tt Employee} with additional features
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{A {\tt SalariedEmployee} Class}
 
@@ -79,10 +100,10 @@ We now have all the classes in our hierarchy:
 But our classes aren't well factored.
 \begin{itemize}
 \item {\tt SalariedEmployee} and {\tt HourlyEmployee} have duplicate copies of {\tt disallowZeroesAndNegatives}
-\item {\tt SalariedEmployee} and {\tt HourlyEmployee} both have {\tt monthlyPay} methods, but these methods are not polymorphic because they're not defined in {\tt Employee} (you'll see what that means in the next lecture)
+\item {\tt SalariedEmployee} and {\tt HourlyEmployee} both have {\tt monthlyPay} methods, but these methods are not polymorphic because they're not defined in {\tt Employee}
 \end{itemize}
 
-Over the next two lectures we'll refactor our {\tt Employee} class hierarchy to give it a clean object-oriented design and learn a few important details about fitting into the Java class hierarchy rooted at {\tt java.lang.Object}.
+Let's refactor our {\tt Employee} class hierarchy to give it a clean object-oriented design and learn a few important details about fitting into the Java class hierarchy rooted at {\tt java.lang.Object}.
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -188,15 +209,14 @@ Much cleaner and less error-prone (e.g., we don't have the book-keeping of two p
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{A More General Employee List}
 
-
+\vspace{-.05in}
 The first step is to store one array of {\tt Employee}s:
 \vspace{-.05in}
 \begin{lstlisting}[language=Java]
 public class Company {
     private Employee[] employees;
-
     public Company(String employeeDataFile) {
-        employees = new HourlyEmployee[10];
+        employees = new Employee[10];
         loadEmployeesFromFile(new File(employeeDataFile));
     }
     public double monthlyPayroll() {
@@ -217,7 +237,6 @@ Company.java:15: cannot find symbol
 symbol  : method monthlyPay()
 location: class Employee
             payroll += employees[i].monthlyPay();
-...
 \end{lstlisting}
 % $
 
@@ -244,6 +263,105 @@ An abstract class
 \end{itemize}
 
 This makes sense for our {\tt Employee} class.  We don't ever want to instantiate {\tt Employee} objects.  {\tt Employee} simply defines the common aspects of all employees, with subclasses filling in the details.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{The {\tt Employee} Class Hierarchy}
+
+
+Recall our {\tt Employee} class hierarchy:
+\vspace{-.1in}
+\begin{center}
+\includegraphics[height=1.5in]{employee-class-hierarchy.pdf}
+\end{center}
+\begin{itemize}
+\item We made {\tt Employee} abstract and added a polymorphic {\tt monthlyPay} method.
+\item Now we'll further refine our class hierarchy by moving duplicated code in {\tt HourlyEmployee} and {\tt SalariedEmployee} into the {\tt Employee} superclass.
+\end{itemize}
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{}
+
+
+Recall the definition of {\tt disallowZeroesAndNegatives}:
+\begin{lstlisting}[language=Java]
+private void disallowZeroesAndNegatives(double ... args) {
+    boolean shouldThrowException = false;
+    String nonPositives = "";
+    for (double arg: args) {
+        if (arg <= 0.0) {
+            shouldThrowException = true;
+            nonPositives += arg + " ";
+        }
+    }
+    if (shouldThrowException) {
+        String msg = "Following arguments were <= 0: " + nonPositives;
+        throw new IllegalArgumentException(msg);
+    }
+}
+\end{lstlisting}
+
+\begin{itemize}
+\item This method is duplicated in {\tt HourlyEmployee} and {\tt SalariedEmployee}
+\item Let's move the definition of {\tt disallowZeroesAndNegatives} into {\tt Employee} so it will be shared (rather than duplicated) in {\tt SalariedEmployee} and {\tt HourlyEmployee}.
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Refactoring Common Code Into a Superclass}
+
+
+After cutting {\tt disallowZeroesAndNegatives} from {\tt SalariedEmployee} and {\tt HourlyEmployee} and pasting it into {\tt Employee}, {\tt javac} tells us:
+\vspace{-.1in}
+\begin{lstlisting}[language=Java]
+$ javac Employee.java HourlyEmployee.java SalariedEmployee.java
+HourlyEmployee.java:25: cannot find symbol
+symbol  : method disallowZeroesAndNegatives(double,double)
+location: class HourlyEmployee
+        disallowZeroesAndNegatives(anHourlyWage, aMonthlyHours);
+        ^
+SalariedEmployee.java:17: cannot find symbol
+symbol  : method disallowZeroesAndNegatives(double)
+location: class SalariedEmployee
+        disallowZeroesAndNegatives(anAnnualSalary);
+        ^
+2 errors
+\end{lstlisting}
+% $
+\vspace{-.1in}
+Why did we get these errors?
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt protected} Members}
+
+
+{\tt private} members of a superclass are effectively not inherited by subclasses.  To make a member accessible to subclasses, use {\tt protected}:
+\begin{lstlisting}[language=Java]
+public abstract class Employee {
+    protected void disallowZeroesAndNegatives(double ... args) {
+        // ...
+    }
+    // ...
+}
+\end{lstlisting}
+{\tt protected} members
+\begin{itemize}
+\item are accessible to subclasses and other classes in the same package, and
+\item can be overriden in subclasses.
+\end{itemize}
+{\tt protected} members provide encapsulation within a class hierarchy, {\tt private} provides encapsulation within a single class.
 
 \end{frame}
 %------------------------------------------------------------------------

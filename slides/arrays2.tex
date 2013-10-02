@@ -23,110 +23,84 @@
   \titlepage
 \end{frame}
 
-
 %------------------------------------------------------------------------
-\begin{frame}[fragile]{Arrays are First-Class Objects}
+\begin{frame}[fragile]{A few more array topics}
 
 
-We've seen that
 \begin{itemize}
-\item arrays are objects, so array variables are references,
-\item arrays can be stored in variables, passed as arguments, and returned from methods.
+\item Partially filled arrays
+\item Variable arity parameters
+\item Multi-dimensional arrays
+\item Array instance variables and privacy leaks
 \end{itemize}
 
-This means that we must take the same precautions when dealing with array references as when dealing with references of Class types.
 
 \end{frame}
 %------------------------------------------------------------------------
 
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Array References}
-
-
-Look at  \link{\code/MyYears.java}{MyYears.java}. Note that the getter method returns the private instance variable {\tt years}:
-\begin{lstlisting}[language=Java]
-public int[] getYears() {
-    return years;
-}
-\end{lstlisting}
-
-Client code cannot change the object that {\tt year} points to, but can change elements of {\tt year}.  Consider:
-\begin{lstlisting}[language=Java]
-private void modifyElement(int[] array, int index, int newValue) {
-    array[index] = newValue;
-}
-\end{lstlisting}
-This method will change the element value at {\tt index} in any array you pass to it, including the private {\tt years} reference returned from {\tt getYears}
-
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Privacy Leaks with Array Instance Variables}
-
-
-A getter method that returns a reference to a private array instance variable can ``leak'' private data just like an accessor that returns a reference to a private instance variable of Class type.\\
-\vspace{.1in}
-Given the accessor {\tt getYears} and the utility helper function {\tt modifyElement}, we can violate encapsulation in the {\tt MyYears}:
-\begin{lstlisting}[language=Java]
-MyYears my = new MyYears();
-int[] a = my.getYears();
-my.modifyElement(a, 2, 2013);
-// The modifyElement method demonstrates array parameters,
-// but the following line does the same thing and is clearer.
-a[2] = 2013; 
-\end{lstlisting}
-
-The code above modifies the {\tt my} object's {\tt years} instance variable!  How to fix?
-
-\end{frame}
-%------------------------------------------------------------------------
-
-%------------------------------------------------------------------------
-\begin{frame}[fragile]{Fixing Privacy Leaks}
-
-
-The way to fix privacy leaks like this is to return deep copies of instance variables in getter methods.  {\tt MyYears} already has the helper method to provide this functionality.  A safer {\tt getYears} method would be:
-\begin{lstlisting}[language=Java]
-public int[] getYears() {
-    return copyOf(years);
-}
-\end{lstlisting}
-
-With this definition of {\tt getYears} client code can't modify the private data held in the {\tt years} instance variable of {\tt MyYears} objects becuase clients don't get a reference to the instance variable, they get a reference to a (snapshot) copy of it.
-
-
-\end{frame}
-%------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{Partially Filled Arrays}
 
 
-Say we want the speedy acces of an array, with the flixiblity of a dynamically-allocated data structure.
+Sometimes we only use part of an array:
+\begin{lstlisting}[language=Java]
+int[] assignments = new int[10];
+int lastAssignment = 0;
+assginments[lastAssignment++] = 100;
+// As more assignments are graded, more of assignments[] is used ...
+\end{lstlisting}
+Note that we had to keep track of the last used index in the array.\\
+\vspace{.1in}
+Now that we know how to define classes, we can do better ...
 
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{A Partial Int Array ADT}
+
+{\bf ADT: {\tt PartialIntArray}}\\
+Data:
+\begin{itemize}
+\item {\bf elements: int[]} - an array of {\tt int} elements
+\item {\bf size: int} - the number of elements currently in use
+\end{itemize}
+Operations:
+\begin{itemize}
+\item {\bf new} - construct a new {\tt PartialIntArray}
+\item {\bf add(element: int)} - add an element to this {\tt PartialIntArray}
+\item {\bf get(i: int)} - get the {\tt i}th element of this {\tt PartialIntArray}
+\item {\bf size} - get the size of this {\tt PartialIntArray}
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{{\tt PartialIntArray}}
+
+
+Constructors:
 \begin{lstlisting}[language=Java]
 public class PartialIntArray {
-
-    private int[] elementData;
+    private int[] elements;
     private int size;
-
-    public PartialIntArray(int initialCapacity) {
-        if (initialCapacity < 0)
-            throw new IllegalArgumentException("Illegal Capacity: "+
-                                               initialCapacity);
-        this.elementData = new int[initialCapacity];
-    }
 
     public PartialIntArray() {
         this(10);
     }
-
+    public PartialIntArray(int initialCapacity) {
+        if (initialCapacity < 0)
+            throw new IllegalArgumentException("Illegal Capacity: "+
+                                               initialCapacity);
+        this.elements = new int[initialCapacity];
+    }
     // ...
 }
 \end{lstlisting}
-
+Note how the no-arg constructor delegates to the other constructor with {\tt this(...)}.
 \end{frame}
 %------------------------------------------------------------------------
 
@@ -142,7 +116,7 @@ public class PartialIntArray {
   // ...
 
     public void add(int e) {
-        elementData[size++] = e;
+        elements[size++] = e;
     }
 
 }
@@ -162,7 +136,7 @@ public class PartialIntArray {
     // ...
     
     public int get(int index) {
-        return elementData[index];
+        return elements[index];
     }
 }
 \end{lstlisting}
@@ -179,14 +153,13 @@ To allow clients of {\tt PartialIntArray} to traverse its elements, we need one 
 \begin{lstlisting}[language=Java]
 public class PartialIntArray {
     // ...
-
     public int size() {
         return this.size;
     }
 }
 \end{lstlisting}
-Now we can add elements to a {\tt PartialIntArray} and traverse it in a similar manner to regular arrays:
-
+Now we can add elements to a {\tt PartialIntArray} and traverse it in a manner similar to regular arrays:
+\vspace{-.05in}
 \begin{lstlisting}[language=Java]
 PartialIntArray pia = new PartialIntArray();
 pia.add(1);
@@ -195,6 +168,8 @@ for (int i = 0; i < pia.size(); ++i) {
     System.out.println(pia.get(i));
 }
 \end{lstlisting}
+\vspace{-.05in}
+By the way, why did we define a {\tt size} a method rather than making the {\tt size} instance variable public?
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -206,8 +181,8 @@ for (int i = 0; i < pia.size(); ++i) {
 Our {\tt PartialIntArray} class demonstrates two important concepts in software engineering: encapsulation and information hiding.
 
 \begin{itemize}
-\item The {\tt elementData} instance variable was private and never exposed in its entirety to clients.
-\item All access to {\tt elementData} was provided through instance methods, so we can ensure data consistency by enforcing invariants, validating input, etc.
+\item The {\tt elements} instance variable was private and never exposed in its entirety to clients.
+\item All access to {\tt elements} was provided through instance methods, so we can ensure data consistency by enforcing invariants, validating input, etc.
 \item We could have called our class {\tt RandomAccessIntList}, because the fact that an array was used is an implementation detail.  Client code need not be aware of implementation details (to an extent ...).
 \end{itemize}
 
@@ -223,10 +198,10 @@ Our {\tt PartialIntArray} example was inspired by Java's standard ArrayList clas
 \begin{itemize}
 \item Consider what happens if a user of {\tt PartialIntArray} supplies an out of bounds index to {\tt get}, i.e., $< 0$ or $\ge$ {\tt size}.  Is this desirable?  If not, how would you improve it?
 \item Add a {\tt remove(int index)} method that removes the element at {\tt index}.
+\item Make {\tt PartialIntArray} automatically resize, that is, expand its capacity if you add a {\tt size}th element.  How would you do this?
 \item Look at the source for {\tt java.util.ArrayList}.
 \begin{itemize}
 \item Oracle has made it a bit less straightforward to get the std lib source, so I put up a copy here: \url{http://simpkins.org/java-lib-src/}
-\item Note that the directory layout for a Java library matches the package structure.  So you'll find {\tt ArrayList.java} in {\tt java/util/}.
 \end{itemize}
 \end{itemize}
 
@@ -353,6 +328,7 @@ grid[3][2] == '*'; // true
 
 
 Traverse 2-dimensional array by nesting loops.  The key to getting it right is to use the right {\tt length}s.
+\vspace{-.05in}
 \begin{lstlisting}[language=Java]
 for (int row = 0; row < grid.length; ++row) {
     for (int col = 0; col < grid[row].length; ++col) {
@@ -361,7 +337,8 @@ for (int row = 0; row < grid.length; ++row) {
     System.out.println();
 }
 \end{lstlisting}
-Note that the for loops above traverse the grid in row-major order.  We can traverse the grid in column-major order by reversing the nesting of the for-loops:
+Note that the for loops above traverse the grid in row-major order.  We can traverse the grid in column-major order by reversing the nesting of the for loops:
+\vspace{-.05in}
 \begin{lstlisting}[language=Java]
 for (int col = 0; col < grid[0].length; ++col) {
     for (int row = 0; row < grid.length; ++row) {
@@ -370,7 +347,8 @@ for (int col = 0; col < grid[0].length; ++col) {
     System.out.println();
 }
 \end{lstlisting}
-
+\vspace{-.05in}
+See \link{\code/Smiley.java}{Smiley.java}
 
 \end{frame}
 %------------------------------------------------------------------------
@@ -395,14 +373,112 @@ Can we traverse array {\tt ragged} in column-major order?
 \end{frame}
 %------------------------------------------------------------------------
 
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Arrays are First-Class Objects}
+
+
+We've seen that
+\begin{itemize}
+\item arrays are objects, so array variables are references,
+\item arrays can be stored in variables, passed as arguments, and returned from methods.
+\end{itemize}
+
+This means that we must take the same precautions when dealing with array references as when dealing with references of Class types.
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Array References}
+
+
+Look at  \link{\code/GradeBook.java}{GradeBook.java}.
+\begin{lstlisting}[language=Java]
+public class GradeBook {
+    private int[] scores;
+    private int lastScore;
+
+    public GradeBook() {
+        this(10);
+    }
+    public GradeBook(int capacity) {
+        scores = new int[capacity];
+        lastScore = 0;
+    }
+    public void add(int score) {
+        scores[lastScore++] = score;
+    }
+    public void modifyScore(int index, int newScore) {
+        scores[index] = newScore;
+    }
+    public int[] getScores() {
+        return scores;
+    }
+}
+\end{lstlisting}
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Privacy Leaks with Array Instance Variables}
+
+
+A getter method that returns a reference to a private array instance variable can ``leak'' private data just like an accessor that returns a reference to a private instance variable of Class type.\\
+\vspace{.1in}
+The {\tt getScores} method returns the private instance variable {\tt scores}:
+\begin{lstlisting}[language=Java]
+public int[] getScores() {
+  return scores;
+}
+\end{lstlisting}
+
+Given this accessor, we can violate encapsulation in {\tt GradeBook} (see \link{\code/GradeBookDriver.java}{GradeBookDriver.java}):
+\begin{lstlisting}[language=Java]
+GradeBook gradeBook = new GradeBook(3);
+// ...
+int[] myReferenceToScores = gradeBook.getScores();
+// We can use our local reference to update the private instance var:
+myReferenceToScores[0] = 100;
+\end{lstlisting}
+
+The code above modifies the {\tt gradeBook} object's {\tt scores} instance variable!  How to fix?
+
+\end{frame}
+%------------------------------------------------------------------------
+
+%------------------------------------------------------------------------
+\begin{frame}[fragile]{Fixing Privacy Leaks}
+
+
+Two ways to fix privacy leaks:
+\begin{itemize}
+\item only provide access to immutable parts of private data, like primitive elemets of arrays
+\item return deep copies of instance variables in getter methods.
+  \begin{lstlisting}[language=Java]
+    public int[] getScores() {
+      return Arrays.copyOf(scores, scores.length);
+    }
+  \end{lstlisting}
+\end{itemize}
+
+
+With this definition of {\tt getScores} client code can't modify the private data held in the {\tt scores} instance variable of {\tt GradeBook} objects becuase clients don't get a reference to the instance variable, they get a reference to a (snapshot) copy of it.
+
+
+\end{frame}
+%------------------------------------------------------------------------
+
 %------------------------------------------------------------------------
 \begin{frame}[fragile]{Programming Exercise}
 
 \begin{itemize}
 \item Download \link{\code/array-data.csv}{array-data.csv}.
-\item Let's write a program to read the data from \link{\code/array-data.csv}{array-data.csv} into an array.
+\item Write a program to read the data from \link{\code/array-data.csv}{array-data.csv} into an array.
 \end{itemize}
-
+You can see a possible solution in \link{\code/SimpleArrayCsv.java}{SimpleArrayCsv.java}.
 \end{frame}
 %------------------------------------------------------------------------
 
